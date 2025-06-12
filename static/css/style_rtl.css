@@ -1,0 +1,61 @@
+/* static/css/style_rtl.css */
+body {
+    direction: rtl;
+    text-align: right;
+}
+
+.navbar-logo span {
+    margin-left: 0;
+    margin-right: 10px; /* Adjust for RTL */
+}
+
+.navbar-links-desktop ul li a::after {
+    left: auto;
+    right: 50%; /* Adjust underline for RTL */
+    transform: translateX(50%) scaleX(0);
+}
+.navbar-links-desktop ul li a:hover::after, 
+.navbar-links-desktop ul li a.active::after {
+    transform: translateX(50%) scaleX(1);
+}
+
+.btn i, .footer-location-block p i.fas, .footer-emails li i.fas {
+    margin-right: 0;
+    margin-left: 8px; /* Icons to the right of text in RTL */
+}
+.footer-social-links a {
+    margin-right: 0;
+    margin-left: 15px;
+}
+.footer-quick-links li a:hover, .footer-emails li a:hover {
+    padding-left: 0;
+    padding-right: 5px; /* Indent on hover for RTL */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "<"; /* Or use an RTL arrow icon */
+    padding: 0 0.75rem;
+}
+.back-to-categories { text-align: right; }
+.back-to-categories i.fas {
+    margin-left: 8px; /* Icon to the right of "Back to" text */
+    margin-right: 0;
+    transform: scaleX(-1); /* Flip arrow icon */
+}
+
+.product-detail-content {
+    padding-left: 0;
+    padding-right: 1rem; /* Adjust padding for RTL */
+}
+
+.contact-details li i.fas {
+    margin-right: 0;
+    margin-left: 12px;
+}
+.lang-button {
+    margin-left: 0;
+    margin-right: 1rem;
+}
+/* Add more specific RTL overrides as needed */
+/* Example: .text-left { text-align: right !important; } */
+/*          .text-right { text-align: left !important; } */

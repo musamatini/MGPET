@@ -1,52 +1,70 @@
 {
     "categories": {
-        "musa-matini": {
-            "name": "Musa matini",
-            "description": [
-                "jnjnkj"
-            ],
-            "image": "images/uploads/categories/WhatsApp_Image_2025-06-09_at_02.19.13_f8ce2c40.jpeg",
+        "water-bottles": {
+            "name": {
+                "en": "Water Bottles",
+                "ar": "قناني ماء"
+            },
+            "image": "images/carousel/slide1.jpg",
+            "description": {
+                "en": [
+                    "Hydration solutions for every need."
+                ],
+                "ar": [
+                    "حلول للترطيب لكل الاحتياجات."
+                ]
+            },
             "children_item_slugs": [
-                "sadasdasd"
+                "sports-bottles"
             ]
         }
     },
     "items": {
-        "sadasdasd": {
+        "sports-bottles": {
             "type": "subcategory",
-            "name": "sadasdasd",
+            "name": {
+                "en": "Sports Bottles",
+                "ar": "قناني رياضية"
+            },
+            "image": "images/carousel/slide2.jpg",
+            "description": {
+                "en": [
+                    "Durable bottles for active lifestyles and workouts."
+                ],
+                "ar": [
+                    "قناني متينة لأسلوب حياة نشط والتمارين الرياضية."
+                ]
+            },
             "parent_type": "category",
-            "parent_slug": "musa-matini",
-            "image": null,
-            "description": [],
+            "parent_slug": "water-bottles",
             "children_item_slugs": [
-                "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a"
+                "hydromax-750ml"
             ]
         },
-        "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a": {
-            "type": "subcategory",
-            "name": "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a",
-            "parent_type": "item",
-            "parent_slug": "sadasdasd",
-            "image": null,
-            "description": [
-                "\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a"
-            ],
-            "children_item_slugs": [
-                "kmkmolkmkom"
-            ]
-        },
-        "kmkmolkmkom": {
+        "hydromax-750ml": {
             "type": "product",
-            "name": "kmkmolkmkom",
+            "name": {
+                "en": "HydroMax 750ml",
+                "ar": "هايدروماكس 750 ملللل"
+            },
+            "image": "images/carousel/slide3.jpg",
+            "short_description": {
+                "en": [
+                    "750ml capacity, ergonomic grip.",
+                    "Leak-proof sports cap included."
+                ],
+                "ar": [
+                    "سعة 750 مل، قبضة مريحة.",
+                    "غطاء رياضي مانع للتسرب."
+                ]
+            },
+            "long_description_markdown": {
+                "en": "The **HydroMax 750ml** is perfect for your workouts, made with *BPA-free Tritan plastic* for durability and safety.\r\n\r\nIts ergonomic design ensures a comfortable grip, while the leak-proof sports cap makes hydration on the go easy and mess-free.\r\n\r\nAvailable in three vibrant colors:\r\n\r\n- Blue\r\n- Red\r\n- Green\r\n\r\n![Sample Image](/static/images/products/filler_product_1.jpg){width=150px}",
+                "ar": "**هايدروماكس 750 مل** مثالية لتمارينك الرياضية، مصنوعة من بلاستيك *تريتان الخالي من BPA* للمتانة والأمان.\r\n\r\nتصميمها المريح يضمن قبضة    سيسيمريحة، بينما الغطاء الرياضي المانع للتسرب يجعل الترطيب أثناء التنقل سهلاً وخالياً من الفوضى.\r\n\r\nمتوفرة بثلاثة ألوان زاهية:\r\n\r\n- أزرق\r\n- أحمر\r\n- أخضر\r\n\r\n![صورة ابو عبدو](/static/images/products/filler_product_1.jpg){width=150px}"
+            },
+            "use_short_desc_for_long": false,
             "parent_type": "item",
-            "parent_slug": "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a",
-            "image": "images/uploads/items/WhatsApp_Image_2025-06-09_at_01.43.40_cee1d8d9.jpeg",
-            "short_description": [
-                "oipmiomiomoimiomoi"
-            ],
-            "long_description_markdown": "asddasdasd\r\nasdasdasd\r\nasdasdasd\r\nasdasd\r\nasdasd\r\n![Alt text](http://127.0.0.1:5000/static/images/uploads/description_images/WhatsApp_Image_2025-06-09_at_02.45.21_cd2749c8.jpeg){width=100px height=auto}\r\nsa\r\ndasdasddasdasdsadsadsad",
-            "use_short_desc_for_long": false
+            "parent_slug": "sports-bottles"
         }
     },
     "admin_users": {

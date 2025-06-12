@@ -414,7 +414,20 @@ ul { list-style: none; }
 .footer-bottom { text-align: center; font-size: 0.85rem; padding-top: 1.5rem; color: var(--text-secondary-light); }
 .footer-bottom .fa-heart { color: var(--accent-red); animation: pulseHeart 1.5s infinite ease-in-out; }
 @keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-
+.language-fieldset {
+    border: 1px solid var(--admin-border-light);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: var(--admin-border-radius);
+}
+.language-fieldset legend {
+    padding: 0 0.5em;
+    font-weight: 600;
+    color: var(--admin-text-secondary);
+}
+input[dir="rtl"], textarea[dir="rtl"] {
+    text-align: right;
+}
 /* Responsive Adjustments */
 @media (max-width: 992px) {
     .navbar-links-desktop { display: none; }

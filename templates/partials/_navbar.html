@@ -1,6 +1,6 @@
-<header class="navbar sticky-top">
+<header class="navbar sticky-top"> {# JS will add/remove navbar-is-animating-initial #}
     <div class="container">
-        <a href="{{ url_for('home_page') }}" class="navbar-logo">
+        <a href="{{ url_for('home_page', lang_code=current_lang) }}" class="navbar-logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ company_name }} Logo">
             <span>{{ company_name }}</span>
         </a>
@@ -8,15 +8,24 @@
         <nav class="navbar-links-desktop">
             <ul>
                 {% for link in nav_links %}
-                <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                <li><a href="{{ link.url }}" class="{{ 'active' if request.path == link.url.split('?')[0].split('#')[0] else '' }}">{{ link.name }}</a></li>
                 {% endfor %}
             </ul>
         </nav>
 
         <div class="navbar-actions">
-            <button class="lang-button" aria-label="Change Language">
-                <i class="fas fa-globe"></i> <span class="lang-text-desktop">EN</span>
-            </button>
+            <div class="language-switcher">
+                {% for lang_val in languages %}
+                    {% if lang_val != current_lang %}
+                        {% set view_args = request.view_args.copy() %}
+                        {% set _ = view_args.update({'lang_code': lang_val}) %}
+                        <a href="{{ url_for(request.endpoint, **view_args) if request.endpoint else url_for('home_page', lang_code=lang_val) }}" class="lang-option">{{ lang_val.upper() }}</a>
+                    {% else %}
+                        <span class="lang-option active">{{ lang_val.upper() }}</span>
+                    {% endif %}
+                    {% if not loop.last %}<span class="lang-separator">|</span>{% endif %}
+                {% endfor %}
+            </div>
             <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
@@ -27,6 +36,19 @@
             {% for link in nav_links %}
             <li><a href="{{ link.url }}">{{ link.name }}</a></li>
             {% endfor %}
+             <li class="mobile-language-switcher">
+                <hr>
+                {% for lang_val in languages %}
+                     {% if lang_val != current_lang %}
+                        {% set view_args = request.view_args.copy() %}
+                        {% set _ = view_args.update({'lang_code': lang_val}) %}
+                        <a href="{{ url_for(request.endpoint, **view_args) if request.endpoint else url_for('home_page', lang_code=lang_val) }}" class="lang-option-mobile">{{ lang_val.upper() }}</a>
+                    {% else %}
+                        <span class="lang-option-mobile active">{{ lang_val.upper() }}</span>
+                    {% endif %}
+                     {% if not loop.last %}<span class="lang-separator-mobile">/</span>{% endif %}
+                {% endfor %}
+            </li>
         </ul>
     </nav>
 </header>

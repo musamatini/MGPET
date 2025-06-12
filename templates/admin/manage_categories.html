@@ -13,43 +13,45 @@
             <thead>
                 <tr>
                     <th>Image</th>
-                    <th>Name / Slug</th>
-                    <th>Description</th>
+                    <th>Name / Slug (EN)</th>
+                    <th>Description (EN)</th>
                     <th>Child Items #</th>
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for category in categories %}
-                <tr class="clickable-row" data-href="{{ url_for('admin.view_category_children_admin', category_slug=category.slug) }}"> {# ADDED class and data-href #}
+                {% for category in categories %} {# category here already has display_name from app.py #}
+                <tr class="clickable-row" data-href="{{ url_for('admin.view_category_children_admin', category_slug=category.slug) }}">
                     <td>
                         {% if category.image %}
-                            <img src="{{ url_for('static', filename=category.image) }}" alt="{{ category.name | default('Category Image') }}" class="table-preview">
+                            <img src="{{ url_for('static', filename=category.image) }}" alt="{{ category.display_name }}" class="table-preview">
                         {% else %}
                             <span class="no-image">No Image</span>
                         {% endif %}
                     </td>
                     <td>
-                        {# Name is no longer a direct link to edit, whole row is clickable to view children #}
-                        <strong>{{ category.name | default('Unnamed Category') }}</strong>
+                        <strong>{{ category.display_name }}</strong>
                         <br>
                         <small class="text-muted">Slug: {{ category.slug }}</small>
                     </td>
                     <td>
-                        {% if category.description %}
-                            {% for line in category.description[:2] %}
-                                {{ line }}<br>
+                        {# Get the English description list, or an empty list if not found #}
+                        {% set desc_list_en = get_translated_list(category.description, 'en') %}
+                        
+                        {% if desc_list_en %}
+                            {% for line in desc_list_en[:2] %} {# Slice the list of English lines #}
+                                {{ line | e }}<br> {# Added |e for escaping user content #}
                             {% endfor %}
-                            {% if category.description|length > 2 %}...{% endif %}
+                            {% if desc_list_en|length > 2 %}...{% endif %}
                         {% else %}
                             <span class="text-muted">N/A</span>
                         {% endif %}
                     </td>
-                    <td>{{ category.children_item_slugs|length }}</td>
+                    <td>{{ category.children_count }}</td> {# Use children_count passed from app.py #}
                     <td class="actions">
-                        <a href="{{ url_for('admin.edit_category', category_slug=category.slug) }}" class="btn-admin btn-admin-sm btn-admin-secondary no-row-click"><i class="fas fa-edit"></i> Edit</a> {# ADDED no-row-click #}
+                        <a href="{{ url_for('admin.edit_category', category_slug=category.slug) }}" class="btn-admin btn-admin-sm btn-admin-secondary no-row-click"><i class="fas fa-edit"></i> Edit</a>
                         <form action="{{ url_for('admin.delete_category', category_slug=category.slug) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this category? This cannot be undone.');">
-                            <button type="submit" class="btn-admin btn-admin-sm btn-admin-danger no-row-click"><i class="fas fa-trash"></i> Delete</button> {# ADDED no-row-click #}
+                            <button type="submit" class="btn-admin btn-admin-sm btn-admin-danger no-row-click"><i class="fas fa-trash"></i> Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -65,10 +67,10 @@
 
 {% block extra_js %}
 <script>
+// Clickable row JS from before
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', function(event) {
-            // Prevent row click if an action button inside the row was clicked
             if (event.target.closest('.no-row-click')) {
                 return;
             }

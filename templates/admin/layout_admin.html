@@ -23,7 +23,7 @@
                 {# The 'Items (Subcats/Prods)' link is removed as navigation is now purely hierarchical #}
                 {# Users will navigate into categories to see/manage items under them #}
                 <hr>
-                <li><a href="{{ url_for('home_page') }}" target="_blank"><i class="fas fa-globe"></i> View Site</a></li>
+                <li><a href="{{ url_for('home_page', lang_code=config.DEFAULT_LANGUAGE) }}" target="_blank"><i class="fas fa-globe"></i> View Site</a></li>
                 <li><a href="{{ url_for('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>

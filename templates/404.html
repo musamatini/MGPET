@@ -1,14 +1,25 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ company_name }} - Page Not Found{% endblock %}
+{% block title %}{{ get_translated_text({"en": "Page Not Found", "ar": "الصفحة غير موجودة"}) }} - {{ company_name }}{% endblock %}
 
 {% block content %}
-<section class="content-section page-section text-center">
-    <div class="container" style="padding-top: 50px; padding-bottom: 50px;">
-        <h1 class="page-title" data-aos="fade-down">404 - Page Not Found</h1>
-        <p class="page-intro" data-aos="fade-up" data-aos-delay="100">Oops! The page you are looking for does not exist or has been moved.</p>
-        <img src="{{ url_for('static', filename='images/undraw_page_not_found.svg') }}" alt="Page not found illustration" style="max-width: 400px; margin: 20px auto;" data-aos="zoom-in" data-aos-delay="200">
-        <p data-aos="fade-up" data-aos-delay="300"><a href="{{ url_for('home_page') }}" class="btn btn-primary">Go to Homepage</a></p>
+<section class="content-section page-section text-center" style="min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="container" data-aos="fade-up">
+        <h1 class="page-title" style="font-size: 3rem;">404</h1>
+        <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">{{ get_translated_text({"en": "Page Not Found", "ar": "الصفحة غير موجودة"}) }}</h2>
+        <p class="page-intro" style="font-size: 1.1rem;">
+            {{ get_translated_text({
+                "en": "Oops! The page you are looking for does not exist or has been moved.",
+                "ar": "عفواً! الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+            }) }}
+        </p>
+        {# Consider adding a generic 404 illustration image #}
+        {# <img src="{{ url_for('static', filename='images/404_illustration.svg') }}" alt="404 Error" style="max-width: 300px; margin: 2rem auto;"> #}
+        <p style="margin-top: 2rem;">
+            <a href="{{ url_for('home_page', lang_code=current_lang) }}" class="btn btn-primary">
+                <i class="fas fa-home"></i> {{ get_translated_text({"en": "Go to Homepage", "ar": "العودة إلى الرئيسية"}) }}
+            </a>
+        </p>
     </div>
 </section>
 {% endblock %}

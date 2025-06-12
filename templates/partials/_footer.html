@@ -1,50 +1,54 @@
 <footer class="site-footer">
     <div class="container">
-        <div class="footer-grid"> {# Changed from footer-content for better naming #}
+        <div class="footer-grid">
             <div class="footer-column footer-about">
-                <h4>About {{ company_name }}</h4>
-                <p>Leading provider of high-quality PET bottle solutions. Committed to innovation, sustainability, and customer satisfaction.</p>
+                <h4>{{ get_translated_text({"en": "About", "ar": "عن"}) }} {{ company_name }}</h4>
+                <p>{{ get_translated_text({
+                    "en": "Leading provider of high-quality PET bottle solutions. Committed to innovation, sustainability, and customer satisfaction.",
+                    "ar": "مزود رائد لحلول قناني PET عالية الجودة. ملتزمون بالابتكار والاستدامة ورضا العملاء."
+                }) }}</p>
                  <div class="footer-social-links">
                     {% for social in company_general_contact.social_media %}
-                        <a href="{{ social.url }}" target="_blank" aria-label="{{ social.name }}"><i class="{{ social.icon_class }}"></i></a>
+                        <a href="{{ social.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ social.name }}"><i class="{{ social.icon_class }}"></i></a>
                     {% endfor %}
                 </div>
             </div>
 
             <div class="footer-column footer-contact-details">
-                <h4>Our Locations</h4>
+                <h4>{{ get_translated_text({"en": "Our Locations", "ar": "مواقعنا"}) }}</h4>
                 {% for location in company_locations %}
                 <div class="footer-location-block">
-                    <h5><span class="flag-icon">{{ location.flag }}</span> {{ location.country }}</h5>
+                    <h5><span class="flag-icon">{{ location.flag }}</span> {{ get_translated_text(location.country) }}</h5>
                     <address>
-                        {% for line in location.address_lines %}
+                        {% for line in get_translated_list(location.address_lines) %}
                             {{ line }}<br>
                         {% endfor %}
                     </address>
+                    {% if location.phone %}
                     <p><i class="fas fa-phone"></i> <a href="tel:{{ location.phone | replace(' ', '') }}">{{ location.phone }}</a></p>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
 
-            <div class="footer-column footer-quick-links">
-                <h4>Quick Links</h4>
-                <ul>
+            <div class="footer-column footer-quick-links-and-email">
+                <h4>{{ get_translated_text({"en": "Quick Links", "ar": "روابط سريعة"}) }}</h4>
+                <ul class="footer-quick-links">
                     {% for link in nav_links %}
                     <li><a href="{{ link.url }}">{{ link.name }}</a></li>
                     {% endfor %}
-                    {# <li><a href="{{ url_for('admin.login') }}">Admin Login</a></li> #}
                 </ul>
-                 <h4 style="margin-top: 1.5rem;">Email Us</h4>
+                 <h4 style="margin-top: 1.5rem;">{{ get_translated_text({"en": "Email Us", "ar": "راسلنا عبر البريد"}) }}</h4>
                  <ul class="footer-emails">
                     {% for email_info in company_general_contact.emails %}
-                    <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a> ({{get_translated_text(email_info.label)}})</li>
                     {% endfor %}
                  </ul>
+                 <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-sm btn-secondary" style="margin-top: 1.5rem; display: inline-block;">{{ get_translated_text({"en":"Send a Message", "ar":"أرسل رسالة"}) }}</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© {{ now.year }} {{ company_name }}. All Rights Reserved.</p>
-            {# <p>Designed with <i class="fas fa-heart" style="color: var(--accent-red);"></i> for excellence.</p> #}
+            <p>© {{ now.year }} {{ company_name }}. {{ get_translated_text({"en": "All Rights Reserved.", "ar": "جميع الحقوق محفوظة."}) }}</p>
         </div>
     </div>
 </footer>

@@ -7,70 +7,75 @@
     <div class="container">
         <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
         <p class="page-intro" data-aos="fade-up" data-aos-delay="100">
-            We're here to help and answer any questions you might have. Reach out to us via the form below or contact one of our offices directly.
+            {{ get_translated_text({
+                "en": "We'd love to hear from you! Whether you have a question about our products, pricing, or anything else, our team is ready to answer all your questions.",
+                "ar": "يسعدنا أن نسمع منك! سواء كان لديك سؤال حول منتجاتنا، أو الأسعار، أو أي شيء آخر، فريقنا مستعد للإجابة على جميع أسئلتك."
+            }) }}
         </p>
 
         <div class="contact-page-wrapper">
             <!-- Contact Form -->
             <div class="contact-form-container" data-aos="fade-right" data-aos-delay="200">
-                <h3 class="contact-section-subtitle">Send Us a Message</h3>
-                <form action="{{ url_for('contact_page') }}" method="POST" class="contact-form">
+                <h3 class="contact-section-subtitle">{{ get_translated_text({"en": "Send Us a Message", "ar": "أرسل لنا رسالة"}) }}</h3>
+                <form action="{{ url_for('contact_page', lang_code=current_lang) }}" method="POST" class="contact-form">
                     <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name">{{ get_translated_text({"en": "Full Name", "ar": "الاسم الكامل"}) }}</label>
+                        <input type="text" id="name" name="name" required {% if current_lang == 'ar' %}dir="rtl"{% endif %}>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email Address</label>
+                        <label for="email">{{ get_translated_text({"en": "Email Address", "ar": "البريد الإلكتروني"}) }}</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone Number (Optional)</label>
-                        <input type="tel" id="phone" name="phone">
+                        <label for="phone">{{ get_translated_text({"en": "Phone Number (Optional)", "ar": "رقم الهاتف (اختياري)"}) }}</label>
+                        <input type="tel" id="phone" name="phone" {% if current_lang == 'ar' %}dir="rtl"{% endif %}>
                     </div>
                     <div class="form-group">
-                        <label for="message">Your Message</label>
-                        <textarea id="message" name="message" rows="6" required></textarea>
+                        <label for="message">{{ get_translated_text({"en": "Your Message", "ar": "رسالتك"}) }}</label>
+                        <textarea id="message" name="message" rows="6" required {% if current_lang == 'ar' %}dir="rtl"{% endif %}></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">{{ get_translated_text({"en": "Send Message", "ar": "إرسال الرسالة"}) }}</button>
                 </form>
             </div>
 
             <!-- Direct Contact Info -->
             <div class="contact-info-sidebar" data-aos="fade-left" data-aos-delay="300">
-                <h3 class="contact-section-subtitle">Our Offices</h3>
+                <h3 class="contact-section-subtitle">{{ get_translated_text({"en": "Our Offices", "ar": "مكاتبنا"}) }}</h3>
                 {% for location in company_locations %}
                 <div class="location-card">
-                    <h4><span class="flag-icon">{{ location.flag }}</span> {{ location.country }} Office</h4>
+                    <h4><span class="flag-icon">{{ location.flag }}</span> {{ get_translated_text(location.country) }}</h4>
                     <ul class="contact-details">
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
                             <div>
-                                {% for line in location.address_lines %}
+                                {% for line in get_translated_list(location.address_lines) %}
                                     {{ line }}<br>
                                 {% endfor %}
                                 {% if location.map_query %}
-                                <a href="https://www.google.com/maps/search/?api=1&query={{ location.map_query | urlencode }}" target="_blank" class="map-link">(View on Map)</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ location.map_query | urlencode }}" target="_blank" rel="noopener noreferrer" class="map-link">({{ get_translated_text({"en": "View on Map", "ar": "عرض على الخريطة"}) }})</a>
                                 {% endif %}
                             </div>
                         </li>
+                        {% if location.phone %}
                         <li><i class="fas fa-phone"></i> <a href="tel:{{ location.phone | replace(' ', '') }}">{{ location.phone }}</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 {% endfor %}
 
                 <div class="general-contact-info">
-                    <h4 style="margin-top: 2rem; margin-bottom: 0.8rem;">General Contact</h4>
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.8rem;">{{ get_translated_text({"en": "General Contact", "ar": "الاتصال العام"}) }}</h4>
                      <ul class="contact-details">
                         {% for email_info in company_general_contact.emails %}
-                        <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a> ({{email_info.label}})</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a> ({{get_translated_text(email_info.label)}})</li>
                         {% endfor %}
                     </ul>
                 </div>
 
-                 <div class="social-links-contact-page" style="margin-top: 1.5rem; text-align:left;">
-                    <h4 style="margin-bottom: 0.8rem;">Follow Us</h4>
+                 <div class="social-links-contact-page" style="margin-top: 1.5rem; text-align:left {% if current_lang == 'ar' %}right{% endif %};"> {# Adjust text-align for RTL #}
+                    <h4 style="margin-bottom: 0.8rem;">{{ get_translated_text({"en": "Follow Us", "ar": "تابعنا"}) }}</h4>
                     {% for social in company_general_contact.social_media %}
-                        <a href="{{ social.url }}" target="_blank" aria-label="{{ social.name }}" class="social-icon-contact"><i class="{{ social.icon_class }}"></i></a>
+                        <a href="{{ social.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ social.name }}" class="social-icon-contact"><i class="{{ social.icon_class }}"></i></a>
                     {% endfor %}
                 </div>
             </div>

@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ company_name }} - Home{% endblock %}
+{% block title %}{{ company_name }} - {{ get_translated_text({"en": "Home", "ar": "الرئيسية"}) }}{% endblock %}
 
 {% block content %}
 <!-- Hero Section with Carousel -->
 <section id="home" class="hero-section">
-    <div class="swiper hero-swiper"> {# Ensure 'swiper' and your custom class '.hero-swiper' #}
+    <div class="swiper hero-swiper">
         <div class="swiper-wrapper">
-            {% for slide in carousel_slides %}
+            {% for slide in carousel_slides %} {# carousel_slides is pre-translated from app.py #}
             <div class="swiper-slide" style="background-image: url('{{ url_for('static', filename=slide.image) }}');">
                 <div class="slide-caption">
                     <h2 class="animate-this">{{ slide.caption_header }}</h2>
-                    <p class="animate-this">{{ slide.caption_text }}</p>
-                    <a href="{{ url_for('list_top_level_categories') }}" class="btn btn-primary animate-this">Explore Products</a>
+                    {% if slide.caption_text %}<p class="animate-this">{{ slide.caption_text }}</p>{% endif %}
+                    <a href="{{ url_for('list_top_level_categories', lang_code=current_lang) }}" class="btn btn-primary animate-this">{{ get_translated_text({"en":"Explore Products", "ar":"استكشف المنتجات"}) }}</a>
                 </div>
             </div>
             {% endfor %}
@@ -24,28 +24,34 @@
 </section>
 
 <!-- About Us Section -->
-<section id="about" class="about-section content-section first-scrollable-section" data-aos="zoom-in">
+<section id="about" class="about-section content-section" data-aos="fade-up">
     <div class="container">
+        <h2 class="section-title about-section-title">{{ get_translated_text({"en": "About Us", "ar": "عن الشركة"}) }}</h2>
         <div class="about-content">
             <div class="about-text" data-aos="fade-right" data-aos-delay="100">
-                <h2 class="section-title about-section-title">About {{ company_name }}</h2> {# MOVED TITLE INSIDE .about-text #}
-                <p>Welcome to {{ company_name }}, your trusted partner for premium PET (Polyethylene Terephthalate) bottle solutions. We specialize in manufacturing and supplying a wide range of PET bottles tailored to meet the diverse needs of various industries, including beverage, food, pharmaceuticals, and personal care.</p>
-                <p>Our commitment to quality, innovation, and sustainability drives us to deliver products that not only meet but exceed industry standards. With state-of-the-art manufacturing facilities and a dedicated team of experts, we ensure every bottle we produce is of the highest quality, durable, and safe for use.</p>
-                <a href="{{ url_for('contact_page') }}" class="btn btn-primary" style="margin-top: 1rem;">Get In Touch</a> {# Added some margin to button #}
+                <p>{{ get_translated_text({
+                    "en": "Welcome to MG PET, your trusted partner for premium PET (Polyethylene Terephthalate) bottle solutions. We specialize in manufacturing and supplying a wide range of PET bottles tailored to meet the diverse needs of various industries, including beverage, food, pharmaceuticals, and personal care.",
+                    "ar": "مرحباً بكم في MG PET، شريككم الموثوق لحلول قناني البولي إيثيلين تيريفثاليت (PET) عالية الجودة. نحن متخصصون في تصنيع وتوريد مجموعة واسعة من قناني PET المصممة لتلبية الاحتياجات المتنوعة لمختلف الصناعات، بما في ذلك المشروبات والأغذية والأدوية والعناية الشخصية."
+                }) }}</p>
+                <p>{{ get_translated_text({
+                    "en": "Our commitment to quality, innovation, and sustainability drives us to deliver products that not only meet but exceed industry standards. With state-of-the-art manufacturing facilities and a dedicated team of experts, we ensure every bottle we produce is of the highest quality, durable, and safe for use.",
+                    "ar": "التزامنا بالجودة والابتكار والاستدامة يدفعنا لتقديم منتجات لا تلبي معايير الصناعة فحسب، بل تتجاوزها. بفضل مرافق التصنيع الحديثة وفريق من الخبراء المتخصصين، نضمن أن كل قنينة ننتجها هي الأعلى جودة ومتانة وأمانًا للاستخدام."
+                }) }}</p>
+                <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-secondary">{{ get_translated_text({"en":"Get In Touch", "ar":"تواصل معنا"}) }}</a>
             </div>
             <div class="about-image" data-aos="fade-left" data-aos-delay="300">
-                <img src="{{ url_for('static', filename='images/sections/about_bg_placeholder.jpg') }}" alt="About {{ company_name }}">
+                <img src="{{ url_for('static', filename='images/sections/about_bg_placeholder.jpg') }}" alt="{{ get_translated_text({'en':'About MG PET', 'ar':'عن MG PET'}) }}">
             </div>
         </div>
     </div>
 </section>
 
-<!-- <section class="cta-section content-section" data-aos="expand-from-center">
+<!-- Optional CTA Section -->
+<section class="cta-section content-section cta-expand-reveal">
     <div class="container">
-        <h3>Discover Our Range</h3>
-        <p>From standard designs to custom molds, we provide innovative PET solutions for every need.</p>
-        <a href="{{ url_for('list_top_level_categories') }}" class="btn btn-primary-outline">View All Products</a> {# MODIFIED #}
+        <h3>{{ get_translated_text({"en":"Discover Our Range", "ar":"اكتشف مجموعتنا"}) }}</h3>
+        <p>{{ get_translated_text({"en":"From standard designs to custom molds, we provide innovative PET solutions for every need.", "ar":"من التصاميم القياسية إلى القوالب المخصصة، نقدم حلول PET مبتكرة لكل احتياج."}) }}</p>
+        <a href="{{ url_for('list_top_level_categories', lang_code=current_lang) }}" class="btn btn-primary-outline">{{ get_translated_text({"en":"View All Products", "ar":"عرض جميع المنتجات"}) }}</a>
     </div>
-</section> -->
-
+section>
 {% endblock %}

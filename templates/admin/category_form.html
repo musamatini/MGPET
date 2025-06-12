@@ -8,32 +8,51 @@
     </div>
 
     <form method="POST" enctype="multipart/form-data" class="admin-form">
-        <div class="form-group">
-            <label for="name">Category Name (Optional)</label>
-            <input type="text" id="name" name="name" value="{{ category.name if category and category.name is not none else '' }}">
-            <small class="form-help">If no name is provided, a random slug will be generated. The name will appear as "Unnamed Category" on the site if left blank.</small>
-        </div>
+        {# Loop through languages to create name and description fields #}
+        {% for lang_code in languages %}
+            <fieldset class="language-fieldset">
+                <legend>Content in {{ lang_code.upper() }} {% if lang_code == 'ar' %}(العربية){% endif %}</legend>
+                
+                <div class="form-group">
+                    <label for="name_{{ lang_code }}">Category Name ({{ lang_code.upper() }}) (Optional)</label>
+                    <input type="text" id="name_{{ lang_code }}" name="name_{{ lang_code }}" 
+                           value="{{ category.name[lang_code] if category and category.name and category.name[lang_code] is not none else '' }}"
+                           {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                </div>
 
-        <div class="form-group">
-            <label>Description (Optional, one line per box)</label>
-            <div id="description-fields">
-                {% if category and category.description %}
-                    {% for desc_line in category.description %}
-                    <div class="description-line">
-                        <input type="text" name="description[]" value="{{ desc_line }}">
-                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                <div class="form-group">
+                    <label>Description ({{ lang_code.upper() }}) (Optional, one line per box)</label>
+                    <div id="description-fields-{{ lang_code }}" class="description-fields-wrapper">
+                        {% set desc_list = (category.description[lang_code] if category and category.description and category.description[lang_code] else []) %}
+                        {% if desc_list %}
+                            {% for desc_line in desc_list %}
+                            <div class="description-line">
+                                <input type="text" name="description_{{ lang_code }}[]" value="{{ desc_line }}" {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="description-fields-{{ lang_code }}"><i class="fas fa-times"></i></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {# Always ensure at least one input field, even if desc_list is empty #}
+                        {% if not desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="description_{{ lang_code }}[]" placeholder="Description line 1 ({{ lang_code.upper() }})" {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="description-fields-{{ lang_code }}"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="description-line">
-                        <input type="text" name="description[]" placeholder="Description line 1">
-                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
-                    </div>
-                {% endif %}
-            </div>
-            <button type="button" id="btn-add-desc" class="btn-admin btn-admin-secondary btn-admin-sm" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Description Line</button>
-        </div>
+                    <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" 
+                            data-target="description-fields-{{ lang_code }}" 
+                            data-placeholder="Description line ({{ lang_code.upper() }})" 
+                            data-inputname="description_{{ lang_code }}[]" 
+                            data-rtl="{{ 'true' if lang_code == 'ar' else 'false' }}"
+                            style="margin-top: 10px;">
+                        <i class="fas fa-plus"></i> Add {{ lang_code.upper() }} Line
+                    </button>
+                </div>
+            </fieldset>
+        {% endfor %}
         
+        <hr><h4 class="sub-section-header">Common Details</h4>
         <div class="form-group">
             <label for="image">Category Image (Optional)</label>
             {% if category and category.image %}
@@ -46,11 +65,8 @@
                 </div>
             </div>
             {% endif %}
-            <input type="file" id="image" name="image" accept="image/*">
-             <div id="image-preview-container" class="image-preview-container">
-                <!-- Preview will be shown here by JS -->
-            </div>
-            <small class="form-help">Recommended size: 400x300px. Max 16MB.</small>
+            <input type="file" id="image" name="image" accept="image/*" class="form-control" style="padding: 5px;">
+            <div id="image-preview-container" class="image-preview-container"></div>
         </div>
 
         <div class="form-actions">
@@ -64,35 +80,67 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const descContainer = document.getElementById('description-fields');
-    const addDescButton = document.getElementById('btn-add-desc');
+    // --- Reusable Add/Remove Description Lines (Handles multiple languages) ---
+    document.querySelectorAll('.btn-add-desc').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.dataset.target; // e.g., description-fields-en
+            const placeholderText = this.dataset.placeholder || 'Description line';
+            const inputName = this.dataset.inputname; // e.g., description_en[]
+            const isRtl = this.dataset.rtl === 'true';
+            const descContainer = document.getElementById(targetId);
 
-    if (addDescButton) {
-        addDescButton.addEventListener('click', function() {
-            const newLine = document.createElement('div');
-            newLine.classList.add('description-line');
-            const inputCount = descContainer.querySelectorAll('input[name="description[]"]').length;
-            newLine.innerHTML = `
-                <input type="text" name="description[]" placeholder="Description line ${inputCount + 1}">
-                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
-            `;
-            descContainer.appendChild(newLine);
+            if (descContainer) {
+                const newLine = document.createElement('div');
+                newLine.classList.add('description-line');
+                const inputCount = descContainer.querySelectorAll('input[name="' + inputName + '"]').length;
+                const newPlaceholder = placeholderText.includes(' line ') ? placeholderText.replace(' line ', ` line ${inputCount + 1} `) : `${placeholderText} ${inputCount + 1}`;
+                
+                let inputHtml = `<input type="text" name="${inputName}" placeholder="${newPlaceholder}"`;
+                if (isRtl) {
+                    inputHtml += ` dir="rtl"`;
+                }
+                inputHtml += `>`;
+
+                newLine.innerHTML = `
+                    ${inputHtml}
+                    <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="${targetId}"><i class="fas fa-times"></i></button>
+                `;
+                descContainer.appendChild(newLine);
+            }
         });
-    }
+    });
 
-    // Event delegation for remove buttons
-    if (descContainer) {
-        descContainer.addEventListener('click', function(event) {
+    // Event delegation for remove buttons (works for all description field sets)
+    document.querySelectorAll('.description-fields-wrapper').forEach(container => {
+        container.addEventListener('click', function(event) {
             if (event.target.closest('.btn-remove-desc')) {
-                // Only remove if more than one input exists or if the input is not empty
-                const allLines = descContainer.querySelectorAll('.description-line');
+                const allLines = container.querySelectorAll('.description-line');
                 const lineToRemove = event.target.closest('.description-line');
-                const inputInLine = lineToRemove.querySelector('input');
-
-                if (allLines.length > 1 || (allLines.length === 1 && inputInLine && inputInLine.value.trim() !== '')) {
-                     lineToRemove.remove();
-                } else if (allLines.length === 1 && inputInLine) {
-                    inputInLine.value = ''; // Clear the last one instead of removing
+                if (lineToRemove) { // Check if lineToRemove is found
+                    if (allLines.length > 1 ) {
+                        lineToRemove.remove();
+                    } else if (allLines.length === 1) {
+                        const inputInLine = lineToRemove.querySelector('input');
+                        if (inputInLine) inputInLine.value = ''; 
+                    }
+                }
+            }
+        });
+    });
+    
+    // --- Main Item Image Preview (from admin_main.js, ensure it's loaded) ---
+    const mainImageInput = document.getElementById('image');
+    if (mainImageInput) {
+        mainImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('image-preview-container');
+            if (previewContainer) {
+                previewContainer.innerHTML = ''; 
+                if (file && file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    const reader = new FileReader();
+                    reader.onload = function(e) { img.src = e.target.result; previewContainer.appendChild(img); }
+                    reader.readAsDataURL(file);
                 }
             }
         });

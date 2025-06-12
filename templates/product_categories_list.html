@@ -5,16 +5,15 @@
 {% block content %}
 <section class="content-section page-section">
     <div class="container">
-        {# Display breadcrumb if breadcrumb_base is provided and has items #}
-        {% if breadcrumb_base and breadcrumb_base|length > 0 %}
+        {% if breadcrumb %}
         <nav aria-label="breadcrumb" data-aos="fade-down">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Home</a></li>
-                {% for crumb in breadcrumb_base %}
-                    {% if loop.last %}
-                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.name }}</li>
-                    {% else %}
+                <li class="breadcrumb-item"><a href="{{ url_for('home_page', lang_code=current_lang) }}">{{ get_translated_text({"en": "Home", "ar": "الرئيسية"}) }}</a></li>
+                {% for crumb in breadcrumb %}
+                    {% if crumb.url %}
                         <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.name }}</a></li>
+                    {% else %}
+                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.name }}</li>
                     {% endif %}
                 {% endfor %}
             </ol>
@@ -23,31 +22,27 @@
 
         <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
         
-        {% if items %} {# This 'items' variable holds the top-level categories #}
+        {% if items %}
             <div class="item-grid"> 
-                {% for item in items %} {# Each 'item' here is a category dictionary #}
-                {# For top-level categories, clicking them should show their children (subcategories/products) #}
-                <a href="{{ url_for('view_category_children', category_slug=item.slug) }}" class="item-card">
+                {% for item in items %} {# Each 'item' here is a category dictionary with translated name/desc_lines #}
+                <a href="{{ url_for('view_category_children', lang_code=current_lang, category_slug=item.slug) }}" class="item-card">
                     <div class="item-card-image-wrapper">
-                        {# Use a default category image if specific one is missing #}
-                        <img src="{{ url_for('static', filename=item.image) if item.image else url_for('static', filename='images/uploads/categories/default_cat.jpg') }}" alt="{{ item.name | default('Category') }}">
+                        <img src="{{ url_for('static', filename=item.image) if item.image else url_for('static', filename='images/uploads/categories/default_cat.jpg') }}" alt="{{ item.name }}">
                     </div>
                     <div class="item-card-content">
-                        {% if item.name %}<h3>{{ item.name }}</h3>{% else %}<h3 class="text-muted">Unnamed Category</h3>{% endif %}
-                        
-                        {# Display first line of category description or a default message #}
+                        <h3>{{ item.name }}</h3>
                         {% if item.description_lines and item.description_lines|length > 0 %}
                             <p>{{ item.description_lines[0] }}</p>
                         {% else %}
-                            <p>Explore items in this category.</p>
+                            <p>{{ get_translated_text({"en": "Explore items in this category.", "ar": "استكشف العناصر في هذه الفئة."}) }}</p>
                         {% endif %}
-                        <span class="btn btn-sm btn-primary" style="margin-top: auto;">View Items <i class="fas fa-arrow-right"></i></span>
+                        <span class="btn btn-sm btn-outline" style="margin-top: auto;">{{ get_translated_text({"en": "View Items", "ar": "عرض العناصر"}) }} <i class="fas {{ 'fa-arrow-right' if current_lang == 'en' else 'fa-arrow-left' }}"></i></span>
                     </div>
                 </a>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="page-intro" data-aos="fade-up">No product categories available at the moment. Please check back soon!</p>
+            <p class="page-intro" data-aos="fade-up">{{ get_translated_text({"en": "No product categories available at the moment. Please check back soon!", "ar": "لا توجد فئات منتجات متاحة حاليًا. يرجى التحقق مرة أخرى قريبًا!"}) }}</p>
         {% endif %}
     </div>
 </section>

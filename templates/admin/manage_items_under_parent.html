@@ -11,35 +11,32 @@
                         {% for crumb in parent_path %}
                             <li class="admin-breadcrumb-item {% if loop.last and not crumb.url %}active{% endif %}">
                                 {% if loop.last and not crumb.url %}
-                                   {{ crumb.name }}
+                                   {{ crumb.name | e }}
                                 {% elif crumb.url %}
-                                    <a href="{{ crumb.url }}">{{ crumb.name }}</a>
+                                    <a href="{{ crumb.url }}">{{ crumb.name | e }}</a>
                                 {% else %}
-                                    {{ crumb.name }}
+                                    {{ crumb.name | e }}
                                 {% endif %}
                             </li>
                         {% endfor %}
                     {% else %}
-                         <li class="admin-breadcrumb-item active" aria-current="page">{{ parent_name }}</li>
+                         <li class="admin-breadcrumb-item active" aria-current="page">{{ parent_name_display | e }}</li>
                     {% endif %}
                 </ol>
             </nav>
-            <h2>Items in {{ parent_type_display }}: {{ parent_name }}</h2>
+            <h2>Items in {{ parent_type_display }}: {{ parent_name_display | e }}</h2>
         </div>
         
-        {# Corrected Add Buttons Logic #}
         <div class="action-buttons" style="display: flex; gap: 10px;">
             {% set can_add_subcategory = True %}
             {% set can_add_product = True %}
 
-            {# If the current parent is a subcategory and already has children, #}
-            {# determine what type of children it has. #}
-            {% if parent_context.type == 'item' and items %} {# 'items' here are the children being displayed #}
+            {% if parent_context.type == 'item' and items and items|length > 0 %}
                 {% set first_child_type = items[0].type %}
                 {% if first_child_type == 'product' %}
-                    {% set can_add_subcategory = False %} {# Can only add more products #}
+                    {% set can_add_subcategory = False %}
                 {% elif first_child_type == 'subcategory' %}
-                    {% set can_add_product = False %} {# Can only add more subcategories #}
+                    {% set can_add_product = False %}
                 {% endif %}
             {% endif %}
 
@@ -60,14 +57,14 @@
                 <tr>
                     <th>Image</th>
                     <th>Type</th>
-                    <th>Name / Slug</th>
-                    <th>Description / Short Desc.</th>
+                    <th>Name / Slug (EN Display)</th>
+                    <th>Description / Short Desc. (EN Preview)</th>
                     <th>Child Items #</th>
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in items %}
+                {% for item in items %} {# 'item.display_name' is already English or slug from app.py #}
                 {% set row_href = '' %}
                 {% if item.type == 'subcategory' %}
                     {% set row_href = url_for('admin.view_item_children_admin', parent_item_slug=item.slug) %}
@@ -77,20 +74,26 @@
                 <tr class="clickable-row" {% if row_href %}data-href="{{ row_href }}"{% endif %}>
                     <td>
                         {% if item.image %}
-                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name | default('Item Image') }}" class="table-preview">
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.display_name }}" class="table-preview">
                         {% else %} <span class="no-image">No Image</span> {% endif %}
                     </td>
                     <td><span class="item-type-badge item-type-{{ item.type }}">{{ item.type | capitalize }}</span></td>
                     <td>
-                        <strong>{{ item.name | default('Unnamed Item') }}</strong><br>
+                        <strong>{{ item.display_name }}</strong><br>
                         <small class="text-muted">Slug: {{ item.slug }}</small>
                     </td>
                     <td>
-                        {% set desc = item.description if item.type == 'subcategory' else item.short_description %}
-                        {% if desc and desc|length > 0 %}
-                            {% for line in desc[:2] %}{{ line }}<br>{% endfor %}
-                            {% if desc|length > 2 %}...{% endif %}
-                        {% else %} <span class="text-muted">N/A</span> {% endif %}
+                        {% set desc_dict = item.description if item.type == 'subcategory' else item.short_description %}
+                        {% set desc_list_en = get_translated_list(desc_dict, 'en') %}
+                        
+                        {% if desc_list_en and desc_list_en|length > 0 %}
+                            {% for line in desc_list_en[:2] %}
+                                {{ line | e }}<br>
+                            {% endfor %}
+                            {% if desc_list_en|length > 2 %}...{% endif %}
+                        {% else %}
+                            <span class="text-muted">N/A</span>
+                        {% endif %}
                     </td>
                     <td>
                         {% if item.type == 'subcategory' %}{{ item.children_item_slugs|length }}{% else %}<span class="text-muted">-</span>{% endif %}
@@ -107,13 +110,14 @@
         </table>
     </div>
     {% else %}
-    <p>No items found under {{ parent_name }}. Use the buttons above to add the first item here!</p>
+    <p>No items found under {{ parent_name_display | e }}. Use the buttons above to add the first item here!</p>
     {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+// Clickable row JS
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', function(event) {

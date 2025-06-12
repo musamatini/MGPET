@@ -5,75 +5,61 @@
 {% block content %}
 <section class="content-section page-section">
     <div class="container">
-        {# Breadcrumb - Ensure breadcrumb variable is always passed #}
         {% if breadcrumb %}
         <nav aria-label="breadcrumb" data-aos="fade-down">
             <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="{{ url_for('home_page', lang_code=current_lang) }}">{{ get_translated_text({"en": "Home", "ar": "الرئيسية"}) }}</a></li>
                 {% for crumb in breadcrumb %}
-                    {% if loop.last and not crumb.url %}
-                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.name | default('Current Page') }}</li>
-                    {% elif crumb.url %}
-                        <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.name | default('Parent') }}</a></li>
+                    {% if crumb.url %}
+                        <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.name }}</a></li>
                     {% else %}
-                         <li class="breadcrumb-item">{{ crumb.name | default('N/A') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.name }}</li>
                     {% endif %}
                 {% endfor %}
             </ol>
         </nav>
         {% endif %}
 
-        <h1 class="page-title" data-aos="fade-down">{{ page_title | default("Items") }}</h1>
+        <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
         
         {% if items %}
             <div class="item-grid"> 
-                {% for item in items %}
-                    {% set item_url = url_for('view_item_or_children', item_slug=item.slug) %}
-
+                {% for item in items %} {# item.name and item.description_lines are pre-translated #}
+                    {% set item_url = url_for('view_item_or_children', lang_code=current_lang, item_slug=item.slug) %}
                 <a href="{{ item_url }}" class="item-card">
                     <div class="item-card-image-wrapper">
-                        <img src="{{ url_for('static', filename=item.image) if item.image else url_for('static', filename='images/uploads/items/default_item.jpg') }}" alt="{{ item.name | default(item.type | capitalize if item.type else 'Item') }}">
+                        <img src="{{ url_for('static', filename=item.image) if item.image else url_for('static', filename='images/uploads/items/default_item.jpg') }}" alt="{{ item.name }}">
                     </div>
                     <div class="item-card-content">
-                        {% if item.type == 'subcategory' %}
-                            <h3>{{ item.name | default('Unnamed Subcategory') }}</h3>
-                        {% elif item.type == 'product' %}
-                            <h4>{{ item.name | default('Unnamed Product') }}</h4>
-                        {% else %}
-                             <h4>{{ item.name | default('Unnamed Item') }}</h4>
-                        {% endif %}
+                        {% if item.type == 'subcategory' %}<h3>{{ item.name }}</h3>
+                        {% elif item.type == 'product' %}<h4>{{ item.name }}</h4>
+                        {% else %}<h4>{{ item.name }}</h4>{% endif %}
                         
                         {% if item.description_lines and item.description_lines|length > 0 %}
                             <p>{{ item.description_lines[0] }}</p>
                         {% elif item.type == 'subcategory' %}
-                            <p>View items in this subcategory.</p>
+                            <p>{{ get_translated_text({"en": "View items in this subcategory.", "ar": "عرض العناصر في هذه الفئة الفرعية."}) }}</p>
                         {% elif item.type == 'product' %}
-                            <p>View product details.</p>
-                        {% else %}
-                            <p>More information available.</p>
+                            <p>{{ get_translated_text({"en": "View product details.", "ar": "عرض تفاصيل المنتج."}) }}</p>
                         {% endif %}
                         
                         {% if item.type == 'subcategory' %}
-                            <span class="btn btn-sm btn-primary" style="margin-top: auto;">View Items <i class="fas fa-arrow-right"></i></span>
+                            <span class="btn btn-sm btn-outline" style="margin-top: auto;">{{ get_translated_text({"en": "View Items", "ar": "عرض العناصر"}) }} <i class="fas {{ 'fa-arrow-right' if current_lang == 'en' else 'fa-arrow-left' }}"></i></span>
                         {% elif item.type == 'product' %}
-                            <span class="btn btn-sm btn-primary" style="margin-top: auto;">View Details <i class="fas fa-search-plus"></i></span>
+                            <span class="btn btn-sm btn-primary" style="margin-top: auto;">{{ get_translated_text({"en": "View Details", "ar": "عرض التفاصيل"}) }} <i class="fas fa-search-plus"></i></span>
                         {% endif %}
                     </div>
                 </a>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="page-intro" data-aos="fade-up">No items found under {{ parent_name | default("this section") }}.</p> 
+            <p class="page-intro" data-aos="fade-up">{{ get_translated_text({"en": "No items found under", "ar": "لم يتم العثور على عناصر تحت"}) }} {{ parent_name }}.</p> 
         {% endif %}
 
-        {# "Back" button logic #}
         {% if breadcrumb and breadcrumb|length > 1 %}
             {% set back_crumb = breadcrumb[-2] %} 
             <div class="back-to-categories" data-aos="fade-up" style="margin-top: 2.5rem;">
-                 <a href="{{ back_crumb.url if back_crumb.url else url_for('list_top_level_categories') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to {{ back_crumb.name }}</a>
-            </div>
-        {% elif parent_type_display == 'Category' %} 
-             <div class="back-to-categories" data-aos="fade-up" style="margin-top: 2.5rem;">
-                 <a href="{{ url_for('list_top_level_categories') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
+                 <a href="{{ back_crumb.url if back_crumb.url else url_for('list_top_level_categories', lang_code=current_lang) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> {{ get_translated_text({"en": "Back to", "ar": "العودة إلى"}) }} {{ back_crumb.name }}</a>
             </div>
         {% endif %}
     </div>

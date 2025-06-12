@@ -1,28 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ current_lang }}" dir="{{ 'rtl' if current_lang == 'ar' else 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ company_name }}{% endblock %}</title>
-    <!-- Swiper.js CSS from CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.css" rel="stylesheet">
+    <title>{% block title %}{{ company_name }}{% endblock %} - {{ get_translated_text({"en": "Official Site", "ar": "الموقع الرسمي"}) }}</title>
     
-    <!-- AOS CSS from CDN -->
+    <!-- Library CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <!-- Your Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% if current_lang == 'ar' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_rtl.css') }}"> {# Separate RTL stylesheet #}
+    {% endif %}
     
     <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/png">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/png">
-    <!-- Add FontAwesome or similar for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> {# Ensure FontAwesome is loaded #}
 </head>
 <body>
-    {% include 'partials/_navbar.html' %} 
-
+    {% include 'partials/_navbar.html' %}
 
     <main id="main-content">
         {% block content %}{% endblock %}
@@ -30,12 +27,12 @@
 
     {% include 'partials/_footer.html' %}
 
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.js"></script>
-    
-    <!-- AOS JS from CDN -->
+    <!-- Library JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <!-- Your Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

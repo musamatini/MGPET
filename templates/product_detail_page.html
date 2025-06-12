@@ -5,57 +5,48 @@
 {% block content %}
 <section class="content-section page-section product-detail-page">
     <div class="container">
-        {# Breadcrumb ... (keep your existing breadcrumb logic) ... #}
+        {% if breadcrumb %}
         <nav aria-label="breadcrumb" data-aos="fade-down">
             <ol class="breadcrumb">
-                {% if breadcrumb %}
-                    {% for crumb in breadcrumb %}
-                        {% if loop.last and not crumb.url %}
-                            <li class="breadcrumb-item active" aria-current="page">{{ crumb.name | default('Product') }}</li>
-                        {% elif crumb.url %}
-                            <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.name | default('Parent') }}</a></li>
-                        {% else %}
-                            <li class="breadcrumb-item">{{ crumb.name | default('N/A') }}</li>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <li class="breadcrumb-item"><a href="{{ url_for('list_top_level_categories') }}">Products</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ product.name | default('Product Details') }}</li>
-                {% endif %}
+                <li class="breadcrumb-item"><a href="{{ url_for('home_page', lang_code=current_lang) }}">{{ get_translated_text({"en": "Home", "ar": "الرئيسية"}) }}</a></li>
+                {% for crumb in breadcrumb %}
+                    {% if crumb.url %}
+                        <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.name }}</a></li>
+                    {% else %}
+                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.name }}</li>
+                    {% endif %}
+                {% endfor %}
             </ol>
         </nav>
+        {% endif %}
 
         <div class="product-detail-wrapper" data-aos="fade-up">
             <div class="product-detail-image" data-aos="zoom-in" data-aos-delay="100">
-                <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/uploads/items/default_item.jpg') }}" alt="{{ product.name | default('Product Image') }}">
+                <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/uploads/items/default_item.jpg') }}" alt="{{ product_name_display }}">
             </div>
             <div class="product-detail-content" data-aos="fade-left" data-aos-delay="200">
-                {% if product.name %}<h1 class="product-title">{{ product.name }}</h1>{% else %}<h1 class="product-title text-muted">Unnamed Product</h1>{% endif %}
+                <h1 class="product-title">{{ product_name_display }}</h1>
                 
-                {# Render the HTML generated from Markdown #}
                 {% if html_description %}
-                <div class="product-description markdown-content"> {# Added .markdown-content class #}
-                    {{ html_description | safe }} {# Use |safe filter to render HTML #}
+                <div class="product-description markdown-content">
+                    {{ html_description | safe }}
                 </div>
                 {% else %}
-                <p class="text-muted">No detailed description available for this product.</p>
+                <p class="text-muted">{{ get_translated_text({"en": "No detailed description available.", "ar": "لا يوجد وصف تفصيلي متاح."}) }}</p>
                 {% endif %}
 
                 <div class="product-actions" style="margin-top: 2rem;">
-                    <a href="{{ url_for('contact_page') }}" class="btn btn-primary btn-lg">Inquire About This Product</a>
+                    <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-primary btn-lg">{{ get_translated_text({"en": "Inquire About This Product", "ar": "استفسر عن هذا المنتج"}) }}</a>
                 </div>
             </div>
         </div>
         
-        {# Back button ... (keep your existing back button logic) ... #}
-        <div class="back-to-categories" data-aos="fade-up" style="margin-top: 3rem;">
-            {% if breadcrumb and breadcrumb|length > 1 %}
-                {% set back_crumb = breadcrumb[-2] %} 
-                <a href="{{ back_crumb.url if back_crumb.url else url_for('list_top_level_categories') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to {{ back_crumb.name }}</a>
-            {% else %}
-                 <a href="{{ url_for('list_top_level_categories') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to All Products</a>
-            {% endif %}
-        </div>
+        {% if breadcrumb and breadcrumb|length > 1 %}
+            {% set back_crumb = breadcrumb[-2] %}
+            <div class="back-to-categories" data-aos="fade-up" style="margin-top: 3rem;">
+                <a href="{{ back_crumb.url if back_crumb.url else url_for('list_top_level_categories', lang_code=current_lang) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> {{ get_translated_text({"en": "Back to", "ar": "العودة إلى"}) }} {{ back_crumb.name }}</a>
+            </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
