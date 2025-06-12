@@ -44,7 +44,7 @@
         {% if breadcrumb and breadcrumb|length > 1 %}
             {% set back_crumb = breadcrumb[-2] %}
             <div class="back-to-categories" data-aos="fade-up" style="margin-top: 3rem;">
-                <a href="{{ back_crumb.url if back_crumb.url else url_for('list_top_level_categories', lang_code=current_lang) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> {{ get_translated_text({"en": "Back to", "ar": "العودة إلى"}) }} {{ back_crumb.name }}</a>
+                <a href="{{ back_crumb.url if back_crumb.url else url_for('list_top_level_categories', lang_code=current_lang) }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> {{ get_translated_text({"en": "Back to", "ar": "العودة إلى"}) }} {{ back_crumb.name }}</a>
             </div>
         {% endif %}
     </div>

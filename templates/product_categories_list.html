@@ -36,7 +36,7 @@
                         {% else %}
                             <p>{{ get_translated_text({"en": "Explore items in this category.", "ar": "استكشف العناصر في هذه الفئة."}) }}</p>
                         {% endif %}
-                        <span class="btn btn-sm btn-outline" style="margin-top: auto;">{{ get_translated_text({"en": "View Items", "ar": "عرض العناصر"}) }} <i class="fas {{ 'fa-arrow-right' if current_lang == 'en' else 'fa-arrow-left' }}"></i></span>
+                        <span class="btn btn-primary " style="margin-top: auto;">{{ get_translated_text({"en": "View Items", "ar": "عرض العناصر"}) }} <i class="fas {{ 'fa-arrow-right' if current_lang == 'en' else 'fa-arrow-left' }}"></i></span>
                     </div>
                 </a>
                 {% endfor %}

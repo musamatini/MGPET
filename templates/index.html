@@ -37,7 +37,7 @@
                     "en": "Our commitment to quality, innovation, and sustainability drives us to deliver products that not only meet but exceed industry standards. With state-of-the-art manufacturing facilities and a dedicated team of experts, we ensure every bottle we produce is of the highest quality, durable, and safe for use.",
                     "ar": "التزامنا بالجودة والابتكار والاستدامة يدفعنا لتقديم منتجات لا تلبي معايير الصناعة فحسب، بل تتجاوزها. بفضل مرافق التصنيع الحديثة وفريق من الخبراء المتخصصين، نضمن أن كل قنينة ننتجها هي الأعلى جودة ومتانة وأمانًا للاستخدام."
                 }) }}</p>
-                <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-secondary">{{ get_translated_text({"en":"Get In Touch", "ar":"تواصل معنا"}) }}</a>
+                <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-primary">{{ get_translated_text({"en":"Get In Touch", "ar":"تواصل معنا"}) }}</a>
             </div>
             <div class="about-image" data-aos="fade-left" data-aos-delay="300">
                 <img src="{{ url_for('static', filename='images/sections/about_bg_placeholder.jpg') }}" alt="{{ get_translated_text({'en':'About MG PET', 'ar':'عن MG PET'}) }}">
