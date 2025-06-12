@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize AOS (Animate on Scroll) for general section reveals
     AOS.init({
         duration: 400, // Animation duration
-        once: false,    // Animate elements only once
+        once: true,    // Animate elements only once
         offset: 200,    // Trigger animation a bit sooner 
     });
 
