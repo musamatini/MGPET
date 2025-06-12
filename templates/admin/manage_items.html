@@ -1,0 +1,101 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>All Items (Subcategories & Products)</h2>
+        <a href="{{ url_for('admin.add_item') }}" class="btn-admin btn-admin-success"><i class="fas fa-plus"></i> Add New Item</a>
+    </div>
+    <p class="text-muted" style="margin-bottom: 15px;">Click on a subcategory row to view its children. Click on a product row to edit it.</p>
+
+    {% if items %}
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Type</th>
+                    <th>Name / Slug</th>
+                    <th>Parent</th>
+                    <th>Description / Short Desc.</th>
+                    <th>Child Items #</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                {# Determine href for clickable row #}
+                {% set row_href = '' %}
+                {% if item.type == 'subcategory' %}
+                    {% set row_href = url_for('admin.view_item_children_admin', parent_item_slug=item.slug) %}
+                {% elif item.type == 'product' %}
+                    {% set row_href = url_for('admin.edit_item', item_slug=item.slug) %}
+                {% endif %}
+                <tr class="clickable-row" {% if row_href %}data-href="{{ row_href }}"{% endif %}>
+                    <td>
+                        {% if item.image %}
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name | default('Item Image') }}" class="table-preview">
+                        {% else %}
+                            <span class="no-image">No Image</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge badge-{{ 'info' if item.type == 'subcategory' else 'primary' }}">{{ item.type | capitalize }}</span>
+                    </td>
+                    <td>
+                        <strong>{{ item.name | default('Unnamed Item') }}</strong>
+                        <br>
+                        <small class="text-muted">Slug: {{ item.slug }}</small>
+                    </td>
+                    <td><small>{{ item.parent_name_display | default('N/A') }}</small></td>
+                    <td>
+                        {% set desc = item.description if item.type == 'subcategory' else item.short_description %}
+                        {% if desc %}
+                            {% for line in desc[:2] %}
+                                {{ line }}<br>
+                            {% endfor %}
+                            {% if desc|length > 2 %}...{% endif %}
+                        {% else %}
+                            <span class="text-muted">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.type == 'subcategory' %}
+                            {{ item.children_item_slugs|length }}
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions">
+                        <a href="{{ url_for('admin.edit_item', item_slug=item.slug) }}" class="btn-admin btn-admin-sm btn-admin-secondary no-row-click"><i class="fas fa-edit"></i> Edit</a>
+                        <form action="{{ url_for('admin.delete_item', item_slug=item.slug) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this {{ item.type }}? This cannot be undone.');">
+                            <button type="submit" class="btn-admin btn-admin-sm btn-admin-danger no-row-click"><i class="fas fa-trash"></i> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No items (subcategories or products) found. <a href="{{ url_for('admin.add_item') }}">Add your first item!</a> (Ensure you have categories or parent subcategories first).</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function(event) {
+            if (event.target.closest('.no-row-click')) {
+                return;
+            }
+            if (this.dataset.href) {
+                window.location.href = this.dataset.href;
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

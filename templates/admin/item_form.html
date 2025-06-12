@@ -1,0 +1,360 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>{{ form_action }} {{ item.type | capitalize if item else (pre_selected_item_type | capitalize if pre_selected_item_type else 'Item') }}</h2>
+        {# Determine back link based on context #}
+        {% set back_url = url_for('admin.manage_categories') %} {# Default fallback #}
+        {% if item and item.parent_type == 'category' and item.parent_slug %}
+            {% set back_url = url_for('admin.view_category_children_admin', category_slug=item.parent_slug) %}
+        {% elif item and item.parent_type == 'item' and item.parent_slug %}
+            {% set back_url = url_for('admin.view_item_children_admin', parent_item_slug=item.parent_slug) %}
+        {% elif pre_selected_parent_full_slug %}
+            {% set p_type, p_slug = pre_selected_parent_full_slug.split(':', 1) %}
+            {% if p_type == 'category' %}
+                {% set back_url = url_for('admin.view_category_children_admin', category_slug=p_slug) %}
+            {% elif p_type == 'item' %}
+                {% set back_url = url_for('admin.view_item_children_admin', parent_item_slug=p_slug) %}
+            {% endif %}
+        {% endif %}
+        <a href="{{ back_url }}" class="btn-admin btn-admin-secondary"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+        {# Item Type Selection (only for ADDING new item if not pre-selected) #}
+        {% if form_action == "Add" and not pre_selected_item_type %}
+        <div class="form-group">
+            <label for="item_type_select_fallback">Item Type *</label>
+            <select id="item_type_select_fallback" name="item_type" required>
+                <option value="subcategory">Subcategory</option>
+                <option value="product">Product</option>
+            </select>
+        </div>
+        {% elif pre_selected_item_type %}
+            <input type="hidden" name="item_type" value="{{ pre_selected_item_type }}">
+            <div class="form-group">
+                <label>Adding New Type</label>
+                <input type="text" value="{{ pre_selected_item_type | capitalize }}" class="form-control-disabled" readonly>
+            </div>
+        {% elif item %}
+            <input type="hidden" name="item_type" value="{{ item.type }}">
+             <div class="form-group">
+                <label>Editing Item Type</label>
+                <input type="text" value="{{ item.type | capitalize }}" class="form-control-disabled" readonly title="Type cannot be changed after creation.">
+            </div>
+        {% endif %}
+
+
+        <div class="form-group">
+            <label for="parent_full_slug">Parent *</label>
+            <select id="parent_full_slug" name="parent_full_slug" required 
+                    {% if form_action == 'Add' and pre_selected_parent_full_slug %}
+                        class="form-control-disabled" readonly title="Parent is pre-selected."
+                    {% endif %}>
+                <option value="">-- Select Parent --</option>
+                {% for p in parents %}
+                <option value="{{ p.type }}:{{ p.slug }}" 
+                        {% if pre_selected_parent_full_slug == p.type ~ ':' ~ p.slug %}selected
+                        {% elif item and item.parent_type == p.type and item.parent_slug == p.slug %}selected
+                        {% endif %}>
+                    {{ p.name }}
+                </option>
+                {% endfor %}
+            </select>
+            {% if not parents %}
+            <small class="form-help text-danger">No potential parents (categories or subcategories that can have children) available. Please create one first.</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name (Optional)</label>
+            <input type="text" id="name" name="name" value="{{ item.name if item and item.name is not none else '' }}">
+            <small class="form-help">If no name is provided, a random slug will be generated.</small>
+        </div>
+
+        {# Determine effective item type for showing/hiding fields #}
+        {% set effective_item_type = item.type if item else pre_selected_item_type %}
+
+        {# Fields for Subcategory Type #}
+        <div class="subcategory-fields item-type-fields" {% if effective_item_type != 'subcategory' %}style="display:none;"{% endif %}>
+            <hr><h4 class="sub-section-header">Subcategory Details</h4>
+            <div class="form-group">
+                <label>Description (Optional, for subcategory listing)</label>
+                <div id="description-fields-subcat" class="description-fields-wrapper">
+                    {% set desc_list = item.description if item and item.type == 'subcategory' else [] %}
+                    {% if desc_list %}
+                        {% for desc_line in desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="description[]" value="{{ desc_line }}">
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="description-fields-subcat"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    {# Always ensure at least one input field, even if desc_list is empty #}
+                    {% if not desc_list %}
+                    <div class="description-line">
+                        <input type="text" name="description[]" placeholder="Subcategory description line 1">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="description-fields-subcat"><i class="fas fa-times"></i></button>
+                    </div>
+                    {% endif %}
+                </div>
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" data-target="description-fields-subcat" data-placeholder="Subcategory description line" data-inputname="description[]" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Line</button>
+            </div>
+        </div>
+
+        {# Fields for Product Type #}
+        <div class="product-fields item-type-fields" {% if effective_item_type != 'product' %}style="display:none;"{% endif %}>
+            <hr><h4 class="sub-section-header">Product Details</h4>
+            <div class="form-group">
+                <label>Short Description (Optional, for listings)</label>
+                <div id="short-description-fields" class="description-fields-wrapper">
+                     {% set short_desc_list = item.short_description if item and item.type == 'product' else [] %}
+                    {% if short_desc_list %}
+                        {% for desc_line in short_desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="short_description[]" value="{{ desc_line }}">
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="short-description-fields"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if not short_desc_list %}
+                    <div class="description-line">
+                        <input type="text" name="short_description[]" placeholder="Short description line 1">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="short-description-fields"><i class="fas fa-times"></i></button>
+                    </div>
+                    {% endif %}
+                </div>
+                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" data-target="short-description-fields" data-placeholder="Short description line" data-inputname="short_description[]" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Line</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="long_description_markdown">Long Description (Markdown Enabled)</label>
+                <div class="form-check" style="margin-bottom: 10px;">
+                    <input type="checkbox" id="use_short_desc_for_long" name="use_short_desc_for_long" class="form-check-input" {% if item and item.type == 'product' and item.use_short_desc_for_long %}checked{% endif %}>
+                    <label for="use_short_desc_for_long" class="form-check-label">Use Short Description as Long Description</label>
+                </div>
+                
+                <textarea id="long_description_markdown" name="long_description_markdown" rows="10" 
+                          placeholder="Enter detailed product description using Markdown..."
+                          {% if item and item.type == 'product' and item.use_short_desc_for_long %}disabled{% endif %}>{{ item.long_description_markdown if item and item.type == 'product' else '' }}</textarea>
+                <small class="form-help">
+                    Supports Markdown for formatting, tables, and images.<br>
+                    Image syntax: <code>![Alt Text](URL){width=200px height=150px}</code> (for size control).<br>
+                    Use the uploader below to get image URLs.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="desc_image_upload">Upload Image for Description</label>
+                <input type="file" id="desc_image_upload" name="desc_image_upload_field" accept="image/*" class="form-control" style="padding: 5px;">
+                <button type="button" id="btn-upload-desc-image" class="btn-admin btn-admin-secondary btn-admin-sm" style="margin-top: 8px;"><i class="fas fa-upload"></i> Upload & Get URL</button>
+                <div id="desc-image-url-display" style="margin-top: 8px; font-size: 0.9em; word-break: break-all;">
+                    {_ Input for URL will appear here after upload _}
+                </div>
+            </div>
+        </div>
+        
+        <hr><h4 class="sub-section-header">Common Details</h4>
+        <div class="form-group">
+            <label for="image">Main Item Image (Optional)</label>
+            {% if item and item.image %}
+            <div class="current-image-container">
+                <p>Current Image:</p>
+                <img src="{{ url_for('static', filename=item.image) }}" alt="Current Item Image">
+                <div class="form-check" style="margin-top:10px;">
+                    <input type="checkbox" id="remove_image" name="remove_image" class="form-check-input">
+                    <label for="remove_image" class="form-check-label">Remove current image</label>
+                </div>
+            </div>
+            {% endif %}
+            <input type="file" id="image" name="image" accept="image/*" class="form-control" style="padding: 5px;">
+            <div id="image-preview-container" class="image-preview-container">
+                <!-- Main image preview will be shown here by JS -->
+            </div>
+            <small class="form-help">Recommended size varies. Max 16MB.</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-admin btn-admin-success"><i class="fas fa-save"></i> Save Item</button>
+            <a href="{{ back_url }}" class="btn-admin btn-admin-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Toggle Item Type Specific Fields ---
+    const itemTypeSelectFallback = document.getElementById('item_type_select_fallback');
+    // Get type from hidden input if editing or pre-selected for add
+    const hiddenItemTypeInput = document.querySelector('input[name="item_type"]');
+    let effectiveItemType = hiddenItemTypeInput ? hiddenItemTypeInput.value : (itemTypeSelectFallback ? itemTypeSelectFallback.value : null);
+
+    const subcategoryFields = document.querySelector('.subcategory-fields');
+    const productFields = document.querySelector('.product-fields');
+
+    function showRelevantFields(selectedType) {
+        if (subcategoryFields) subcategoryFields.style.display = (selectedType === 'subcategory') ? 'block' : 'none';
+        if (productFields) productFields.style.display = (selectedType === 'product') ? 'block' : 'none';
+    }
+
+    if (itemTypeSelectFallback) { // Only for the fallback "Add Item" scenario
+        itemTypeSelectFallback.addEventListener('change', function() {
+            showRelevantFields(this.value);
+        });
+    }
+    // Initial call based on effective type (for edit or pre-selected add)
+    if(effectiveItemType) {
+        showRelevantFields(effectiveItemType);
+    }
+
+
+    // --- Reusable Add/Remove Description Lines (for subcat description and product short_description) ---
+    document.querySelectorAll('.btn-add-desc').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            const placeholderText = this.dataset.placeholder || 'Description line';
+            const inputName = this.dataset.inputname || 'description[]'; // Get input name from data attribute
+            const descContainer = document.getElementById(targetId);
+            if (descContainer) {
+                const newLine = document.createElement('div');
+                newLine.classList.add('description-line');
+                const inputCount = descContainer.querySelectorAll('input[name="' + inputName + '"]').length;
+                newLine.innerHTML = `
+                    <input type="text" name="${inputName}" placeholder="${placeholderText} ${inputCount + 1}">
+                    <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="${targetId}"><i class="fas fa-times"></i></button>
+                `;
+                descContainer.appendChild(newLine);
+            }
+        });
+    });
+
+    document.querySelectorAll('.description-fields-wrapper').forEach(container => {
+        container.addEventListener('click', function(event) {
+            if (event.target.closest('.btn-remove-desc')) {
+                const targetId = event.target.closest('.btn-remove-desc').dataset.target;
+                const descContainer = document.getElementById(targetId);
+                 if (descContainer) {
+                    const allLines = descContainer.querySelectorAll('.description-line');
+                    const lineToRemove = event.target.closest('.description-line');
+                    const inputInLine = lineToRemove.querySelector('input');
+
+                    if (allLines.length > 1 ) { // Always allow removal if more than one line
+                        lineToRemove.remove();
+                    } else if (allLines.length === 1 && inputInLine) { // If only one line, clear it instead of removing
+                        inputInLine.value = ''; 
+                    }
+                }
+            }
+        });
+    });
+
+    // --- Toggle Long Description Markdown textarea for Products ---
+    const useShortDescCheckboxProd = document.getElementById('use_short_desc_for_long');
+    const longDescTextarea = document.getElementById('long_description_markdown');
+    // Note: The "Add Line" button for long description is removed as it's a single textarea now.
+
+    function toggleLongDescTextarea() {
+        if (useShortDescCheckboxProd && longDescTextarea) {
+            longDescTextarea.disabled = useShortDescCheckboxProd.checked;
+            if (useShortDescCheckboxProd.checked) {
+                longDescTextarea.style.backgroundColor = "var(--admin-bg-main)"; // Visual cue for disabled
+                longDescTextarea.style.opacity = "0.7";
+            } else {
+                longDescTextarea.style.backgroundColor = ""; // Revert to default
+                longDescTextarea.style.opacity = "1";
+            }
+        }
+    }
+    if (useShortDescCheckboxProd) {
+        useShortDescCheckboxProd.addEventListener('change', toggleLongDescTextarea);
+        toggleLongDescTextarea(); // Initial state
+    }
+
+    // --- Description Image Uploader (for Markdown long description) ---
+    const descImageUploadInput = document.getElementById('desc_image_upload');
+    const btnUploadDescImage = document.getElementById('btn-upload-desc-image');
+    const descImageUrlDisplay = document.getElementById('desc-image-url-display');
+
+    if (btnUploadDescImage && descImageUploadInput && descImageUrlDisplay) {
+        btnUploadDescImage.addEventListener('click', function() {
+            const file = descImageUploadInput.files[0];
+            if (!file) {
+                descImageUrlDisplay.innerHTML = '<span style="color: var(--admin-danger);">Please select an image file first.</span>';
+                return;
+            }
+            if (!file.type.startsWith('image/')) {
+                descImageUrlDisplay.innerHTML = '<span style="color: var(--admin-danger);">Invalid file type. Please select an image.</span>';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('description_image', file);
+            
+            descImageUrlDisplay.innerHTML = '<span style="color: var(--admin-text-secondary);">Uploading...</span>';
+
+            fetch("{{ url_for('admin.upload_description_image') }}", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+                return response.json();
+            })
+            .then(data => {
+                if (data.imageUrl) {
+                    const imageMarkdown = `![Alt text](${data.imageUrl}){width=200px height=auto}`;
+                    descImageUrlDisplay.innerHTML = 
+                        `<div>Image uploaded! URL: <input type='text' value='${data.imageUrl}' readonly class='form-control' style='width:100%; margin-bottom:5px;' onclick='this.select(); document.execCommand("copy"); alert("URL Copied to clipboard!");' title='Click to copy URL'></div>` +
+                        `<div>Markdown: <input type='text' value='${imageMarkdown}' readonly class='form-control' style='width:100%;' onclick='this.select(); document.execCommand("copy"); alert("Markdown Copied to clipboard!");' title='Click to copy Markdown'></div>`+
+                        `<img src='${data.imageUrl}' style='max-width:100px; max-height:70px; margin-top:5px; border:1px solid var(--admin-border-light);'>`;
+                    descImageUrlDisplay.style.color = 'var(--admin-success)';
+                    descImageUploadInput.value = ''; // Clear the file input
+                } else {
+                    descImageUrlDisplay.innerHTML = '<span style="color: var(--admin-danger);">Error: ' + (data.error || 'Upload failed.') + '</span>';
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+                descImageUrlDisplay.innerHTML = '<span style="color: var(--admin-danger);">Upload error. See console.</span>';
+            });
+        });
+    }
+
+    // --- Main Item Image Preview (if needed, assuming from admin_main.js) ---
+    // This code should already be in your admin_main.js, but if not, add it or ensure it's there.
+    const mainImageInput = document.getElementById('image'); // ID of the main image input
+    if (mainImageInput) {
+        mainImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('image-preview-container'); // ID of its preview container
+            
+            if (previewContainer) {
+                previewContainer.innerHTML = ''; 
+                if (file && file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    const reader = new FileReader();
+                    reader.onload = function(e) { img.src = e.target.result; previewContainer.appendChild(img); }
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    }
+     // Make parent select readonly if pre_selected_parent_full_slug exists and form is Add
+    const parentSelect = document.getElementById('parent_full_slug');
+    if (parentSelect && "{{ pre_selected_parent_full_slug }}" && "{{ form_action }}" === "Add") {
+        parentSelect.setAttribute('disabled', 'disabled');
+        // Add a hidden input to submit the value, as disabled fields are not submitted
+        const hiddenParentInput = document.createElement('input');
+        hiddenParentInput.type = 'hidden';
+        hiddenParentInput.name = 'parent_full_slug'; // Same name as the select
+        hiddenParentInput.value = "{{ pre_selected_parent_full_slug }}";
+        parentSelect.form.appendChild(hiddenParentInput);
+    }
+
+
+});
+</script>
+{% endblock %}

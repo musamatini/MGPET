@@ -26,7 +26,7 @@
                     <div class="category-card-content">
                         {% if subcat.name %}<h3>{{ subcat.name }}</h3>{% endif %}
                         {% if subcat.description_lines %}{% for line in subcat.description_lines %}<p>{{ line }}</p>{% endfor %}{% endif %}
-                        <span class="btn btn-sm btn-outline">View Products <i class="fas fa-arrow-right"></i></span>
+                        <span class="btn btn-sm btn-primary">View Products <i class="fas fa-arrow-right"></i></span>
                     </div>
                 </a>
                 {% endfor %}
@@ -59,7 +59,7 @@
         {% endif %}
 
         <div class="back-to-categories" data-aos="fade-up" data-aos-delay="300" style="margin-top: 3rem;">
-             <a href="{{ url_for('list_categories') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
+             <a href="{{ url_for('list_categories') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
         </div>
     </div>
 </section>

@@ -7,13 +7,13 @@
     <div class="container">
         <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
         <p class="page-intro" data-aos="fade-up" data-aos-delay="100">
-            We'd love to hear from you! Whether you have a question about our products, pricing, or anything else, our team is ready to answer all your questions.
+            We're here to help and answer any questions you might have. Reach out to us via the form below or contact one of our offices directly.
         </p>
 
         <div class="contact-page-wrapper">
             <!-- Contact Form -->
-            <div class="contact-form-container" data-aos="fade-up" data-aos-delay="200">
-                <h3 style="margin-bottom: 1.5rem; text-align: center;">Send Us a Message</h3>
+            <div class="contact-form-container" data-aos="fade-right" data-aos-delay="200">
+                <h3 class="contact-section-subtitle">Send Us a Message</h3>
                 <form action="{{ url_for('contact_page') }}" method="POST" class="contact-form">
                     <div class="form-group">
                         <label for="name">Full Name</label>
@@ -35,8 +35,45 @@
                 </form>
             </div>
 
-            <!-- Direct Contact Info (Can be a sidebar or alongside form) -->
-            <!-- For now, keeping the map and direct info in the footer mostly -->
+            <!-- Direct Contact Info -->
+            <div class="contact-info-sidebar" data-aos="fade-left" data-aos-delay="300">
+                <h3 class="contact-section-subtitle">Our Offices</h3>
+                {% for location in company_locations %}
+                <div class="location-card">
+                    <h4><span class="flag-icon">{{ location.flag }}</span> {{ location.country }} Office</h4>
+                    <ul class="contact-details">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                {% for line in location.address_lines %}
+                                    {{ line }}<br>
+                                {% endfor %}
+                                {% if location.map_query %}
+                                <a href="https://www.google.com/maps/search/?api=1&query={{ location.map_query | urlencode }}" target="_blank" class="map-link">(View on Map)</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:{{ location.phone | replace(' ', '') }}">{{ location.phone }}</a></li>
+                    </ul>
+                </div>
+                {% endfor %}
+
+                <div class="general-contact-info">
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.8rem;">General Contact</h4>
+                     <ul class="contact-details">
+                        {% for email_info in company_general_contact.emails %}
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a> ({{email_info.label}})</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                 <div class="social-links-contact-page" style="margin-top: 1.5rem; text-align:left;">
+                    <h4 style="margin-bottom: 0.8rem;">Follow Us</h4>
+                    {% for social in company_general_contact.social_media %}
+                        <a href="{{ social.url }}" target="_blank" aria-label="{{ social.name }}" class="social-icon-contact"><i class="{{ social.icon_class }}"></i></a>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </section>

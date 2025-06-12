@@ -1,35 +1,50 @@
 <footer class="site-footer">
     <div class="container">
-        <div class="footer-content">
-            <div class="footer-about">
+        <div class="footer-grid"> {# Changed from footer-content for better naming #}
+            <div class="footer-column footer-about">
                 <h4>About {{ company_name }}</h4>
                 <p>Leading provider of high-quality PET bottle solutions. Committed to innovation, sustainability, and customer satisfaction.</p>
+                 <div class="footer-social-links">
+                    {% for social in company_general_contact.social_media %}
+                        <a href="{{ social.url }}" target="_blank" aria-label="{{ social.name }}"><i class="{{ social.icon_class }}"></i></a>
+                    {% endfor %}
+                </div>
             </div>
-            <div class="footer-links">
+
+            <div class="footer-column footer-contact-details">
+                <h4>Our Locations</h4>
+                {% for location in company_locations %}
+                <div class="footer-location-block">
+                    <h5><span class="flag-icon">{{ location.flag }}</span> {{ location.country }}</h5>
+                    <address>
+                        {% for line in location.address_lines %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    </address>
+                    <p><i class="fas fa-phone"></i> <a href="tel:{{ location.phone | replace(' ', '') }}">{{ location.phone }}</a></p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="footer-column footer-quick-links">
                 <h4>Quick Links</h4>
                 <ul>
                     {% for link in nav_links %}
                     <li><a href="{{ link.url }}">{{ link.name }}</a></li>
                     {% endfor %}
-                     <li><a href="{{ url_for('admin.login') }}">Admin Login</a></li> <!-- Optional admin link -->
+                    {# <li><a href="{{ url_for('admin.login') }}">Admin Login</a></li> #}
                 </ul>
-            </div>
-            <div class="footer-contact">
-                <h4>Get In Touch</h4>
-                <p><i class="fas fa-map-marker-alt"></i> {{ contact_info.address }}</p>
-                <p><i class="fas fa-phone"></i> <a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a></p>
-                <p><i class="fas fa-envelope"></i> <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a></p>
-                <div class="social-links" style="margin-top: 1rem;">
-                    {% if contact_info.facebook_url %}<a href="{{ contact_info.facebook_url }}" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>{% endif %}
-                    {% if contact_info.instagram_url %}<a href="{{ contact_info.instagram_url }}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>{% endif %}
-                    {% if contact_info.twitter_url %}<a href="{{ contact_info.twitter_url }}" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>{% endif %}
-                </div>
-                 <a href="{{ url_for('contact_page') }}" class="btn btn-sm btn-primary-outline" style="margin-top: 1.5rem; display: inline-block;">Send Us a Message</a>
+                 <h4 style="margin-top: 1.5rem;">Email Us</h4>
+                 <ul class="footer-emails">
+                    {% for email_info in company_general_contact.emails %}
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a></li>
+                    {% endfor %}
+                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <p>© {{ now.year }} {{ company_name }}. All Rights Reserved.</p>
-            <p>Designed with <i class="fas fa-heart" style="color: var(--accent-red);"></i> for excellence.</p>
+            {# <p>Designed with <i class="fas fa-heart" style="color: var(--accent-red);"></i> for excellence.</p> #}
         </div>
     </div>
 </footer>

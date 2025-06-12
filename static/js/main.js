@@ -1,85 +1,85 @@
 // static/js/main.js
+
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize AOS (Animate on Scroll) - Keep this for other sections
+    // Initialize AOS (Animate on Scroll) for general section reveals
     AOS.init({
-        duration: 800,
-        once: true,
-        offset: 100,  
+        duration: 400, // Animation duration
+        once: true,    // Animate elements only once
+        offset: 80,    // Trigger animation a bit sooner 
     });
+
+    // --- NAVBAR INITIAL ANIMATION (Only on homepage, once per session) ---
+    const navbarElement = document.querySelector('.navbar'); // Select .navbar directly
+    if (navbarElement) { // Check if navbarElement exists
+        if (window.location.pathname === '/' && !sessionStorage.getItem('navbarAnimated')) {
+            navbarElement.classList.add('navbar-is-animating-initial');
+            sessionStorage.setItem('navbarAnimated', 'true'); // Set flag
+        } else {
+            // If not homepage or already animated, ensure it's immediately visible
+            navbarElement.style.transform = 'translateY(0)'; 
+            navbarElement.classList.remove('navbar-is-animating-initial');
+        }
+    }
+    // --- END NAVBAR INITIAL ANIMATION ---
 
     // --- HERO SWIPER ---
     const heroSwiper = new Swiper('.hero-swiper', {
-        // --- NEW SLIDE EFFECT ---
-        effect: 'slide', // Change from 'fade' to 'slide' or 'creative'
-        creativeEffect: {
-            prev: {
-                shadow: true,
-                translate: ['-120%', 0, -500],
-                rotate: [0, 0, -20],
-            },
-            next: {
-                shadow: true,
-                translate: ['120%', 0, -500],
-                rotate: [0, 0, 20],
-            },
-        },
+        effect: 'slide', 
         loop: true,
         autoplay: {
-            delay: 7000, // Slightly longer delay for more complex animations
+            delay: 6000, 
             disableOnInteraction: false,
         },
-        speed: 800, // Speed of slide transition
-        grabCursor: true, // Show grab cursor on hover
+        speed: 900, 
+        grabCursor: true,
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
+            dynamicBullets: true, 
         },
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
-        // --- ANIMATE CONTENT ON SLIDE CHANGE ---
         on: {
             init: function () {
-                // Animate content of the initial active slide
-                animateSwiperSlideContent(this.slides[this.activeIndex]);
+                // Animate content of the initial active slide when Swiper is ready
+                const activeSlideOnInit = this.slides[this.activeIndex];
+                if (activeSlideOnInit) {
+                    const caption = activeSlideOnInit.querySelector('.slide-caption');
+                    if (caption) {
+                        caption.classList.add('is-visible'); 
+                    }
+                }
             },
             slideChangeTransitionStart: function () {
-                // Reset animation for all slides before transition
-                this.slides.forEach(slide => {
-                    const caption = slide.querySelector('.slide-caption');
+                // Before a new slide starts its transition IN,
+                // add 'is-visible' to ITSELF (the one becoming active).
+                // Swiper's `this.activeIndex` already points to the destination slide index here.
+                const nextActiveSlide = this.slides[this.activeIndex];
+                if (nextActiveSlide) {
+                    const caption = nextActiveSlide.querySelector('.slide-caption');
                     if (caption) {
-                        caption.classList.remove('is-visible');
-                        // Optionally reset individual elements if needed
-                        // caption.querySelectorAll('.animate-on-slide').forEach(el => el.classList.remove('animated'));
+                        caption.classList.add('is-visible');
+                    }
+                }
+
+                // For all OTHER slides (especially the one transitioning OUT), 
+                // remove 'is-visible' to reset their animation state.
+                this.slides.forEach((slide, index) => {
+                    if (index !== this.activeIndex) { // If it's not the incoming active slide
+                        const caption = slide.querySelector('.slide-caption');
+                        if (caption) {
+                            caption.classList.remove('is-visible');
+                        }
                     }
                 });
-            },
-            slideChangeTransitionEnd: function () {
-                // Animate content of the new active slide
-                animateSwiperSlideContent(this.slides[this.activeIndex]);
-            },
-        },
+            }
+            // We don't need slideChangeTransitionEnd for this specific text animation logic
+        }
     });
 
-    function animateSwiperSlideContent(activeSlide) {
-        const caption = activeSlide.querySelector('.slide-caption');
-        if (caption) {
-            // Add a class to trigger CSS animations on the caption and its children
-            caption.classList.add('is-visible');
-
-            // Example of staggered animation for children (can be done with CSS or JS)
-            const elementsToAnimate = caption.querySelectorAll('.animate-this');
-            elementsToAnimate.forEach((el, index) => {
-                el.style.setProperty('--animation-delay-multiplier', index);
-                // The actual animation will be defined in CSS using this class
-                // No need to add/remove 'animated' class here if CSS handles it via 'is-visible' parent
-            });
-        }
-    }
-
-
-    // Mobile Menu Toggle (keep existing code)
+    // --- MOBILE MENU TOGGLE ---
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.navbar-links-mobile');
     if (menuToggle && mobileNav) {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Smooth scroll for internal links (keep existing code)
+    // --- SMOOTH SCROLL WITH NAVBAR OFFSET ---
     document.querySelectorAll('a[href^="#"], a[href*="/#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
@@ -100,7 +100,18 @@ document.addEventListener('DOMContentLoaded', function () {
             if (targetId.length > 1 && document.querySelector(targetId)) {
                 if (window.location.pathname === '/' || href.startsWith('/#') || (href.startsWith('#') && window.location.pathname === '/')) {
                     e.preventDefault();
-                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                    const targetElement = document.querySelector(targetId);
+                    const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70; // Use actual height or fallback
+                    
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const targetPositionInDocument = targetElement.getBoundingClientRect().top + scrollTop;
+                    const offsetPosition = targetPositionInDocument - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
                     if (mobileNav && mobileNav.classList.contains('active')) {
                         mobileNav.classList.remove('active');
                         menuToggle.setAttribute('aria-expanded', 'false');
@@ -112,80 +123,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Sticky Navbar background change on scroll (keep existing code)
-    const navbar = document.querySelector('.navbar.sticky-top');
-    if (navbar) {
+    // --- STICKY NAVBAR SCROLL EFFECT ---
+    const navbarScrollEffect = document.querySelector('.navbar'); // Re-use navbarElement or query again
+    if (navbarScrollEffect) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                navbarScrollEffect.classList.add('scrolled');
             } else {
-                navbar.classList.remove('scrolled');
+                navbarScrollEffect.classList.remove('scrolled');
             }
         });
     }
 
-    // Active nav links (keep existing code)
+    // --- ACTIVE NAV LINKS ---
     const navLinks = document.querySelectorAll('.navbar-links-desktop ul li a, .navbar-links-mobile ul li a');
     const currentPath = window.location.pathname;
-    const currentHash = window.location.hash;
-
     navLinks.forEach(link => {
+        link.classList.remove('active');
         const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath && currentPath !== '/' && !linkHref.includes('#')) {
+        if (linkHref === currentPath || (linkHref !== '/' && currentPath.startsWith(linkHref) && linkHref.length > 1) ) {
             link.classList.add('active');
-        }
-        if (currentPath === '/' || linkHref.startsWith('/#')) {
-            const anchor = linkHref.substring(linkHref.lastIndexOf('#'));
-            // Simplified active state for homepage initial load
-            if ((currentHash === '' && (anchor === '#home' || linkHref === '/')) || anchor === currentHash) {
-                 link.classList.add('active');
-            }
+        } else if (currentPath === '/' && (linkHref === '/' || linkHref.endsWith('#home'))) {
+             link.classList.add('active');
         }
     });
 
-    const animatedSections = document.querySelectorAll('.cta-horizontal-reveal'); // Add other classes here for similar behavior
-
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Optional: stop observing once animated
-            }
-        });
-    }, {
-        root: null, // relative to document viewport
-        threshold: 0.1, // trigger when 10% of the element is visible
-        // rootMargin: '-50px 0px -50px 0px' // Optional: adjust when it triggers
-    });
-
-    animatedSections.forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-
-    if (currentPath === '/') {
-        const sections = document.querySelectorAll('section[id]');
-        window.addEventListener('scroll', () => {
-            let currentActive = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - (navbar ? navbar.offsetHeight : 70) - 50;
-                if (window.scrollY >= sectionTop) {
-                    currentActive = '#' + section.getAttribute('id');
+    // --- CTA SECTION EXPAND ANIMATION ---
+    const ctaSection = document.querySelector('.cta-expand-reveal');
+    if (ctaSection) {
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible'); 
                 }
             });
-            
-            navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                const linkAnchor = linkHref.substring(linkHref.lastIndexOf('#'));
-                link.classList.remove('active');
-                if (linkAnchor === currentActive || (currentActive === '' && (linkAnchor === '#home' || linkHref === '/')) ) {
-                    link.classList.add('active');
-                } else if (linkHref === '/' && currentActive === '#home') {
-                    link.classList.add('active');
-                }
-            });
-        });
-        // Trigger scroll once on load to set initial active state if not at top
-        if(window.scrollY > 0) window.dispatchEvent(new Event('scroll'));
+        }, { threshold: 0.2 }); // Trigger when 20% is visible
+        ctaObserver.observe(ctaSection);
     }
 });

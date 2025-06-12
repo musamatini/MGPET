@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }} - {{ company_name }}{% endblock %}
+
+{% block content %}
+<section class="content-section page-section">
+    <div class="container">
+        {# Display breadcrumb if breadcrumb_base is provided and has items #}
+        {% if breadcrumb_base and breadcrumb_base|length > 0 %}
+        <nav aria-label="breadcrumb" data-aos="fade-down">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+                {% for crumb in breadcrumb_base %}
+                    {% if loop.last %}
+                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.name }}</li>
+                    {% else %}
+                        <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        </nav>
+        {% endif %}
+
+        <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
+        
+        {% if items %} {# This 'items' variable holds the top-level categories #}
+            <div class="item-grid"> 
+                {% for item in items %} {# Each 'item' here is a category dictionary #}
+                {# For top-level categories, clicking them should show their children (subcategories/products) #}
+                <a href="{{ url_for('view_category_children', category_slug=item.slug) }}" class="item-card">
+                    <div class="item-card-image-wrapper">
+                        {# Use a default category image if specific one is missing #}
+                        <img src="{{ url_for('static', filename=item.image) if item.image else url_for('static', filename='images/uploads/categories/default_cat.jpg') }}" alt="{{ item.name | default('Category') }}">
+                    </div>
+                    <div class="item-card-content">
+                        {% if item.name %}<h3>{{ item.name }}</h3>{% else %}<h3 class="text-muted">Unnamed Category</h3>{% endif %}
+                        
+                        {# Display first line of category description or a default message #}
+                        {% if item.description_lines and item.description_lines|length > 0 %}
+                            <p>{{ item.description_lines[0] }}</p>
+                        {% else %}
+                            <p>Explore items in this category.</p>
+                        {% endif %}
+                        <span class="btn btn-sm btn-primary" style="margin-top: auto;">View Items <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="page-intro" data-aos="fade-up">No product categories available at the moment. Please check back soon!</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

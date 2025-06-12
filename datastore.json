@@ -1,0 +1,55 @@
+{
+    "categories": {
+        "musa-matini": {
+            "name": "Musa matini",
+            "description": [
+                "jnjnkj"
+            ],
+            "image": "images/uploads/categories/WhatsApp_Image_2025-06-09_at_02.19.13_f8ce2c40.jpeg",
+            "children_item_slugs": [
+                "sadasdasd"
+            ]
+        }
+    },
+    "items": {
+        "sadasdasd": {
+            "type": "subcategory",
+            "name": "sadasdasd",
+            "parent_type": "category",
+            "parent_slug": "musa-matini",
+            "image": null,
+            "description": [],
+            "children_item_slugs": [
+                "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a"
+            ]
+        },
+        "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a": {
+            "type": "subcategory",
+            "name": "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a",
+            "parent_type": "item",
+            "parent_slug": "sadasdasd",
+            "image": null,
+            "description": [
+                "\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a"
+            ],
+            "children_item_slugs": [
+                "kmkmolkmkom"
+            ]
+        },
+        "kmkmolkmkom": {
+            "type": "product",
+            "name": "kmkmolkmkom",
+            "parent_type": "item",
+            "parent_slug": "\u0633\u0634\u064a\u0634\u0633\u064a\u0634\u0633\u064a\u0634\u0633\u064a",
+            "image": "images/uploads/items/WhatsApp_Image_2025-06-09_at_01.43.40_cee1d8d9.jpeg",
+            "short_description": [
+                "oipmiomiomoimiomoi"
+            ],
+            "long_description_markdown": "asddasdasd\r\nasdasdasd\r\nasdasdasd\r\nasdasd\r\nasdasd\r\n![Alt text](http://127.0.0.1:5000/static/images/uploads/description_images/WhatsApp_Image_2025-06-09_at_02.45.21_cd2749c8.jpeg){width=100px height=auto}\r\nsa\r\ndasdasddasdasdsadsadsad",
+            "use_short_desc_for_long": false
+        }
+    },
+    "admin_users": {
+        "admin": "password123"
+    }
+}

@@ -12,31 +12,16 @@
     {% if 'admin_logged_in' in session %}
     <aside class="admin-sidebar">
         <div class="sidebar-header">
-            <a href="{{ url_for('admin.manage_categories') }}"> <!-- Default to categories -->
+            <a href="{{ url_for('admin.manage_categories') }}">
                 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="admin-logo">
                 <h3>{{ company_name }} Admin</h3>
             </a>
         </div>
         <nav class="admin-nav">
             <ul>
-                {% set current_endpoint = request.endpoint %}
-                <li>
-                    {# This is the only main navigation item for products/categories hierarchy #}
-                    <a href="{{ url_for('admin.manage_categories') }}"
-                       class="{{ 'active' if current_endpoint.startswith('admin.manage_categories') or 
-                                           current_endpoint.startswith('admin.view_category_details') or 
-                                           current_endpoint.startswith('admin.add_category') or 
-                                           current_endpoint.startswith('admin.edit_category') or 
-                                           current_endpoint.startswith('admin.add_subcategory_to_category') or 
-                                           current_endpoint.startswith('admin.edit_subcategory') or
-                                           current_endpoint.startswith('admin.view_subcategory_details') or
-                                           current_endpoint.startswith('admin.add_product_to_subcategory') or 
-                                           current_endpoint.startswith('admin.add_product_to_category') or 
-                                           current_endpoint.startswith('admin.edit_product')
-                                           else '' }}">
-                       <i class="fas fa-sitemap"></i> Manage Content
-                    </a>
-                </li>
+                <li><a href="{{ url_for('admin.manage_categories') }}" class="{{ 'active' if 'category' in request.endpoint or 'view_category_children_admin' in request.endpoint or (request.endpoint == 'admin.manage_items_under_parent' and parent_context and parent_context.type == 'category') else '' }}"><i class="fas fa-sitemap"></i> Categories</a></li>
+                {# The 'Items (Subcats/Prods)' link is removed as navigation is now purely hierarchical #}
+                {# Users will navigate into categories to see/manage items under them #}
                 <hr>
                 <li><a href="{{ url_for('home_page') }}" target="_blank"><i class="fas fa-globe"></i> View Site</a></li>
                 <li><a href="{{ url_for('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
