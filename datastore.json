@@ -17,6 +17,24 @@
             "children_item_slugs": [
                 "sports-bottles"
             ]
+        },
+        "kamskdomasod": {
+            "name": {
+                "en": "kamskdomasod",
+                "ar": "خحنشحخسين"
+            },
+            "description": {
+                "en": [
+                    "dsadasd",
+                    "awdasdwad"
+                ],
+                "ar": []
+            },
+            "image": "images/uploads/categories/WhatsApp_Image_2025-06-09_at_02.45.21_b5933214.jpeg",
+            "children_item_slugs": [
+                "شسيشسي",
+                "سشيشسي"
+            ]
         }
     },
     "items": {
@@ -65,6 +83,48 @@
             "use_short_desc_for_long": false,
             "parent_type": "item",
             "parent_slug": "sports-bottles"
+        },
+        "شسيشسي": {
+            "type": "subcategory",
+            "name": {
+                "en": "شسيشسي",
+                "ar": "سشيشسي"
+            },
+            "parent_type": "category",
+            "parent_slug": "kamskdomasod",
+            "image": null,
+            "description": {
+                "en": [
+                    "شسيشسي"
+                ],
+                "ar": [
+                    "شسيشسي"
+                ]
+            },
+            "children_item_slugs": []
+        },
+        "سشيشسي": {
+            "type": "product",
+            "name": {
+                "en": "سشيشسي",
+                "ar": "سشيشسي"
+            },
+            "parent_type": "category",
+            "parent_slug": "kamskdomasod",
+            "image": "images/uploads/items/WhatsApp_Image_2025-06-09_at_01.43.40_81194556.jpeg",
+            "short_description": {
+                "en": [
+                    "شسيشسيشسي"
+                ],
+                "ar": [
+                    "سيشيسسش"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "هحىخسهيشىشسي\r\n\r\nشسيشس\r\nي\r\n\r\n![Alt text](http://127.0.0.1:5000/static/images/uploads/description_images/WhatsApp_Image_2025-06-09_at_01.43.40_d6d4d4f8.jpeg){width=100px height=auto}\r\nشسي\r\nشسي\r\nشس\r\nيشسي\r\nشسي",
+                "ar": "شسيشسي"
+            },
+            "use_short_desc_for_long": false
         }
     },
     "admin_users": {

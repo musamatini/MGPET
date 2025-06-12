@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize AOS (Animate on Scroll) for general section reveals
     AOS.init({
         duration: 400, // Animation duration
-        once: true,    // Animate elements only once
-        offset: 80,    // Trigger animation a bit sooner 
+        once: false,    // Animate elements only once
+        offset: 200,    // Trigger animation a bit sooner 
     });
 
     // --- NAVBAR INITIAL ANIMATION (Only on homepage, once per session) ---
@@ -151,15 +151,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- CTA SECTION EXPAND ANIMATION ---
     const ctaSection = document.querySelector('.cta-expand-reveal');
     if (ctaSection) {
-        const ctaObserver = new IntersectionObserver((entries) => {
+        const ctaObserver = new IntersectionObserver((entries, observer) => { // Add 'observer' to the callback arguments
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                } else {
-                    entry.target.classList.remove('is-visible'); 
+                    observer.unobserve(entry.target); // <<< STOP OBSERVING AFTER THE FIRST TIME
                 }
+                // REMOVE the 'else' block: entry.target.classList.remove('is-visible');
             });
-        }, { threshold: 0.2 }); // Trigger when 20% is visible
+        }, { threshold: 0.3 }); 
         ctaObserver.observe(ctaSection);
     }
+
 });

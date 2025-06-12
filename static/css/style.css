@@ -234,8 +234,18 @@ ul { list-style: none; }
 .page-intro { text-align: center; font-size: 1.1rem; color: var(--text-secondary-light); max-width: 700px; margin: 0 auto 3.5rem auto; line-height: 1.7; font-weight: 400; }
 
 /* About Section */
-.about-section-title { text-align: left; margin-bottom: 1.5rem; padding-bottom: 0.8rem; }
-.about-section-title::after { left: 0; transform: translateX(0); width: 60px; }
+/* About Section */
+.about-section-title { /* New class added to h2 in HTML */
+    text-align: left; /* Align title to the left */
+    margin-bottom: 1.5rem; /* Adjust margin as needed */
+    padding-bottom: 0.8rem; /* Adjust padding as needed */
+}
+
+.about-section-title::after {
+    left: 0; /* Align the underline to the left */
+    transform: translateX(0); /* Remove center transform */
+    width: 60px; /* Adjust width of underline if needed */
+}
 .about-content { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 3rem; }
 .about-text { flex: 1; min-width: 340px; }
 .about-image { flex: 1; min-width: 340px; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--box-shadow-dark); }
@@ -411,7 +421,7 @@ ul { list-style: none; }
 .footer-quick-links li a:hover, .footer-emails li a:hover { color: var(--accent-primary-hover); padding-left: 5px; }
 .footer-emails li { display: flex; align-items: center; margin-bottom: 0.6rem; }
 .footer-emails li i.fas { margin-right: 8px; color: var(--accent-secondary); }
-.footer-bottom { text-align: center; font-size: 0.85rem; padding-top: 1.5rem; color: var(--text-secondary-light); }
+.footer-bottom { text-align: center; font-size: 0.85rem; color: var(--text-secondary-light); }
 .footer-bottom .fa-heart { color: var(--accent-red); animation: pulseHeart 1.5s infinite ease-in-out; }
 @keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 .language-switcher {

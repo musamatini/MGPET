@@ -56,6 +56,13 @@ body {
     margin-left: 0;
     margin-right: 1rem;
 }
-/* Add more specific RTL overrides as needed */
-/* Example: .text-left { text-align: right !important; } */
-/*          .text-right { text-align: left !important; } */
+/* static/css/style_rtl.css */
+body[dir="rtl"] .about-section-title {
+    text-align: right; /* Align title to the right for RTL */
+}
+
+body[dir="rtl"] .about-section-title::after {
+    left: auto; /* Reset left */
+    right: 0;   /* Position from the right */
+    transform: translateX(0); /* No horizontal transform needed if positioned from right */
+}

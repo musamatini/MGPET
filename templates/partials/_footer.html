@@ -1,7 +1,7 @@
 <footer class="site-footer">
     <div class="container">
         <div class="footer-grid">
-            <div class="footer-column footer-about">
+            <div class="footer-column footer-about" data-aos="fade-up" data-aos-delay="100">
                 <h4>{{ get_translated_text({"en": "About", "ar": "عن"}) }} {{ company_name }}</h4>
                 <p>{{ get_translated_text({
                     "en": "Leading provider of high-quality PET bottle solutions. Committed to innovation, sustainability, and customer satisfaction.",
@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div class="footer-column footer-contact-details">
+            <div class="footer-column footer-contact-details" data-aos="fade-up" data-aos-delay="200">
                 <h4>{{ get_translated_text({"en": "Our Locations", "ar": "مواقعنا"}) }}</h4>
                 {% for location in company_locations %}
                 <div class="footer-location-block">
@@ -31,7 +31,7 @@
                 {% endfor %}
             </div>
 
-            <div class="footer-column footer-quick-links-and-email">
+            <div class="footer-column footer-quick-links-and-email" data-aos="fade-up" data-aos-delay="300">
                 <h4>{{ get_translated_text({"en": "Quick Links", "ar": "روابط سريعة"}) }}</h4>
                 <ul class="footer-quick-links">
                     {% for link in nav_links %}
@@ -44,10 +44,10 @@
                     <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a> ({{get_translated_text(email_info.label)}})</li>
                     {% endfor %}
                  </ul>
-                 <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-sm btn-secondary" style="margin-top: 1.5rem; display: inline-block;">{{ get_translated_text({"en":"Send a Message", "ar":"أرسل رسالة"}) }}</a>
+                 <a href="{{ url_for('contact_page', lang_code=current_lang) }}" class="btn btn-sm btn-primary  " style="margin-top: 1.5rem; display: inline-block;">{{ get_translated_text({"en":"Send a Message", "ar":"أرسل رسالة"}) }}</a>
             </div>
         </div>
-        <div class="footer-bottom">
+        <div class="footer-bottom" data-aos="zoom-in" data-aos-delay="400" data-aos-offset="0">
             <p>© {{ now.year }} {{ company_name }}. {{ get_translated_text({"en": "All Rights Reserved.", "ar": "جميع الحقوق محفوظة."}) }}</p>
         </div>
     </div>

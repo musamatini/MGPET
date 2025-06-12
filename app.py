@@ -644,4 +644,4 @@ def page_not_found(e): # ... (same)
     return render_template('404.html', page_title="Page Not Found", current_lang=lang), 404
 
 if __name__ == '__main__': # ... (Update sample data for multilingual) ...
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
