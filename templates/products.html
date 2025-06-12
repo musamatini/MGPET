@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ company_name }} - Our Products{% endblock %}
+
+{% block content %}
+<section id="products-listing" class="content-section page-section">
+    <div class="container">
+        <h1 class="page-title" data-aos="fade-down">{{ company_name }} Product Categories</h1>
+        <p class="page-intro" data-aos="fade-down" data-aos-delay="100">Explore our diverse range of PET bottle solutions, designed to meet the highest standards of quality and functionality.</p>
+        
+        <div class="product-categories-grid">
+            {% for category in categories %}
+            <a href="{{ url_for('product_category_page', category_slug=category.slug) }}" class="category-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="category-card-image">
+                    <img src="{{ url_for('static', filename=category.image) }}" alt="{{ category.name }}">
+                </div>
+                <div class="category-card-content">
+                    <h3>{{ category.name }}</h3>
+                    <p>{{ category.description | truncate(100) }}</p>
+                    <span class="btn btn-sm btn-outline">View Products <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            {% else %}
+            <p>No product categories available at the moment. Please check back soon!</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

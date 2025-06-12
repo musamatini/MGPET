@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ company_name }} - {{ category.name }}{% endblock %}
+
+{% block content %}
+<section id="product-category-details" class="content-section page-section">
+    <div class="container">
+        <nav aria-label="breadcrumb" data-aos="fade-down">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('products_list') }}">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+            </ol>
+        </nav>
+
+        <h1 class="page-title" data-aos="fade-down" data-aos-delay="100">{{ category.name }}</h1>
+        <p class="page-intro" data-aos="fade-down" data-aos-delay="200">{{ category.description }}</p>
+
+        <div class="products-grid">
+            {% if category.items %}
+                {% for item in category.items %}
+                <div class="product-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="product-card-image">
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }}">
+                    </div>
+                    <div class="product-card-content">
+                        <h4>{{ item.name }}</h4>
+                        <p>{{ item.desc }}</p>
+                        <a href="{{ url_for('home', _anchor='contact') }}" class="btn btn-sm btn-primary">Inquire Now</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>No products found in this category. Please check back soon or contact us for more information.</p>
+            {% endif %}
+        </div>
+        <div class="back-to-categories" data-aos="fade-up" data-aos-delay="300">
+             <a href="{{ url_for('products_list') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

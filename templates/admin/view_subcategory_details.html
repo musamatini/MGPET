@@ -1,0 +1,92 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <div>
+            <nav aria-label="breadcrumb-admin" style="margin-bottom: 10px;">
+                <ol class="admin-breadcrumb">
+                    <li class="admin-breadcrumb-item"><a href="{{ url_for('admin.manage_categories') }}">Categories</a></li>
+                    <li class="admin-breadcrumb-item"><a href="{{ url_for('admin.view_category_details', category_slug=category_slug) }}">{{ category.name | default(category_slug) }}</a></li>
+                    <li class="admin-breadcrumb-item active" aria-current="page">{{ subcategory.name | default(subcategory_slug) }}</li>
+                </ol>
+            </nav>
+            <h2>Subcategory: {{ subcategory.name | default(subcategory_slug) }}</h2>
+        </div>
+        <div>
+            <a href="{{ url_for('admin.edit_subcategory', subcategory_slug=subcategory_slug) }}" class="btn-admin btn-admin-secondary btn-admin-sm"><i class="fas fa-edit"></i> Edit Subcategory</a>
+            <form action="{{ url_for('admin.delete_subcategory', subcategory_slug=subcategory_slug) }}" method="POST" style="display: inline-block; margin-left: 5px;" onsubmit="return confirm('Are you sure? Ensure all products are removed first.');">
+                <button type="submit" class="btn-admin btn-admin-danger btn-admin-sm"><i class="fas fa-trash"></i> Delete Subcategory</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="category-details-admin" style="margin-bottom: 30px; padding: 15px; background-color: var(--admin-bg-main); border-radius: var(--admin-border-radius);">
+        <p><strong>Slug:</strong> {{ subcategory_slug }}</p>
+        <p><strong>Parent Category:</strong> <a href="{{ url_for('admin.view_category_details', category_slug=category_slug) }}">{{ category.name | default(category_slug) }}</a></p>
+        {% if subcategory.image %}
+        <p><strong>Image:</strong></p>
+        <img src="{{ url_for('static', filename=subcategory.image) }}" alt="Subcategory Image" style="max-width: 200px; max-height: 150px; border-radius: var(--admin-border-radius); border: 1px solid var(--admin-border-light);">
+        {% endif %}
+        {% if subcategory.description %}
+        <p style="margin-top:15px;"><strong>Description:</strong></p>
+        {% for line in subcategory.description %}
+            <p style="margin-bottom: 5px;">{{ line }}</p>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="content-card-header" style="border-top: 1px solid var(--admin-border-light); padding-top: 20px;">
+        <h3>Products in {{ subcategory.name | default(subcategory_slug) }}</h3>
+        <a href="{{ url_for('admin.add_product_to_subcategory', subcategory_slug=subcategory_slug) }}" class="btn-admin btn-admin-success"><i class="fas fa-plus"></i> Add New Product</a>
+    </div>
+
+    {% if products %}
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name / Slug</th>
+                    <th>Short Description</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        {% if product.image %}
+                            <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name | default('Product Image') }}" class="table-preview">
+                        {% else %}
+                            <span class="no-image">No Image</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <strong>{{ product.name | default('Unnamed Product') }}</strong><br>
+                        <small class="text-muted">Slug: {{ product.slug }}</small>
+                    </td>
+                    <td>
+                        {% if product.short_description and product.short_description[0] %}
+                            {{ product.short_description[0][:50] }}
+                            {% if product.short_description[0]|length > 50 %}...{% endif %}
+                        {% else %}
+                            <span class="text-muted">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions">
+                        <a href="{{ url_for('admin.edit_product', product_slug=product.slug) }}" class="btn-admin btn-admin-sm btn-admin-secondary"><i class="fas fa-edit"></i></a>
+                        <form action="{{ url_for('admin.delete_product', product_slug=product.slug) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                            <button type="submit" class="btn-admin btn-admin-sm btn-admin-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No products found in this subcategory. <a href="{{ url_for('admin.add_product_to_subcategory', subcategory_slug=subcategory_slug) }}">Add the first product!</a></p>
+    {% endif %}
+</div>
+{% endblock %}

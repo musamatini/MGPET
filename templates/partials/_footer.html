@@ -1,0 +1,35 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-about">
+                <h4>About {{ company_name }}</h4>
+                <p>Leading provider of high-quality PET bottle solutions. Committed to innovation, sustainability, and customer satisfaction.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    {% for link in nav_links %}
+                    <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                    {% endfor %}
+                     <li><a href="{{ url_for('admin.login') }}">Admin Login</a></li> <!-- Optional admin link -->
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Get In Touch</h4>
+                <p><i class="fas fa-map-marker-alt"></i> {{ contact_info.address }}</p>
+                <p><i class="fas fa-phone"></i> <a href="tel:{{ contact_info.phone }}">{{ contact_info.phone }}</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a></p>
+                <div class="social-links" style="margin-top: 1rem;">
+                    {% if contact_info.facebook_url %}<a href="{{ contact_info.facebook_url }}" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                    {% if contact_info.instagram_url %}<a href="{{ contact_info.instagram_url }}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>{% endif %}
+                    {% if contact_info.twitter_url %}<a href="{{ contact_info.twitter_url }}" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>{% endif %}
+                </div>
+                 <a href="{{ url_for('contact_page') }}" class="btn btn-sm btn-primary-outline" style="margin-top: 1.5rem; display: inline-block;">Send Us a Message</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© {{ now.year }} {{ company_name }}. All Rights Reserved.</p>
+            <p>Designed with <i class="fas fa-heart" style="color: var(--accent-red);"></i> for excellence.</p>
+        </div>
+    </div>
+</footer>

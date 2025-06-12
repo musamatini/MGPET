@@ -1,0 +1,142 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>{{ form_action }} Subcategory {% if parent_category_name %}to <em>{{ parent_category_name }}</em>{% endif %}</h2>
+        <a href="{{ url_for('admin.view_category_details', category_slug=parent_category_slug) if parent_category_slug else url_for('admin.manage_categories') }}" class="btn-admin btn-admin-secondary"><i class="fas fa-arrow-left"></i> 
+            Back to {% if parent_category_slug %}Category Details{% else %}Categories{% endif %}
+        </a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+        {# If adding a subcategory in context of a category, parent is fixed #}
+        {% if parent_category_slug and form_action == "Add" %}
+            <input type="hidden" name="parent_category" value="{{ parent_category_slug }}">
+            <div class="form-group">
+                <label>Parent Category</label>
+                <input type="text" value="{{ parent_category_name | default(parent_category_slug) }}" disabled class="form-control-disabled">
+            </div>
+        {% elif form_action == "Edit" and subcategory and subcategory.parent_category %}
+             {# For editing, parent is usually fixed. If you want to change parent, the select logic needs to be robust #}
+             <input type="hidden" name="parent_category" value="{{ subcategory.parent_category }}">
+             <div class="form-group">
+                <label>Parent Category</label>
+                <input type="text" value="{{ parent_category_name | default(subcategory.parent_category) }}" disabled class="form-control-disabled">
+                <small class="form-help">To change the parent category, you might need to delete and re-create the subcategory under the new parent (for simplicity in this version).</small>
+            </div>
+        {% else %} 
+            {# This 'else' block for selecting parent category on add is now less likely to be used if we always add from category context #}
+            <div class="form-group">
+                <label for="parent_category">Parent Category *</label>
+                <select id="parent_category" name="parent_category" required>
+                    <option value="">-- Select Parent Category --</option>
+                    {% for cat in categories_for_select_dropdown %} {# Assuming you pass this var if needed #}
+                    <option value="{{ cat.slug }}" {% if subcategory and subcategory.parent_category == cat.slug %}selected{% endif %}>
+                        {{ cat.name | default(cat.slug) }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% if not categories_for_select_dropdown and not parent_category_slug %}
+                <small class="form-help text-danger">No categories available. Please <a href="{{ url_for('admin.add_category') }}">add a category</a> first.</small>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="name">Subcategory Name (Optional)</label>
+            <input type="text" id="name" name="name" value="{{ subcategory.name if subcategory and subcategory.name is not none else '' }}">
+            <small class="form-help">If no name is provided, a random slug will be generated.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Description (Optional, one line per box)</label>
+            <div id="description-fields">
+                {% if subcategory and subcategory.description %}
+                    {% for desc_line in subcategory.description %}
+                    <div class="description-line">
+                        <input type="text" name="description[]" value="{{ desc_line }}">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="description-line">
+                        <input type="text" name="description[]" placeholder="Description line 1">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                    </div>
+                {% endif %}
+            </div>
+            <button type="button" id="btn-add-desc" class="btn-add-desc btn-admin btn-admin-secondary btn-admin-sm" data-target="description-fields" data-placeholder="Description line" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Description Line</button>
+        </div>
+        
+        <div class="form-group">
+            <label for="image">Subcategory Image (Optional)</label>
+            {% if subcategory and subcategory.image %}
+            <div class="current-image-container">
+                <p>Current Image:</p>
+                <img src="{{ url_for('static', filename=subcategory.image) }}" alt="Current Subcategory Image">
+                <div class="form-check" style="margin-top:10px;">
+                    <input type="checkbox" id="remove_image" name="remove_image" class="form-check-input">
+                    <label for="remove_image" class="form-check-label">Remove current image</label>
+                </div>
+            </div>
+            {% endif %}
+            <input type="file" id="image" name="image" accept="image/*">
+            <div id="image-preview-container" class="image-preview-container"></div>
+            <small class="form-help">Recommended size: 400x300px. Max 16MB.</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-admin btn-admin-success"><i class="fas fa-save"></i> Save Subcategory</button>
+            <a href="{{ url_for('admin.view_category_details', category_slug=parent_category_slug) if parent_category_slug else url_for('admin.manage_categories') }}" class="btn-admin btn-admin-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Same JS as before for description lines and image preview (from product_form.html or admin_main.js)
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-add-desc').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            const placeholderText = this.dataset.placeholder || 'Description line';
+            const descContainer = document.getElementById(targetId);
+            if (descContainer) {
+                const newLine = document.createElement('div');
+                newLine.classList.add('description-line');
+                const inputCount = descContainer.querySelectorAll('input[type="text"]').length;
+                 // Determine name attribute based on targetId (simplified)
+                const inputName = targetId.includes('short') ? 'short_description[]' : 
+                                  targetId.includes('long') ? 'long_description[]' : 'description[]';
+                
+                newLine.innerHTML = `
+                    <input type="text" name="${inputName}" placeholder="${placeholderText} ${inputCount + 1}">
+                    <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="${targetId}"><i class="fas fa-times"></i></button>
+                `;
+                descContainer.appendChild(newLine);
+            }
+        });
+    });
+
+    document.body.addEventListener('click', function(event) {
+        const removeButton = event.target.closest('.btn-remove-desc');
+        if (removeButton) {
+            const targetId = removeButton.dataset.target;
+            const descContainer = document.getElementById(targetId);
+            if (descContainer) {
+                const allLines = descContainer.querySelectorAll('.description-line');
+                const lineToRemove = removeButton.closest('.description-line');
+                const inputInLine = lineToRemove.querySelector('input');
+                if (allLines.length > 1 || (allLines.length === 1 && inputInLine && inputInLine.value.trim() !== '')) {
+                     lineToRemove.remove();
+                } else if (allLines.length === 1 && inputInLine) {
+                    inputInLine.value = ''; 
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

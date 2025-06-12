@@ -1,0 +1,169 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>{{ form_action }} Product</h2>
+        <a href="{{ url_for('admin.manage_products') }}" class="btn-admin btn-admin-secondary"><i class="fas fa-arrow-left"></i> Back to Products</a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+            <label for="parent_subcategory">Parent Subcategory *</label>
+            <select id="parent_subcategory" name="parent_subcategory" required>
+                <option value="">-- Select Parent Subcategory --</option>
+                {% for subcat in subcategories %}
+                <option value="{{ subcat.slug }}" {% if product and product.parent_subcategory == subcat.slug %}selected{% endif %}>
+                    {{ subcat.name }} {# Display format: "Category Name > Subcategory Name" #}
+                </option>
+                {% endfor %}
+            </select>
+            {% if not subcategories %}
+            <small class="form-help text-danger">No subcategories available. Please <a href="{{ url_for('admin.add_subcategory') }}">add a subcategory</a> first.</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="name">Product Name (Optional)</label>
+            <input type="text" id="name" name="name" value="{{ product.name if product and product.name is not none else '' }}">
+            <small class="form-help">If no name is provided, a random slug will be generated.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Short Description (Optional, for listings, one line per box)</label>
+            <div id="short-description-fields">
+                {% if product and product.short_description %}
+                    {% for desc_line in product.short_description %}
+                    <div class="description-line">
+                        <input type="text" name="short_description[]" value="{{ desc_line }}">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="short-description-fields"><i class="fas fa-times"></i></button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="description-line">
+                        <input type="text" name="short_description[]" placeholder="Short description line 1">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="short-description-fields"><i class="fas fa-times"></i></button>
+                    </div>
+                {% endif %}
+            </div>
+            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" data-target="short-description-fields" data-placeholder="Short description line" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Short Desc. Line</button>
+        </div>
+        
+        <hr style="margin: 30px 0; border-color: var(--admin-border-light);">
+
+        <div class="form-group">
+            <label>Long Description (Optional, for product page, one line per box)</label>
+            <div class="form-check" style="margin-bottom: 15px;">
+                <input type="checkbox" id="use_short_desc_for_long" name="use_short_desc_for_long" class="form-check-input" {% if product and product.use_short_desc_for_long %}checked{% endif %}>
+                <label for="use_short_desc_for_long" class="form-check-label">Use Short Description as Long Description</label>
+            </div>
+            <div id="long-description-fields" {% if product and product.use_short_desc_for_long %}style="display:none;"{% endif %}>
+                {% if product and product.long_description %}
+                    {% for desc_line in product.long_description %}
+                    <div class="description-line">
+                        <input type="text" name="long_description[]" value="{{ desc_line }}">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="long-description-fields"><i class="fas fa-times"></i></button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                     <div class="description-line">
+                        <input type="text" name="long_description[]" placeholder="Long description line 1">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="long-description-fields"><i class="fas fa-times"></i></button>
+                    </div>
+                {% endif %}
+            </div>
+            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" data-target="long-description-fields" data-placeholder="Long description line" style="margin-top: 10px; {% if product and product.use_short_desc_for_long %}display:none;{% endif %}"><i class="fas fa-plus"></i> Add Long Desc. Line</button>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Product Image (Optional)</label>
+            {% if product and product.image %}
+            <div class="current-image-container">
+                <p>Current Image:</p>
+                <img src="{{ url_for('static', filename=product.image) }}" alt="Current Product Image">
+                <div class="form-check" style="margin-top:10px;">
+                    <input type="checkbox" id="remove_image" name="remove_image" class="form-check-input">
+                    <label for="remove_image" class="form-check-label">Remove current image</label>
+                </div>
+            </div>
+            {% endif %}
+            <input type="file" id="image" name="image" accept="image/*">
+            <div id="image-preview-container" class="image-preview-container"></div>
+            <small class="form-help">Recommended size: 600x600px. Max 16MB.</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-admin btn-admin-success"><i class="fas fa-save"></i> Save Product</button>
+            <a href="{{ url_for('admin.manage_products') }}" class="btn-admin btn-admin-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Reusable Add/Remove Description Lines ---
+    document.querySelectorAll('.btn-add-desc').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            const placeholderText = this.dataset.placeholder || 'Description line';
+            const descContainer = document.getElementById(targetId);
+            if (descContainer) {
+                const newLine = document.createElement('div');
+                newLine.classList.add('description-line');
+                const inputCount = descContainer.querySelectorAll('input[name^="' + targetId.replace('-fields', '') + '[]"]').length;
+                newLine.innerHTML = `
+                    <input type="text" name="${targetId.replace('-fields', '')}[]" placeholder="${placeholderText} ${inputCount + 1}">
+                    <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="${targetId}"><i class="fas fa-times"></i></button>
+                `;
+                descContainer.appendChild(newLine);
+            }
+        });
+    });
+
+    document.querySelectorAll('.description-fields-wrapper, #short-description-fields, #long-description-fields').forEach(container => {
+        container.addEventListener('click', function(event) {
+            if (event.target.closest('.btn-remove-desc')) {
+                const targetId = event.target.closest('.btn-remove-desc').dataset.target;
+                const descContainer = document.getElementById(targetId); // This should be the container of the lines
+                 if (descContainer) {
+                    const allLines = descContainer.querySelectorAll('.description-line');
+                    const lineToRemove = event.target.closest('.description-line');
+                    const inputInLine = lineToRemove.querySelector('input');
+
+                    if (allLines.length > 1 || (allLines.length === 1 && inputInLine && inputInLine.value.trim() !== '')) {
+                        lineToRemove.remove();
+                    } else if (allLines.length === 1 && inputInLine) {
+                        inputInLine.value = ''; 
+                    }
+                }
+            }
+        });
+    });
+
+    // --- Toggle Long Description based on Checkbox ---
+    const useShortDescCheckbox = document.getElementById('use_short_desc_for_long');
+    const longDescFields = document.getElementById('long-description-fields');
+    const addLongDescButton = document.querySelector('.btn-add-desc[data-target="long-description-fields"]');
+
+    function toggleLongDescriptionFields() {
+        if (useShortDescCheckbox && longDescFields && addLongDescButton) {
+            if (useShortDescCheckbox.checked) {
+                longDescFields.style.display = 'none';
+                addLongDescButton.style.display = 'none';
+            } else {
+                longDescFields.style.display = 'block';
+                addLongDescButton.style.display = 'inline-flex'; // or 'block'
+            }
+        }
+    }
+
+    if (useShortDescCheckbox) {
+        useShortDescCheckbox.addEventListener('change', toggleLongDescriptionFields);
+        // Initial state
+        toggleLongDescriptionFields();
+    }
+});
+</script>
+{% endblock %}

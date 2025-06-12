@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ company_name }} - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Carousel -->
+<section id="home" class="hero-section">
+    <div class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+            {% for slide in carousel_slides %}
+            <div class="swiper-slide" style="background-image: url('{{ url_for('static', filename=slide.image) }}');">
+                <div class="slide-caption">
+                    <h2 class="animate-this">{{ slide.caption_header }}</h2>
+                    <p class="animate-this">{{ slide.caption_text }}</p>
+                    <a href="{{ url_for('list_categories') }}" class="btn btn-primary animate-this">Explore Products</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<!-- About Us Section -->
+<section id="about" class="about-section content-section" data-aos="fade-up">
+    <div class="container">
+        <h2 class="section-title">About {{ company_name }}</h2>
+        <div class="about-content">
+            <div class="about-text" data-aos="fade-right" data-aos-delay="100">
+                <p>Welcome to {{ company_name }}, your trusted partner for premium PET (Polyethylene Terephthalate) bottle solutions. We specialize in manufacturing and supplying a wide range of PET bottles tailored to meet the diverse needs of various industries, including beverage, food, pharmaceuticals, and personal care.</p>
+                <p>Our commitment to quality, innovation, and sustainability drives us to deliver products that not only meet but exceed industry standards. With state-of-the-art manufacturing facilities and a dedicated team of experts, we ensure every bottle we produce is of the highest quality, durable, and safe for use.</p>
+                <a href="{{ url_for('contact_page') }}" class="btn btn-secondary">Get In Touch</a>
+            </div>
+            <div class="about-image" data-aos="fade-left" data-aos-delay="300">
+                <img src="{{ url_for('static', filename='images/sections/about_bg_placeholder.jpg') }}" alt="About {{ company_name }}">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Optional CTA Section (Can be used for featured products or other call to action) -->
+<section class="cta-section content-section" data-aos="zoom-in-up"> <!-- Changed animation -->
+    <div class="container">
+        <h3>Discover Our Range</h3>
+        <p>From standard designs to custom molds, we provide innovative PET solutions for every need.</p>
+        <a href="{{ url_for('list_categories') }}" class="btn btn-primary-outline">View All Products</a>
+    </div>
+</section>
+
+<!-- Contact Info Snippet (Optional - if you want some info on homepage directly) -->
+<!-- This could also be primarily in the footer -->
+<!-- For now, we are moving the main contact form to its own page -->
+
+{% endblock %}

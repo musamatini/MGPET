@@ -1,0 +1,17 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>{{ item_type }}</h2>
+    </div>
+    <p>Management for {{ item_type | lower }} will be implemented soon.</p>
+    <p>
+        {% if item_type == "Subcategories" %}
+            <a href="{{ url_for('admin.manage_categories') }}" class="btn-admin btn-admin-secondary">Back to Categories</a>
+        {% elif item_type == "Products" %}
+            <a href="{{ url_for('admin.manage_subcategories') }}" class="btn-admin btn-admin-secondary">Back to Subcategories</a>
+        {% endif %}
+    </p>
+</div>
+{% endblock %}

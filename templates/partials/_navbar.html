@@ -1,0 +1,32 @@
+<header class="navbar sticky-top">
+    <div class="container">
+        <a href="{{ url_for('home_page') }}" class="navbar-logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ company_name }} Logo">
+            <span>{{ company_name }}</span>
+        </a>
+        
+        <nav class="navbar-links-desktop">
+            <ul>
+                {% for link in nav_links %}
+                <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <div class="navbar-actions">
+            <button class="lang-button" aria-label="Change Language">
+                <i class="fas fa-globe"></i> <span class="lang-text-desktop">EN</span>
+            </button>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+    <nav class="navbar-links-mobile">
+        <ul>
+            {% for link in nav_links %}
+            <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</header>

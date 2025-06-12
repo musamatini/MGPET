@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }} - {{ company_name }}{% endblock %}
+
+{% block content %}
+<section class="content-section page-section">
+    <div class="container">
+        <nav aria-label="breadcrumb" data-aos="fade-down">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('list_categories') }}">Categories</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ category_name | default('Category') }}</li>
+            </ol>
+        </nav>
+        <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
+        
+        {% if subcategories %}
+            <div class="item-grid"> 
+                {% for subcat in subcategories %}
+                <a href="{{ url_for('list_products_in_subcategory', category_slug=category_slug, subcategory_slug=subcat.slug) }}" class="item-card">
+                    <div class="item-card-image-wrapper">
+                        <img src="{{ url_for('static', filename=subcat.image) if subcat.image else url_for('static', filename='images/products/filler_product_2.jpg') }}" alt="{{ subcat.name | default('Subcategory') }}">
+                    </div>
+                    <div class="item-card-content">
+                        {% if subcat.name %}<h3>{{ subcat.name }}</h3>{% else %}<h3 class="text-muted">Unnamed Subcategory</h3>{% endif %}
+                        {% if subcat.description_lines %}
+                             <p>{{ subcat.description_lines[0] if subcat.description_lines else 'View products in this range.' }}</p>
+                        {% else %}
+                            <p>Discover products in this collection.</p>
+                        {% endif %}
+                        <span class="btn btn-sm btn-outline" style="margin-top: auto;">View Products</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="page-intro" data-aos="fade-up">No subcategories found in {{ category_name | default('this category') }}.</p>
+        {% endif %}
+        <div class="back-to-categories" data-aos="fade-up" style="margin-top: 2.5rem;">
+             <a href="{{ url_for('list_categories') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

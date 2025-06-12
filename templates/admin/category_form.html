@@ -1,0 +1,102 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>{{ form_action }} Category</h2>
+        <a href="{{ url_for('admin.manage_categories') }}" class="btn-admin btn-admin-secondary"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+            <label for="name">Category Name (Optional)</label>
+            <input type="text" id="name" name="name" value="{{ category.name if category and category.name is not none else '' }}">
+            <small class="form-help">If no name is provided, a random slug will be generated. The name will appear as "Unnamed Category" on the site if left blank.</small>
+        </div>
+
+        <div class="form-group">
+            <label>Description (Optional, one line per box)</label>
+            <div id="description-fields">
+                {% if category and category.description %}
+                    {% for desc_line in category.description %}
+                    <div class="description-line">
+                        <input type="text" name="description[]" value="{{ desc_line }}">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="description-line">
+                        <input type="text" name="description[]" placeholder="Description line 1">
+                        <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                    </div>
+                {% endif %}
+            </div>
+            <button type="button" id="btn-add-desc" class="btn-admin btn-admin-secondary btn-admin-sm" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Description Line</button>
+        </div>
+        
+        <div class="form-group">
+            <label for="image">Category Image (Optional)</label>
+            {% if category and category.image %}
+            <div class="current-image-container">
+                <p>Current Image:</p>
+                <img src="{{ url_for('static', filename=category.image) }}" alt="Current Category Image">
+                <div class="form-check" style="margin-top:10px;">
+                    <input type="checkbox" id="remove_image" name="remove_image" class="form-check-input">
+                    <label for="remove_image" class="form-check-label">Remove current image</label>
+                </div>
+            </div>
+            {% endif %}
+            <input type="file" id="image" name="image" accept="image/*">
+             <div id="image-preview-container" class="image-preview-container">
+                <!-- Preview will be shown here by JS -->
+            </div>
+            <small class="form-help">Recommended size: 400x300px. Max 16MB.</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-admin btn-admin-success"><i class="fas fa-save"></i> Save Category</button>
+            <a href="{{ url_for('admin.manage_categories') }}" class="btn-admin btn-admin-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const descContainer = document.getElementById('description-fields');
+    const addDescButton = document.getElementById('btn-add-desc');
+
+    if (addDescButton) {
+        addDescButton.addEventListener('click', function() {
+            const newLine = document.createElement('div');
+            newLine.classList.add('description-line');
+            const inputCount = descContainer.querySelectorAll('input[name="description[]"]').length;
+            newLine.innerHTML = `
+                <input type="text" name="description[]" placeholder="Description line ${inputCount + 1}">
+                <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+            `;
+            descContainer.appendChild(newLine);
+        });
+    }
+
+    // Event delegation for remove buttons
+    if (descContainer) {
+        descContainer.addEventListener('click', function(event) {
+            if (event.target.closest('.btn-remove-desc')) {
+                // Only remove if more than one input exists or if the input is not empty
+                const allLines = descContainer.querySelectorAll('.description-line');
+                const lineToRemove = event.target.closest('.description-line');
+                const inputInLine = lineToRemove.querySelector('input');
+
+                if (allLines.length > 1 || (allLines.length === 1 && inputInLine && inputInLine.value.trim() !== '')) {
+                     lineToRemove.remove();
+                } else if (allLines.length === 1 && inputInLine) {
+                    inputInLine.value = ''; // Clear the last one instead of removing
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

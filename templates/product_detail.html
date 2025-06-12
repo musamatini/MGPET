@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }} - {{ company_name }}{% endblock %}
+
+{% block content %}
+<section class="content-section page-section product-detail-page">
+    <div class="container">
+        <nav aria-label="breadcrumb" data-aos="fade-down">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('list_categories') }}">Categories</a></li>
+                {% if breadcrumb_data.category and breadcrumb_data.category.slug %}
+                <li class="breadcrumb-item"><a href="{{ url_for('list_subcategories', category_slug=breadcrumb_data.category.slug) }}">{{ breadcrumb_data.category.name | default('Category') }}</a></li>
+                {% endif %}
+                {% if breadcrumb_data.subcategory and breadcrumb_data.subcategory.slug %}
+                <li class="breadcrumb-item"><a href="{{ url_for('list_products_in_subcategory', category_slug=breadcrumb_data.category.slug, subcategory_slug=breadcrumb_data.subcategory.slug) }}">{{ breadcrumb_data.subcategory.name | default('Subcategory') }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active" aria-current="page">{{ product.name | default('Product') }}</li>
+            </ol>
+        </nav>
+
+        <div class="product-detail-wrapper" data-aos="fade-up">
+            <div class="product-detail-image" data-aos="zoom-in" data-aos-delay="100">
+                <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/products/filler_product_default.jpg') }}" alt="{{ product.name | default('Product Image') }}">
+            </div>
+            <div class="product-detail-content" data-aos="fade-left" data-aos-delay="200">
+                {% if product.name %}<h1 class="product-title">{{ product.name }}</h1>{% endif %}
+                
+                {% if description_to_use %}
+                <div class="product-description">
+                    {% for line in description_to_use %}
+                    <p>{{ line }}</p>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No description available for this product.</p>
+                {% endif %}
+
+                <div class="product-actions" style="margin-top: 2rem;">
+                    <a href="{{ url_for('home_page', _anchor='contact') }}" class="btn btn-primary btn-lg">Inquire About This Product</a>
+                    <!-- Add more actions if needed, e.g., share buttons -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="back-to-categories" data-aos="fade-up" style="margin-top: 3rem;">
+            {% if breadcrumb_data.subcategory and breadcrumb_data.subcategory.slug %}
+                <a href="{{ url_for('list_products_in_subcategory', category_slug=breadcrumb_data.category.slug, subcategory_slug=breadcrumb_data.subcategory.slug) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to {{ breadcrumb_data.subcategory.name | default('Subcategory') }}</a>
+            {% elif breadcrumb_data.category and breadcrumb_data.category.slug %}
+                 <a href="{{ url_for('list_subcategories', category_slug=breadcrumb_data.category.slug) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to {{ breadcrumb_data.category.name | default('Category') }}</a>
+            {% else %}
+                 <a href="{{ url_for('list_categories') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Specific JS for product detail page if needed, e.g., image gallery
+</script>
+{% endblock %}

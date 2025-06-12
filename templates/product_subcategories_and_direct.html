@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }} - {{ company_name }}{% endblock %}
+
+{% block content %}
+<section class="content-section page-section">
+    <div class="container">
+        <nav aria-label="breadcrumb" data-aos="fade-down">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home_page') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('list_categories') }}">Categories</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ category_name | default('Category') }}</li>
+            </ol>
+        </nav>
+        <h1 class="page-title" data-aos="fade-down">{{ page_title }}</h1>
+        
+        {# Display Subcategories if any #}
+        {% if subcategories %}
+            <h2 class="section-subtitle" data-aos="fade-up">Subcategories</h2>
+            <div class="product-categories-grid"> 
+                {% for subcat in subcategories %}
+                <a href="{{ url_for('list_products_in_subcategory', category_slug=category_slug, subcategory_slug=subcat.slug) }}" class="category-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="category-card-image">
+                        <img src="{{ url_for('static', filename=subcat.image) if subcat.image else url_for('static', filename='images/products/filler_product_2.jpg') }}" alt="{{ subcat.name | default('') }}">
+                    </div>
+                    <div class="category-card-content">
+                        {% if subcat.name %}<h3>{{ subcat.name }}</h3>{% endif %}
+                        {% if subcat.description_lines %}{% for line in subcat.description_lines %}<p>{{ line }}</p>{% endfor %}{% endif %}
+                        <span class="btn btn-sm btn-outline">View Products <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {# Display Direct Products if any #}
+        {% if direct_products %}
+            <h2 class="section-subtitle" data-aos="fade-up" style="margin-top: {% if subcategories %}40px{% else %}0{% endif %};">Products in this Category</h2>
+            <div class="products-grid">
+                {% for product in direct_products %}
+                <div class="product-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <a href="{{ url_for('view_product', product_slug=product.slug) }}" style="text-decoration: none; color: inherit; display:contents;">
+                        <div class="product-card-image">
+                            <img src="{{ url_for('static', filename=product.image) if product.image else url_for('static', filename='images/products/filler_product_3.jpg') }}" alt="{{ product.name | default('') }}">
+                        </div>
+                        <div class="product-card-content">
+                            {% if product.name %}<h4>{{ product.name }}</h4>{% endif %}
+                            {% if product.description_lines %}{% for line in product.description_lines %}<p>{{ line }}</p>{% endfor %}{% endif %}
+                            <span class="btn btn-sm btn-primary">View Details</span>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if not subcategories and not direct_products %}
+            <p class="page-intro" data-aos="fade-up">No further subcategories or products found in {{ category_name | default('this category') }}.</p>
+        {% endif %}
+
+        <div class="back-to-categories" data-aos="fade-up" data-aos-delay="300" style="margin-top: 3rem;">
+             <a href="{{ url_for('list_categories') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to All Categories</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
