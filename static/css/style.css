@@ -414,16 +414,74 @@ ul { list-style: none; }
 .footer-bottom { text-align: center; font-size: 0.85rem; padding-top: 1.5rem; color: var(--text-secondary-light); }
 .footer-bottom .fa-heart { color: var(--accent-red); animation: pulseHeart 1.5s infinite ease-in-out; }
 @keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-.language-fieldset {
-    border: 1px solid var(--admin-border-light);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: var(--admin-border-radius);
+.language-switcher {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem; /* Or your desired spacing */
+    padding: 5px 10px;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--border-radius);
+    background-color: rgba(var(--bg-element-hover-dark-rgb), 0.3); /* Subtle background */
 }
-.language-fieldset legend {
-    padding: 0 0.5em;
-    font-weight: 600;
-    color: var(--admin-text-secondary);
+
+.language-switcher .globe-icon {
+    color: var(--text-secondary-light);
+    margin-right: 8px; /* Space between globe and first language */
+    font-size: 1em; /* Relative to parent */
+}
+
+.language-switcher .lang-option {
+    color: var(--text-secondary-light);
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 4px 6px;
+    border-radius: 4px; /* Smaller radius for options */
+    transition: color var(--anim-duration-fast) ease, background-color var(--anim-duration-fast) ease;
+}
+
+.language-switcher .lang-option.active {
+    color: var(--accent-primary); /* Active language in accent color */
+    font-weight: 700; /* Bolder */
+    /* background-color: rgba(var(--accent-primary-rgb), 0.15); */ /* Optional subtle background for active */
+}
+
+.language-switcher .lang-option:not(.active):hover {
+    color: var(--accent-primary-hover);
+    background-color: rgba(var(--accent-primary-rgb), 0.1);
+}
+
+.language-switcher .lang-separator {
+    color: var(--border-dark);
+    margin: 0 5px;
+    font-size: 0.85rem;
+}
+
+/* Mobile Language Switcher Styles */
+.navbar-links-mobile .mobile-language-switcher {
+    padding: 0.8rem 1.8rem;
+    text-align: center; /* Center the mobile language options */
+    font-size: 0.9rem;
+}
+.navbar-links-mobile .globe-icon-mobile {
+    color: var(--text-secondary-light);
+    margin-right: 5px;
+}
+.navbar-links-mobile .lang-option-mobile {
+    color: var(--text-secondary-light);
+    padding: 3px 5px;
+    text-decoration: none;
+}
+.navbar-links-mobile .lang-option-mobile.active {
+    color: var(--accent-primary);
+    font-weight: bold;
+}
+.navbar-links-mobile .lang-option-mobile:not(.active):hover {
+    color: var(--accent-primary-hover);
+}
+.navbar-links-mobile .lang-separator-mobile {
+    color: var(--text-secondary-light);
+    margin: 0 3px;
 }
 input[dir="rtl"], textarea[dir="rtl"] {
     text-align: right;

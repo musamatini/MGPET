@@ -1,4 +1,4 @@
-<header class="navbar sticky-top"> {# JS will add/remove navbar-is-animating-initial #}
+<header class="navbar navbar-is-animating-initial sticky-top">
     <div class="container">
         <a href="{{ url_for('home_page', lang_code=current_lang) }}" class="navbar-logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ company_name }} Logo">
@@ -14,18 +14,26 @@
         </nav>
 
         <div class="navbar-actions">
+            {# Language Switcher - DESKTOP #}
             <div class="language-switcher">
+                <i class="fas fa-globe globe-icon"></i> {# GLOBE ICON ADDED #}
                 {% for lang_val in languages %}
-                    {% if lang_val != current_lang %}
-                        {% set view_args = request.view_args.copy() %}
-                        {% set _ = view_args.update({'lang_code': lang_val}) %}
-                        <a href="{{ url_for(request.endpoint, **view_args) if request.endpoint else url_for('home_page', lang_code=lang_val) }}" class="lang-option">{{ lang_val.upper() }}</a>
-                    {% else %}
+                    {% if lang_val == current_lang %}
                         <span class="lang-option active">{{ lang_val.upper() }}</span>
+                    {% else %}
+                        {% set view_args = request.view_args.copy() if request.view_args else {} %}
+                        {% set _ = view_args.update({'lang_code': lang_val}) %}
+                        <a href="{{ url_for(request.endpoint if request.endpoint else 'home_page', **view_args) }}" class="lang-option">{{ lang_val.upper() }}</a>
                     {% endif %}
-                    {% if not loop.last %}<span class="lang-separator">|</span>{% endif %}
+                    {% if not loop.last and languages|length > 1 %} <span class="lang-separator">|</span> {% endif %}
                 {% endfor %}
             </div>
+
+            {# This lang-button was from an older design, we use .language-switcher now #}
+            {# <button class="lang-button" aria-label="Change Language">
+                <i class="fas fa-globe"></i> <span class="lang-text-desktop">EN</span>
+            </button> #}
+
             <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
@@ -38,15 +46,16 @@
             {% endfor %}
              <li class="mobile-language-switcher">
                 <hr>
+                <i class="fas fa-globe globe-icon-mobile" style="margin-right: 5px;"></i> {# GLOBE ICON FOR MOBILE #}
                 {% for lang_val in languages %}
-                     {% if lang_val != current_lang %}
-                        {% set view_args = request.view_args.copy() %}
-                        {% set _ = view_args.update({'lang_code': lang_val}) %}
-                        <a href="{{ url_for(request.endpoint, **view_args) if request.endpoint else url_for('home_page', lang_code=lang_val) }}" class="lang-option-mobile">{{ lang_val.upper() }}</a>
-                    {% else %}
+                     {% if lang_val == current_lang %}
                         <span class="lang-option-mobile active">{{ lang_val.upper() }}</span>
+                    {% else %}
+                        {% set view_args = request.view_args.copy() if request.view_args else {} %}
+                        {% set _ = view_args.update({'lang_code': lang_val}) %}
+                        <a href="{{ url_for(request.endpoint if request.endpoint else 'home_page', **view_args) }}" class="lang-option-mobile">{{ lang_val.upper() }}</a>
                     {% endif %}
-                     {% if not loop.last %}<span class="lang-separator-mobile">/</span>{% endif %}
+                     {% if not loop.last and languages|length > 1 %}<span class="lang-separator-mobile">/</span>{% endif %}
                 {% endfor %}
             </li>
         </ul>
