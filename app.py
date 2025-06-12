@@ -644,45 +644,4 @@ def page_not_found(e): # ... (same)
     return render_template('404.html', page_title="Page Not Found", current_lang=lang), 404
 
 if __name__ == '__main__': # ... (Update sample data for multilingual) ...
-    DATA_STORE["categories"].clear(); DATA_STORE["items"].clear()
-    # Sample data for testing the new structure
-    cat_water_slug = generate_slug({"en":"Water Bottles", "ar":"قناني ماء"}, DATA_STORE["categories"].keys(), "cat")
-    DATA_STORE["categories"][cat_water_slug] = {
-        "name": {"en":"Water Bottles", "ar":"قناني ماء"}, 
-        "image": "images/carousel/slide1.jpg", 
-        "description": {"en":["Hydration solutions for every need."], "ar":["حلول للترطيب لكل الاحتياجات."]}, 
-        "children_item_slugs": []
-    }
-    subcat_sport_slug = generate_slug({"en":"Sports Bottles", "ar":"قناني رياضية"}, DATA_STORE["items"].keys(), "subc")
-    DATA_STORE["items"][subcat_sport_slug] = {
-        "type": "subcategory", 
-        "name": {"en":"Sports Bottles", "ar":"قناني رياضية"}, 
-        "image": "images/carousel/slide2.jpg", 
-        "description": {"en":["Durable bottles for active lifestyles and workouts."], "ar":["قناني متينة لأسلوب حياة نشط والتمارين الرياضية."]}, 
-        "parent_type": "category", "parent_slug": cat_water_slug, 
-        "children_item_slugs": []
-    }
-    DATA_STORE["categories"][cat_water_slug]["children_item_slugs"].append(subcat_sport_slug)
-    prod_hydro_slug = generate_slug({"en":"HydroMax 750ml", "ar":"هايدروماكس 750 مل"}, DATA_STORE["items"].keys(), "prod")
-    DATA_STORE["items"][prod_hydro_slug] = {
-        "type": "product", 
-        "name": {"en":"HydroMax 750ml", "ar":"هايدروماكس 750 مل"}, 
-        "image": "images/carousel/slide3.jpg",
-        "short_description": {
-            "en":["750ml capacity, ergonomic grip.", "Leak-proof sports cap included."],
-            "ar":["سعة 750 مل، قبضة مريحة.", "غطاء رياضي مانع للتسرب."]
-        }, 
-        "long_description_markdown": {
-            "en":"The **HydroMax 750ml** is perfect for your workouts, made with *BPA-free Tritan plastic* for durability and safety.\n\nIts ergonomic design ensures a comfortable grip, while the leak-proof sports cap makes hydration on the go easy and mess-free.\n\nAvailable in three vibrant colors:\n\n- Blue\n- Red\n- Green\n\n![Sample Image](/static/images/products/filler_product_1.jpg){width=150px}",
-            "ar":"**هايدروماكس 750 مل** مثالية لتمارينك الرياضية، مصنوعة من بلاستيك *تريتان الخالي من BPA* للمتانة والأمان.\n\nتصميمها المريح يضمن قبضة مريحة، بينما الغطاء الرياضي المانع للتسرب يجعل الترطيب أثناء التنقل سهلاً وخالياً من الفوضى.\n\nمتوفرة بثلاثة ألوان زاهية:\n\n- أزرق\n- أحمر\n- أخضر\n\n![صورةตัวอย่าง](/static/images/products/filler_product_1.jpg){width=150px}"
-        },
-        "use_short_desc_for_long": False, 
-        "parent_type": "item", "parent_slug": subcat_sport_slug
-    }
-    DATA_STORE["items"][subcat_sport_slug]["children_item_slugs"].append(prod_hydro_slug)
-    save_data() # Save initial sample data
-    print("--- Initial DATA_STORE (Loaded or Default + Sample) ---")
-    print("Categories:", json.dumps(DATA_STORE["categories"], indent=2, ensure_ascii=False))
-    print("Items:", json.dumps(DATA_STORE["items"], indent=2, ensure_ascii=False))
-    print("----------------------------------------------")
     app.run(debug=True)
