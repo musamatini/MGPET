@@ -225,29 +225,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
      // --- ACTIVE NAV LINKS --- (Keep this)
-    // ... (your existing active nav links code) ...
     const navLinks = document.querySelectorAll('.navbar-links-desktop ul li a, .navbar-links-mobile ul li a');
-    // const currentPathForActiveLinks = window.location.pathname; // Use the one defined earlier
+    const currentPath = window.location.pathname;
     navLinks.forEach(link => {
         link.classList.remove('active');
         const linkHref = link.getAttribute('href');
         if (linkHref === currentPath || (linkHref !== '/' && currentPath.startsWith(linkHref) && linkHref.length > 1) ) {
             link.classList.add('active');
-        } else if (currentPath === '/' && (linkHref === '/' || linkHref.endsWith('#home'))) { // Or specific homepage link
+        } else if (currentPath === '/' && (linkHref === '/' || linkHref.endsWith('#home'))) {
              link.classList.add('active');
         }
     });
 
     // --- CTA SECTION EXPAND ANIMATION --- (Keep this)
-    // ... (your existing CTA code) ...
     const ctaSection = document.querySelector('.cta-expand-reveal');
     if (ctaSection) {
-        const ctaObserver = new IntersectionObserver((entries, observer) => { 
+        const ctaObserver = new IntersectionObserver((entries, observer) => { // Add 'observer' to the callback arguments
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
+                    observer.unobserve(entry.target); // <<< STOP OBSERVING AFTER THE FIRST TIME
                 }
+                // REMOVE the 'else' block: entry.target.classList.remove('is-visible');
             });
         }, { threshold: 0.3 }); 
         ctaObserver.observe(ctaSection);
