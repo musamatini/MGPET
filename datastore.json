@@ -17,24 +17,6 @@
             "children_item_slugs": [
                 "sports-bottles"
             ]
-        },
-        "kamskdomasod": {
-            "name": {
-                "en": "kamskdomasod",
-                "ar": "خحنشحخسين"
-            },
-            "description": {
-                "en": [
-                    "dsadasd",
-                    "awdasdwad"
-                ],
-                "ar": []
-            },
-            "image": "images/uploads/categories/WhatsApp_Image_2025-06-09_at_02.45.21_b5933214.jpeg",
-            "children_item_slugs": [
-                "شسيشسي",
-                "سشيشسي"
-            ]
         }
     },
     "items": {
@@ -63,7 +45,7 @@
             "type": "product",
             "name": {
                 "en": "HydroMax 750ml",
-                "ar": "هايدروماكس 750 ملللل"
+                "ar": "هايدروماكس 750 مل"
             },
             "image": "images/carousel/slide3.jpg",
             "short_description": {
@@ -77,54 +59,12 @@
                 ]
             },
             "long_description_markdown": {
-                "en": "The **HydroMax 750ml** is perfect for your workouts, made with *BPA-free Tritan plastic* for durability and safety.\r\n\r\nIts ergonomic design ensures a comfortable grip, while the leak-proof sports cap makes hydration on the go easy and mess-free.\r\n\r\nAvailable in three vibrant colors:\r\n\r\n- Blue\r\n- Red\r\n- Green\r\n\r\n![Sample Image](/static/images/products/filler_product_1.jpg){width=150px}",
-                "ar": "**هايدروماكس 750 مل** مثالية لتمارينك الرياضية، مصنوعة من بلاستيك *تريتان الخالي من BPA* للمتانة والأمان.\r\n\r\nتصميمها المريح يضمن قبضة    سيسيمريحة، بينما الغطاء الرياضي المانع للتسرب يجعل الترطيب أثناء التنقل سهلاً وخالياً من الفوضى.\r\n\r\nمتوفرة بثلاثة ألوان زاهية:\r\n\r\n- أزرق\r\n- أحمر\r\n- أخضر\r\n\r\n![صورة ابو عبدو](/static/images/products/filler_product_1.jpg){width=150px}"
+                "en": "The **HydroMax 750ml** is perfect for your workouts...",
+                "ar": "**هايدروماكس 750 مل** مثالية لتمارينك الرياضية..."
             },
             "use_short_desc_for_long": false,
             "parent_type": "item",
             "parent_slug": "sports-bottles"
-        },
-        "شسيشسي": {
-            "type": "subcategory",
-            "name": {
-                "en": "شسيشسي",
-                "ar": "سشيشسي"
-            },
-            "parent_type": "category",
-            "parent_slug": "kamskdomasod",
-            "image": null,
-            "description": {
-                "en": [
-                    "شسيشسي"
-                ],
-                "ar": [
-                    "شسيشسي"
-                ]
-            },
-            "children_item_slugs": []
-        },
-        "سشيشسي": {
-            "type": "product",
-            "name": {
-                "en": "سشيشسي",
-                "ar": "سشيشسي"
-            },
-            "parent_type": "category",
-            "parent_slug": "kamskdomasod",
-            "image": "images/uploads/items/WhatsApp_Image_2025-06-09_at_01.43.40_81194556.jpeg",
-            "short_description": {
-                "en": [
-                    "شسيشسيشسي"
-                ],
-                "ar": [
-                    "سيشيسسش"
-                ]
-            },
-            "long_description_markdown": {
-                "en": "هحىخسهيشىشسي\r\n\r\nشسيشس\r\nي\r\n\r\n![Alt text](http://127.0.0.1:5000/static/images/uploads/description_images/WhatsApp_Image_2025-06-09_at_01.43.40_d6d4d4f8.jpeg){width=100px height=auto}\r\nشسي\r\nشسي\r\nشس\r\nيشسي\r\nشسي",
-                "ar": "شسيشسي"
-            },
-            "use_short_desc_for_long": false
         }
     },
     "admin_users": {

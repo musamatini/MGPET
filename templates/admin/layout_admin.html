@@ -22,6 +22,10 @@
                 <li><a href="{{ url_for('admin.manage_categories') }}" class="{{ 'active' if 'category' in request.endpoint or 'view_category_children_admin' in request.endpoint or (request.endpoint == 'admin.manage_items_under_parent' and parent_context and parent_context.type == 'category') else '' }}"><i class="fas fa-sitemap"></i> Categories</a></li>
                 {# The 'Items (Subcats/Prods)' link is removed as navigation is now purely hierarchical #}
                 {# Users will navigate into categories to see/manage items under them #}
+                
+                <!-- NEW DOWNLOAD LINK ADDED HERE -->
+                <li><a href="{{ url_for('admin.download_datastore') }}"><i class="fas fa-download"></i> Download Datastore</a></li>
+                
                 <hr>
                 <li><a href="{{ url_for('home_page', lang_code=config.DEFAULT_LANGUAGE) }}" target="_blank"><i class="fas fa-globe"></i> View Site</a></li>
                 <li><a href="{{ url_for('admin.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

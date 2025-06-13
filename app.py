@@ -1,7 +1,7 @@
 # app.py
 
 from flask import (
-    Flask, render_template, url_for, request, redirect, session, flash, Blueprint, g, jsonify
+    Flask, render_template, url_for, request, redirect, session, flash, Blueprint, g, jsonify, send_file
 )
 from markupsafe import Markup 
 import markdown 
@@ -65,6 +65,27 @@ COMPANY_GENERAL_CONTACT = {
         {"name": "Instagram", "url": "https://www.instagram.com/mgpet1?igsh=cHF3dGljaDFiNmho", "icon_class": "fab fa-instagram"}
     ]
 }
+def get_translated_text(text_dict, lang=None, fallback_key='en'):
+    if not lang: lang = get_locale()
+    if isinstance(text_dict, dict):
+        # Prioritize current lang, then fallback_key, then first available lang, then empty string
+        if lang in text_dict and text_dict[lang] is not None: return text_dict[lang]
+        if fallback_key in text_dict and text_dict[fallback_key] is not None: return text_dict[fallback_key]
+        for l_key in text_dict: # Check any key if specific ones are missing
+            if text_dict[l_key] is not None: return text_dict[l_key]
+        return "" # Ultimate fallback
+    return str(text_dict) 
+
+def get_translated_list(list_dict, lang=None, fallback_key='en'):
+    if not lang: lang = get_locale()
+    if isinstance(list_dict, dict):
+        # Similar prioritization for lists
+        if lang in list_dict and isinstance(list_dict[lang], list): return list_dict[lang]
+        if fallback_key in list_dict and isinstance(list_dict[fallback_key], list): return list_dict[fallback_key]
+        for l_key in list_dict:
+            if isinstance(list_dict[l_key], list): return list_dict[l_key]
+        return [] # Ultimate fallback
+    return list_dict if isinstance(list_dict, list) else []
 
 # --- Data Persistence ---
 DATA_FILE = 'datastore.json'
@@ -225,7 +246,6 @@ def inject_global_vars_and_lang():
 
 # --- Admin Blueprint ---
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates/admin')
-# ... (login_required decorator, admin_home_redirect, login, logout routes - keep these)
 from functools import wraps
 def login_required(f): # ... (same)
     @wraps(f)
@@ -251,7 +271,23 @@ def login(): # ... (same)
 def logout(): # ... (same)
     session.pop('admin_logged_in', None); session.pop('admin_username', None)
     flash('You have been logged out.', 'info'); return redirect(url_for('admin.login'))
-
+@admin_bp.route('/download-datastore')
+@login_required
+def download_datastore():
+    try:
+        # DATA_FILE is defined globally as 'datastore.json'
+        # This will send the current datastore.json from your app's root directory
+        return send_file(
+            DATA_FILE,
+            as_attachment=True,
+            download_name='datastore_backup.json' # You can change the downloaded filename if you like
+        )
+    except FileNotFoundError:
+        flash(f"Error: {DATA_FILE} not found on server.", "danger")
+        return redirect(url_for('admin.manage_categories'))
+    except Exception as e:
+        flash(f"Error downloading datastore: {str(e)}", "danger")
+        return redirect(url_for('admin.manage_categories')) # Or some other appropriate admin page
 # --- Category Management (Multilingual) ---
 @admin_bp.route('/categories')
 @login_required
