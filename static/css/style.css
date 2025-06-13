@@ -3,34 +3,34 @@
 
 :root {
     /* Dark Theme & Blue "Water" Palette */
-    --bg-deep-dark: #0d1117; 
-    --bg-dark: #101419;     
+    --bg-deep-dark: #0d1117;
+    --bg-dark: #101419;
     --bg-element-dark: #161b22;
     --bg-element-hover-dark: #21262d;
 
-    --text-primary-light: #e6edf3; 
-    --text-secondary-light: #8b949e; 
-    --text-headings-light: #ffffff; 
+    --text-primary-light: #e6edf3;
+    --text-secondary-light: #8b949e;
+    --text-headings-light: #ffffff;
 
     /* Water/Blue Themed Accents */
-    --accent-primary: #3391ff; 
+    --accent-primary: #3391ff;
     --accent-primary-hover: #58a6ff;
-    --accent-secondary: #00c6ff; 
+    --accent-secondary: #00c6ff;
     --accent-secondary-hover: #61daff;
     --accent-cta-bg: linear-gradient(135deg, var(--accent-primary), #1E5799);
 
-    --border-dark: #30363d; 
+    --border-dark: #30363d;
     --border-subtle-dark: #21262d;
     --shadow-color-dark-theme: rgba(0, 0, 0, 0.35);
-    --accent-primary-rgb: 51, 145, 255; 
-    --bg-element-hover-dark-rgb: 36, 41, 48; 
+    --accent-primary-rgb: 51, 145, 255;
+    --bg-element-hover-dark-rgb: 36, 41, 48;
 
     --font-primary: 'Roboto', sans-serif;
     --font-secondary: 'Montserrat', sans-serif;
     --navbar-height: 70px;
     --section-padding: 150px;
     --container-width: 1200px;
-    --border-radius: 6px; 
+    --border-radius: 6px;
     --box-shadow-dark: 0 8px 24px var(--shadow-color-dark-theme);
     --box-shadow-light: 0 4px 12px rgba(0,0,0,0.15);
 
@@ -38,19 +38,29 @@
     --anim-duration-medium: 0.5s;
     --anim-easing-curve: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --anim-easing-dynamic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* CONSOLIDATED Animation variables here */
+    --navbar-animation-delay: 0.3s;
+    --navbar-animation-duration: var(--anim-duration-medium); /* Uses 0.5s from above */
 }
 
 /* Base & Reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
+
+/* CONSOLIDATED Body style */
 body {
     font-family: var(--font-primary); color: var(--text-primary-light);
     line-height: 1.7; background-color: var(--bg-deep-dark);
     -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    padding-top: var(--navbar-height); /* Creates space for the fixed navbar */
+    margin: 0; /* <<< KEY: ADDED TO REMOVE BROWSER DEFAULT MARGIN */
+    /* Default padding-top is handled by .initial-animation--done for pages with navbar */
+    /* No padding-top here by default */
 }
+
 .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+/* ... (rest of your h1-h6, p, a, img, ul styles are fine) ... */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-secondary); font-weight: 600;
     line-height: 1.3; margin-bottom: 1.2rem; color: var(--text-headings-light);
@@ -62,10 +72,11 @@ h4 { font-size: 1.2rem; font-weight: 500; }
 p { margin-bottom: 1.25rem; color: var(--text-secondary-light); font-weight: 400; }
 a { color: var(--accent-primary); text-decoration: none; transition: color var(--anim-duration-fast) ease; }
 a:hover { color: var(--accent-primary-hover); }
-img { max-width: 100%; height: auto; display: block; } 
+img { max-width: 100%; height: auto; display: block; }
 ul { list-style: none; }
 
-/* Modernized Buttons - Blue "Water" Palette */
+
+/* ... (rest of your .btn styles are fine) ... */
 .btn {
     display: inline-flex; align-items: center; justify-content: center;
     padding: 10px 24px;
@@ -123,6 +134,7 @@ ul { list-style: none; }
 
 
 /* Navbar */
+/* CONSOLIDATED Navbar style */
 .navbar {
     background-color: rgba(13, 17, 23, 0.8);
     backdrop-filter: blur(14px);
@@ -130,25 +142,24 @@ ul { list-style: none; }
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     height: var(--navbar-height);
     width: 100%;
-    position: fixed; 
-    top: 0; 
+    position: fixed;
+    top: 0;
     left: 0; right: 0;
-    z-index: 1000; 
-    transform: translateY(0); /* Default state: visible */
-    transition: background-color var(--anim-duration-fast) ease, box-shadow var(--anim-duration-fast) ease;
+    z-index: 1000;
+
+    opacity: 1; /* Default final state */
+    transform: translateY(0); /* Default final state */
+    transition: transform var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
+                opacity var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
+                background-color var(--anim-duration-fast) ease,
+                box-shadow var(--anim-duration-fast) ease;
 }
-.navbar.navbar-is-animating-initial {
-    transform: translateY(-100%); /* Start off-screen ONLY when this class is present */
-    animation: slideDownNavbar var(--anim-duration-medium) var(--anim-easing-curve) 0.5s forwards;
-}
-@keyframes slideDownNavbar { 
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(0); } 
-}
+
 .navbar.scrolled {
-    background-color: rgba(13, 17, 23, 0.95); 
+    background-color: rgba(13, 17, 23, 0.95);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
+/* ... (rest of your existing .navbar .container, .navbar-logo, etc. styles are fine) ... */
 .navbar .container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
 .navbar-logo { display: flex; align-items: center; color: var(--text-headings-light); font-size: 1.7rem; font-weight: 700; }
 .navbar-logo img { height: 45px; margin-right: 15px; }
@@ -168,22 +179,26 @@ ul { list-style: none; }
 .navbar-links-mobile.active { display: block; }
 
 
-/* Hero Section - Corrected for Push Effect */
+/* Hero Section Base Styles - for when animation is NOT active or has finished */
 .hero-section {
-    height: calc(100vh - var(--navbar-height)); /* Full viewport height *below* navbar space */
-    position: relative; 
-    overflow: hidden; 
-    display: flex; 
-    background-color: var(--bg-dark); /* Fallback */
+    position: relative;
+    overflow: hidden; /* Keep this to prevent scrollbars from image if it's slightly off */
+    display: flex;
+    background-color: var(--bg-dark);
+
+    /* Default state: assumes body padding handles offset or animation is done */
+    transform: translateY(0);
+    height: calc(100vh - var(--navbar-height));
+    /* NO GENERAL TRANSITION HERE - transitions are handled by animation-specific classes */
 }
 .hero-swiper { width: 100%; height: 100%; }
 .hero-swiper .swiper-slide {
     display: flex; align-items: center; justify-content: center;
     text-align: center; background-size: cover; background-position: center;
     color: var(--text-headings-light); position: relative; overflow: hidden;
-    /* No padding-top needed here; content is centered in the already offset hero-section */
     box-sizing: border-box; height: 100%;
 }
+/* ... (rest of your .hero-swiper, .slide-caption styles are fine) ... */
 .hero-swiper .swiper-slide::before { /* Overlay */
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(rgba(10, 15, 20, 0.2) 0%, rgba(10, 15, 20, 0.7) 60%, rgba(10, 15, 20, 0.9) 100%); /* Refined gradient */
@@ -191,7 +206,7 @@ ul { list-style: none; }
 }
 .hero-swiper .swiper-slide::after { /* Background Image Container (if you use this method) */
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background-image: inherit; background-size: cover; background-position: center; z-index: 1; 
+    background-image: inherit; background-size: cover; background-position: center; z-index: 1;
 }
 /* Slide Caption Animation */
 .slide-caption { position: relative; z-index: 10; max-width: 850px; padding: 30px; }
@@ -207,7 +222,7 @@ ul { list-style: none; }
 .slide-caption.is-visible .animate-this:nth-child(1) { transition-delay: 0.2s; }
 .slide-caption.is-visible .animate-this:nth-child(2) { transition-delay: 0.4s; }
 .slide-caption.is-visible .animate-this:nth-child(3) { transition-delay: 0.6s; }
-.slide-caption h2 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1.8rem; color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,0.6); }
+.slide-caption h2 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,0.6); }
 .slide-caption p { font-size: 1.2rem; margin-bottom: 2.8rem; color: var(--text-primary-light); font-weight: 300; }
 .hero-swiper .swiper-button-next, .hero-swiper .swiper-button-prev { color: #fff; opacity: 0.6; transition: opacity var(--anim-duration-fast), transform var(--anim-duration-fast) ease; background-color: rgba(0,0,0,0.15); border-radius: 50%; width: 55px; height: 55px; transform: scale(0.9); top: 50%; }
 .hero-swiper:hover .swiper-button-next, .hero-swiper:hover .swiper-button-prev { opacity: 0.8; transform: scale(1); }
@@ -216,6 +231,61 @@ ul { list-style: none; }
 .hero-swiper .swiper-pagination-bullet { background: rgba(255,255,255,0.4); opacity: 1; width: 12px; height: 12px; margin: 0 6px !important; transition: all var(--anim-duration-fast) ease; }
 .hero-swiper .swiper-pagination-bullet-active { background: var(--accent-primary); transform: scale(1.3); }
 
+
+/* --- STYLES FOR INITIAL PUSH ANIMATION --- */
+/* These rules should come AFTER the base .navbar and .hero-section styles for specificity */
+
+/* 1. Body during active animation */
+body.initial-animation--active {
+    padding-top: 0 !important; /* Crucial: body has no padding during animation */
+    margin-top: 0 !important; /* Belt and suspenders for any lingering body margin */
+    overflow-y: hidden !important; /* Prevent scrollbar flicker during animation */
+    overflow-x: hidden !important;
+}
+
+/* 2. Navbar's pre-animation state (hidden above) */
+.navbar.animation-initial-state {
+    transform: translateY(-100%) !important; /* Use !important if strictly needed, but base should be fine */
+    opacity: 0 !important;
+    transition: none !important;          /* Apply immediately */
+}
+
+/* 3. Hero's pre-animation state (full viewport) */
+.hero-section.animation-initial-state {
+    transform: translateY(0) !important;  /* Start at the very top of the viewport */
+    height: 100vh !important;             /* Occupy full viewport height */
+    transition: none !important;          /* Apply immediately */
+}
+
+/* 4. Navbar's animation target is its base .navbar style (no specific rule here) */
+
+/* 5. Hero's animation target and transition definition */
+/* This rule applies ONLY when body.initial-animation--active is present AND .animation-initial-state is REMOVED from hero */
+body.initial-animation--active .hero-section {
+    /* Target state for the hero to animate TO: */
+    transform: translateY(var(--navbar-height));
+    height: calc(100vh - var(--navbar-height));
+
+    /* Define the transition that happens to reach this target state: */
+    transition: transform var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
+                height var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay);
+}
+
+/* 6. Body state AFTER animation is complete (or if skipped) */
+body.initial-animation--done {
+    padding-top: var(--navbar-height) !important; /* Restore body padding */
+    /* Restore overflow if it was changed from default, otherwise remove these */
+    /* overflow-y: auto;  */
+    /* overflow-x: auto; */
+}
+
+/* 7. Hero state AFTER animation is complete (or if skipped) */
+/* This ensures hero is correctly positioned with body padding, no new animation here */
+body.initial-animation--done .hero-section {
+    transform: translateY(0); /* Relative to its position with body padding */
+    height: calc(100vh - var(--navbar-height));
+    /* NO TRANSITION here, this should be an instant adjustment if needed */
+}
 
 /* General Section Styling */
 .content-section { padding: var(--section-padding); background-color: var(--bg-dark); position: relative; border-bottom: 1px solid var(--border-subtle-dark); }
@@ -256,7 +326,7 @@ ul { list-style: none; }
 .cta-expand-reveal {
     padding: 60px 0; text-align: center;
     position: relative; overflow: hidden;
-    background-color: var(--bg-dark); 
+    background-color: var(--bg-dark);
 }
 .cta-expand-reveal .container { position: relative; z-index: 2; }
 .cta-expand-reveal::before {
@@ -320,7 +390,69 @@ ul { list-style: none; }
 .social-links-contact-page .social-icon-contact { color: var(--text-secondary-light); font-size: 1.5rem; margin-right: 12px; transition: color var(--anim-duration-fast), transform var(--anim-duration-fast); }
 .social-links-contact-page .social-icon-contact:hover { color: var(--accent-primary); transform: scale(1.1); }
 
+/* static/css/style.css */
 
+/* Remove or comment out any previous continuous animation keyframes */
+
+.slide-caption h2 {
+    /* ... your existing h2 styles ... */
+    animation: verticalWave 2.5s ease-in-out infinite; /* Slower than 1.3s for a gentler feel */
+    position: relative; /* Needed if you were to use top/left, good practice with transforms too */
+}
+
+.slide-caption p {
+    /* ... your existing p styles ... */
+    animation: verticalWave 2.8s ease-in-out infinite; /* Slightly different duration/delay */
+    animation-delay: 0.3s;
+    position: relative;
+}
+
+@keyframes verticalWave {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px); /* Adjust this value for more/less wave height */
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Optional: Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .slide-caption h2,
+  .slide-caption p {
+    animation-name: none;
+  }
+}
+/* static/css/style.css */
+
+/* Add this to your existing CSS, perhaps near the .slide-caption or .btn styles */
+
+.slide-caption .btn { /* Target buttons specifically within the slide caption */
+    animation: buttonPulse 2.5s ease-in-out infinite;
+    /* You might want a delay if it's appearing with the text */
+    /* animation-delay: 1s; */ /* Example delay */
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: scale(1);
+        /* box-shadow: 0 4px 12px rgba(var(--accent-primary-rgb), 0.2); /* Your normal button shadow */
+    }
+    50% {
+        transform: scale(1.05); /* Slightly larger */
+        /* box-shadow: 0 6px 18px rgba(var(--accent-primary-rgb), 0.3); /* Slightly enhanced shadow */
+    }
+}
+
+/* Optional: Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .slide-caption .btn {
+    animation-name: none;
+  }
+}
 /* Item Grid (Products, Categories, Subcategories) */
 .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 2rem; }
 .item-card {
@@ -349,6 +481,7 @@ ul { list-style: none; }
     min-height: calc(0.85rem * 1.5 * 2);
 }
 .item-card-content .btn { margin-top: auto; width: auto; align-self: center; padding: 0.6rem 1rem; font-size: 0.8rem; }
+
 
 /* Product Detail Page */
 .product-detail-page { background-color: var(--bg-dark); }
@@ -500,11 +633,11 @@ input[dir="rtl"], textarea[dir="rtl"] {
 @media (max-width: 992px) {
     .navbar-links-desktop { display: none; }
     .mobile-menu-toggle { display: block; }
-    .hero-section { height: 90vh; }
+    /* .hero-section { height: 90vh; } */ /* Let JS and base classes handle hero height */
     .slide-caption h2 { font-size: 3rem; }
     .section-title, .page-title { font-size: 2.4rem; }
     .item-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
-    .contact-page-wrapper { grid-template-columns: 1fr; } 
+    .contact-page-wrapper { grid-template-columns: 1fr; }
     .lang-button .lang-text { /* display: none; */ }
     .lang-button { padding: 8px 10px; }
 }
@@ -516,7 +649,7 @@ input[dir="rtl"], textarea[dir="rtl"] {
     .about-content, .footer-grid, .product-detail-wrapper { flex-direction: column; grid-template-columns: 1fr; }
     .about-image { margin-top: 1.5rem; }
     .product-detail-content { padding-left: 0; margin-top: 1.5rem; }
-    .hero-section { height: 85vh; }
+    /* .hero-section { height: 85vh; } */ /* Let JS and base classes handle hero height */
     .slide-caption h2 { font-size: 2.2rem; }
     .item-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
     .footer-column { text-align: center; }
@@ -524,13 +657,13 @@ input[dir="rtl"], textarea[dir="rtl"] {
     .footer-social-links { justify-content: center; display: flex; }
 }
 @media (max-width: 576px) {
-    .navbar-logo span { display: none; } 
+    .navbar-logo span { display: none; }
     .btn { padding: 0.7rem 1.5rem; font-size: 0.9rem; }
     .slide-caption h2 { font-size: 1.9rem; }
     .hero-swiper .swiper-button-next, .hero-swiper .swiper-button-prev { display: none; }
     .page-title, .section-title { font-size: 1.8rem; }
     .content-section { padding: 50px 0; }
-    .item-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } 
+    .item-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     .contact-form-container, .contact-info-sidebar { padding: 2rem 1rem; }
     .lang-button .lang-text { display: none; }
     .lang-button { padding: 8px; border: none; background-color: transparent; }

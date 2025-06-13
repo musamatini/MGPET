@@ -1,68 +1,170 @@
-/* static/css/style_rtl.css */
+/* static/css/style.rtl.css - Streamlined RTL Overrides */
+
+/* 1. General Direction */
 body {
-    direction: rtl;
-    text-align: right;
+  direction: rtl;
+  /* text-align: right; /* Base LTR usually handles text-align per element, 
+                          This global override might be too broad. 
+                          Only set if truly needed as a default. */
 }
 
-.navbar-logo span {
-    margin-left: 0;
-    margin-right: 10px; /* Adjust for RTL */
+/* 2. Text Alignment: Override specific elements if LTR was text-align: left */
+/* If your LTR .section-title, .page-title, etc. are text-align: center, they don't need this. */
+/* If they were text-align: left, then you need text-align: right here. */
+/* Assuming most titles and intros are centered in LTR, this block can often be smaller. */
+h1, h2, h3, h4, h5, h6,
+.page-intro,
+.slide-caption, /* If LTR was text-align: left */
+.cta-expand-reveal, /* If LTR was text-align: left */
+.item-card-content, /* If LTR was text-align: left */
+.footer-column /* If LTR was text-align: left */
+{
+  /* Only include this if the LTR version was specifically text-align: left */
+  /* text-align: right; */
 }
 
-.navbar-links-desktop ul li a::after {
-    left: auto;
-    right: 50%; /* Adjust underline for RTL */
-    transform: translateX(50%) scaleX(0);
-}
-.navbar-links-desktop ul li a:hover::after, 
-.navbar-links-desktop ul li a.active::after {
-    transform: translateX(50%) scaleX(1);
-}
+/* .footer-bottom is text-align: center in LTR, so no override needed here. */
+/* .section-title, .page-title are text-align: center in LTR, so no override needed. */
 
-.btn i, .footer-location-block p i.fas, .footer-emails li i.fas {
-    margin-right: 0;
-    margin-left: 8px; /* Icons to the right of text in RTL */
-}
-.footer-social-links a {
-    margin-right: 0;
-    margin-left: 15px;
-}
-.footer-quick-links li a:hover, .footer-emails li a:hover {
-    padding-left: 0;
-    padding-right: 5px; /* Indent on hover for RTL */
-}
 
-.breadcrumb-item + .breadcrumb-item::before {
-    content: "<"; /* Or use an RTL arrow icon */
-    padding: 0 0.75rem;
-}
-.back-to-categories { text-align: right; }
-.back-to-categories i.fas {
-    margin-left: 8px; /* Icon to the right of "Back to" text */
-    margin-right: 0;
-    transform: scaleX(-1); /* Flip arrow icon */
-}
-
-.product-detail-content {
-    padding-left: 0;
-    padding-right: 1rem; /* Adjust padding for RTL */
-}
-
-.contact-details li i.fas {
-    margin-right: 0;
-    margin-left: 12px;
+/* 3. Navbar */
+.navbar-logo img {
+  margin-left: 15px;
+  margin-right: 0;
 }
 .lang-button {
-    margin-left: 0;
-    margin-right: 1rem;
+  margin-right: 1rem;
+  margin-left: 0;
 }
-/* static/css/style_rtl.css */
-body[dir="rtl"] .about-section-title {
-    text-align: right; /* Align title to the right for RTL */
+.lang-button i.fa-globe {
+  margin-left: 8px;
+  margin-right: 0;
+}
+/* .navbar-links-desktop ul li a::after uses left: 50%; transform: translateX(-50%) for centering, so it's fine. */
+
+
+/* 4. Buttons with Icons */
+.btn i {
+  margin-left: 8px;
+  margin-right: 0;
 }
 
-body[dir="rtl"] .about-section-title::after {
-    left: auto; /* Reset left */
-    right: 0;   /* Position from the right */
-    transform: translateX(0); /* No horizontal transform needed if positioned from right */
+
+/* 6. About Section */
+.about-section-title {
+  text-align: right; /* If LTR was text-align: left */
+}
+.about-section-title::after {
+  right: 0;
+  left: auto;
+  /* transform: translateX(0); is fine as it's relative to the new right:0 */
+}
+
+
+
+/* 8. Contact Page */
+.contact-info-sidebar {
+  /* If it had a border-left in LTR: */
+  /* border-left: none; */
+  /* border-right: 3px solid var(--accent-primary); */
+}
+.location-card h4 .flag-icon {
+  margin-left: 0.75rem;
+  margin-right: 0;
+}
+.contact-details li i.fas {
+  margin-left: 12px;
+  margin-right: 0;
+}
+.social-links-contact-page .social-icon-contact {
+  margin-left: 15px;
+  margin-right: 0;
+}
+
+/* 9. Product Detail Page */
+.product-detail-content {
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+/* 10. Breadcrumb */
+.breadcrumb-item + .breadcrumb-item::before {
+  /* If LTR uses ">", change to "<" for RTL. If "/", it's symmetrical. */
+  /* content: "<"; */
+  /* Or if using FontAwesome icons, you might flip the icon: */
+  /* transform: scaleX(-1); */
+}
+.back-to-categories {
+  text-align: right; /* If LTR was left */
+}
+.back-to-categories i.fas { /* For "Back to..." buttons */
+  margin-left: 8px;
+  margin-right: 0;
+  transform: scaleX(-1); /* Flip arrow icon */
+}
+
+
+/* 11. Footer */
+.footer-social-links a {
+  margin-left: 15px;
+  margin-right: 0;
+}
+.footer-location-block h5 .flag-icon {
+  margin-left: 0.6rem;
+  margin-right: 0;
+}
+.footer-location-block p i.fas {
+  margin-left: 8px;
+  margin-right: 0;
+}
+.footer-quick-links li a:hover, .footer-emails li a:hover {
+  padding-right: 5px;
+  padding-left: 0;
+}
+.footer-emails li i.fas {
+  margin-left: 8px;
+  margin-right: 0;
+}
+
+/* 12. Language Switcher in Navbar (if structure is different from lang-button) */
+.language-switcher .globe-icon {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+/* 13. Specific Icons that need flipping */
+/* FontAwesome often has -alt versions for flipped icons, or use transform */
+.fa-arrow-right,          /* Example */
+.fa-chevron-right,        /* Example */
+i.fas.fa-arrow-right     /* More specific example */
+{
+    transform: scaleX(-1);
+}
+/* Symmetrical icons like fa-search-plus usually don't need flipping. */
+
+
+/* 14. Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-column {
+    text-align: right; /* If LTR was center or left and you want RTL to be right */
+  }
+  .footer-location-block h5, .footer-location-block p, .footer-emails li {
+    /* If LTR was justify-content: flex-start */
+    /* justify-content: flex-end; */
+    /* If LTR was center, usually fine to keep center */
+  }
+}
+@media (max-width: 576px) {
+    .lang-button i.fa-globe {
+        margin-left: 0; /* Reset LTR margin-right if it was there */
+    }
+}
+
+
+/* 15. Input Placeholders and Text Alignment for RTL text */
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+textarea::placeholder {
+    text-align: right; /* Assuming placeholders should also align right */
 }
