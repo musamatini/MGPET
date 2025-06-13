@@ -1,7 +1,6 @@
 // static/js/main.js
 
 document.addEventListener('DOMContentLoaded', function () {
-    // ... (AOS init, variable declarations) ...
     AOS.init({
         duration: 400,
         once: true,
@@ -30,24 +29,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     if (navbarElement && bodyElement) {
-        const currentFullUrl = window.location.href; // Get the full URL
-        const currentPathOnly = window.location.pathname; // Path without hash or query
-        const hasHash = window.location.hash && window.location.hash.length > 1; // Check if there's a non-empty hash
+        const currentPathOnly = window.location.pathname; 
+        const hasHash = window.location.hash && window.location.hash.length > 1; 
 
-        const homePageBasePaths = ['/', '/en/', '/ar/']; // Base paths for homepage (note trailing slashes)
+        const homePageBasePaths = ['/', '/en/', '/ar/']; 
 
-        // Determine if it's a "clean" homepage load (correct base path AND no hash)
-        // We use startsWith to handle cases like /en/ vs /en
-        // And ensure the path is one of the exact homePageBasePaths or its non-trailing-slash version
         let isCleanHomepage = false;
         for (const basePath of homePageBasePaths) {
-            if (currentPathOnly === basePath || currentPathOnly === basePath.slice(0, -1) /* remove trailing slash for comparison */) {
+            if (currentPathOnly === basePath || currentPathOnly === basePath.slice(0, -1)) {
                 isCleanHomepage = true;
                 break;
             }
         }
         
-        // Condition for animation: hero exists, it's a clean homepage (correct path AND no hash)
+        // Condition for main animation: hero exists, it's a clean homepage (correct path AND no hash)
         if (heroSectionElement && isCleanHomepage && !hasHash) {
             console.log("Clean Homepage (no hash): Preparing push animation.");
 
@@ -55,13 +50,13 @@ document.addEventListener('DOMContentLoaded', function () {
             bodyElement.classList.remove('initial-animation--active');
             
             bodyElement.classList.add('initial-animation--active');
-            navbarElement.classList.add('animation-initial-state');
-            heroSectionElement.classList.add('animation-initial-state');
+            navbarElement.classList.add('animation-initial-state'); // Assumes CSS for this sets initial anim props
+            heroSectionElement.classList.add('animation-initial-state'); // Same for hero
 
-            void navbarElement.offsetHeight;
+            void navbarElement.offsetHeight; // Force reflow
 
             console.log("Running push animation.");
-            navbarElement.classList.remove('animation-initial-state');
+            navbarElement.classList.remove('animation-initial-state'); // Removing this triggers transition to final state
             heroSectionElement.classList.remove('animation-initial-state');
 
             setTimeout(() => {
@@ -73,26 +68,43 @@ document.addEventListener('DOMContentLoaded', function () {
             }, totalAnimationTime);
 
         } else {
-            // Not a "clean" homepage, or no hero section: Apply final layout directly.
+            // Not a "clean" homepage, or it has a hash (e.g. /#about), or no hero section: 
+            // Apply final layout directly and *instantly* without the main push animation.
             if (hasHash && isCleanHomepage) {
-                console.log("Homepage with hash (e.g., /#about): Applying standard layout directly.");
+                console.log("Homepage with hash (" + window.location.hash + "): Applying standard layout instantly, no navbar animation.");
             } else if (!heroSectionElement && isCleanHomepage) {
-                console.log("Homepage but no hero section found. Applying standard layout directly.");
+                console.log("Homepage but no hero section found. Applying standard layout instantly, no navbar animation.");
             } else if (!isCleanHomepage) {
-                console.log("Not a base homepage path: Applying standard layout directly.");
+                console.log("Not a base homepage path (" + currentPathOnly + "): Applying standard layout instantly, no navbar animation.");
             }
             
-            bodyElement.classList.remove('initial-animation--active');
-            bodyElement.classList.add('initial-animation--done');
+            bodyElement.classList.remove('initial-animation--active'); 
+            bodyElement.classList.add('initial-animation--done');     
             
             if (navbarElement) {
+                // MODIFICATION START: Apply styles instantly
+                // Add the .no-transition class to temporarily disable CSS transitions
+                navbarElement.classList.add('no-transition');
+
+                // Apply final, visible styles
                 navbarElement.style.opacity = '1';
                 navbarElement.style.transform = 'translateY(0)';
+                
+                // Ensure any class that defines an initial (e.g., hidden) state for animation is removed
                 navbarElement.classList.remove('animation-initial-state');
+
+                // Force reflow/repaint. This ensures the styles are applied *now*, without transition.
+                // Reading a property like offsetHeight is a common way to trigger this.
+                void navbarElement.offsetHeight; 
+
+                // Remove the .no-transition class so transitions work for subsequent interactions (e.g., scroll, hover)
+                navbarElement.classList.remove('no-transition');
+                // MODIFICATION END
             }
         }
     } else {
         if (!navbarElement) console.error("Navbar element NOT found.");
+        // If body exists but navbar doesn't, still mark animation as "done" for consistency
         if (bodyElement) {
              bodyElement.classList.remove('initial-animation--active');
              bodyElement.classList.add('initial-animation--done');
@@ -100,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- HERO SWIPER ---
-    // ... (rest of your Swiper code)
+    // ... (rest of your Swiper code remains unchanged)
     const heroSwiper = new Swiper('.hero-swiper', {
         effect: 'slide',
         loop: true,
@@ -144,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // --- MOBILE MENU TOGGLE ---
-    // ... (your mobile menu code)
+    // ... (your mobile menu code remains unchanged)
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const mobileNav = document.querySelector('.navbar-links-mobile');
     if (menuToggle && mobileNav) {
@@ -158,38 +170,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- SMOOTH SCROLL WITH NAVBAR OFFSET ---
-    // Make sure your smooth scroll handles internal page links correctly
+    // ... (your smooth scroll code remains unchanged)
     document.querySelectorAll('a[href^="#"], a[href*="/#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            let targetId = href.substring(href.lastIndexOf('#')); // Keep this for finding element
+            let targetId = href.substring(href.lastIndexOf('#')); 
             
-            // Check if the link is purely a hash for the current page, or a full path with a hash
             const isPureHash = href.startsWith('#');
             const isPathWithHash = href.includes('/#');
 
-            // Only proceed with smooth scroll if it's a link on the *current page* or a root-relative link to a hash on the homepage
             const currentPathname = window.location.pathname;
             const linkPathname = href.split('#')[0];
 
-            // Condition for smooth scroll:
-            // 1. Pure hash on any page.
-            // 2. Path with hash IF the path part matches current page's path OR if it's a root path link (e.g. "/#about" from "/products")
             let shouldSmoothScroll = false;
             if (isPureHash) {
                 shouldSmoothScroll = true;
             } else if (isPathWithHash) {
+                // Check if the linkPathname (part before #) matches current OR is a homepage base path
                 if (linkPathname === currentPathname || linkPathname === "" || homePageBasePaths.some(p => linkPathname === p || linkPathname === p.slice(0, -1))) {
-                     // Check if the linkPathname (part before #) matches current OR is a homepage base path
                     shouldSmoothScroll = true;
                 }
             }
 
-
             if (shouldSmoothScroll && targetId.length > 1 && document.querySelector(targetId)) {
                 e.preventDefault();
                 const targetElement = document.querySelector(targetId);
-                const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
+                const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70; // Use navbarElement if preferred and in scope
                 
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const targetPositionInDocument = targetElement.getBoundingClientRect().top + scrollTop;
@@ -212,9 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // --- STICKY NAVBAR SCROLL EFFECT ---
-    // ... (your sticky navbar code)
-    const navbarScrollEffect = document.querySelector('.navbar');
-    if (navbarScrollEffect) {
+    const navbarScrollEffect = document.querySelector('.navbar'); // This is the same as navbarElement
+    if (navbarScrollEffect) { 
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 navbarScrollEffect.classList.add('scrolled');
@@ -224,29 +229,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-     // --- ACTIVE NAV LINKS --- (Keep this)
+     // --- ACTIVE NAV LINKS --- 
     const navLinks = document.querySelectorAll('.navbar-links-desktop ul li a, .navbar-links-mobile ul li a');
-    const currentPath = window.location.pathname;
+    const currentPath = window.location.pathname; // This is essentially currentPathOnly
     navLinks.forEach(link => {
         link.classList.remove('active');
         const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath || (linkHref !== '/' && currentPath.startsWith(linkHref) && linkHref.length > 1) ) {
+        // Simplified active link logic slightly for clarity, original was likely fine
+        if (linkHref === currentPath || (linkHref.length > 1 && linkHref !== '/' && currentPath.startsWith(linkHref)) ) {
             link.classList.add('active');
-        } else if (currentPath === '/' && (linkHref === '/' || linkHref.endsWith('#home'))) {
+        } else if (currentPath === '/' && (linkHref === '/' || linkHref.endsWith('#home') || linkHref.endsWith('/#home'))) {
              link.classList.add('active');
         }
     });
 
-    // --- CTA SECTION EXPAND ANIMATION --- (Keep this)
+    // --- CTA SECTION EXPAND ANIMATION --- 
     const ctaSection = document.querySelector('.cta-expand-reveal');
     if (ctaSection) {
-        const ctaObserver = new IntersectionObserver((entries, observer) => { // Add 'observer' to the callback arguments
+        const ctaObserver = new IntersectionObserver((entries, observer) => { 
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // <<< STOP OBSERVING AFTER THE FIRST TIME
+                    observer.unobserve(entry.target); 
                 }
-                // REMOVE the 'else' block: entry.target.classList.remove('is-visible');
             });
         }, { threshold: 0.3 }); 
         ctaObserver.observe(ctaSection);

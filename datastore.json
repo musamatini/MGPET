@@ -1,70 +1,248 @@
 {
     "categories": {
-        "water-bottles": {
+        "preform": {
             "name": {
-                "en": "Water Bottles",
-                "ar": "قناني ماء"
+                "en": "Preform",
+                "ar": "أمبولات"
             },
-            "image": "images/carousel/slide1.jpg",
             "description": {
-                "en": [
-                    "Hydration solutions for every need."
-                ],
-                "ar": [
-                    "حلول للترطيب لكل الاحتياجات."
-                ]
+                "en": [],
+                "ar": []
             },
+            "image": "images/uploads/categories/1_58ddec31.jpg",
             "children_item_slugs": [
-                "sports-bottles"
+                "water-preform",
+                "csd-preform",
+                "juice-and-oil-preform"
             ]
+        },
+        "plastik-caps": {
+            "name": {
+                "en": "Plastik caps",
+                "ar": "أغطية بلاستيكية"
+            },
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "image": "images/uploads/categories/5924884286954129578_5ebc250d.jpg",
+            "children_item_slugs": []
+        },
+        "pet-resin": {
+            "name": {
+                "en": "PET Resin",
+                "ar": "بولي إيثيلين تيرفثالات (PET)"
+            },
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "image": "images/uploads/categories/2_b7f39c9f.jpg",
+            "children_item_slugs": []
+        },
+        "pet-color-masterbatch": {
+            "name": {
+                "en": "PET color masterbatch",
+                "ar": "ملونات إيثيلين تيرفثالات (PET)"
+            },
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "image": "images/uploads/categories/5924884286954129584_374b6e7e.jpg",
+            "children_item_slugs": []
         }
     },
     "items": {
-        "sports-bottles": {
+        "water-preform": {
             "type": "subcategory",
             "name": {
-                "en": "Sports Bottles",
-                "ar": "قناني رياضية"
-            },
-            "image": "images/carousel/slide2.jpg",
-            "description": {
-                "en": [
-                    "Durable bottles for active lifestyles and workouts."
-                ],
-                "ar": [
-                    "قناني متينة لأسلوب حياة نشط والتمارين الرياضية."
-                ]
+                "en": "Water preform",
+                "ar": "أمبولات المياة"
             },
             "parent_type": "category",
-            "parent_slug": "water-bottles",
+            "parent_slug": "preform",
+            "image": "images/uploads/items/5924884286954129730_2608be89.jpg",
+            "description": {
+                "en": [],
+                "ar": []
+            },
             "children_item_slugs": [
-                "hydromax-750ml"
+                "89-gram",
+                "985-gram",
+                "105-gram",
+                "205-gram",
+                "22-gram",
+                "52-gram"
             ]
         },
-        "hydromax-750ml": {
+        "csd-preform": {
+            "type": "subcategory",
+            "name": {
+                "en": "CSD preform",
+                "ar": "أمبولات المشروبات الغازية"
+            },
+            "parent_type": "category",
+            "parent_slug": "preform",
+            "image": "images/uploads/items/5924884286954129766_5c8ca0d8.jpg",
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "children_item_slugs": []
+        },
+        "juice-and-oil-preform": {
+            "type": "subcategory",
+            "name": {
+                "en": "Juice and oil preform",
+                "ar": "أمبولات الزيوت والعصائر"
+            },
+            "parent_type": "category",
+            "parent_slug": "preform",
+            "image": "images/uploads/items/5924884286954129767_3f819c12.jpg",
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "children_item_slugs": []
+        },
+        "89-gram": {
             "type": "product",
             "name": {
-                "en": "HydroMax 750ml",
-                "ar": "هايدروماكس 750 مل"
+                "en": "8,9 Gram",
+                "ar": "8,9 غرام"
             },
-            "image": "images/carousel/slide3.jpg",
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/images_8e42a4a9.png",
             "short_description": {
                 "en": [
-                    "750ml capacity, ergonomic grip.",
-                    "Leak-proof sports cap included."
+                    "Nick: 29/25 mm"
                 ],
                 "ar": [
-                    "سعة 750 مل، قبضة مريحة.",
-                    "غطاء رياضي مانع للتسرب."
+                    "فوهة : 29/25 مم"
                 ]
             },
             "long_description_markdown": {
-                "en": "The **HydroMax 750ml** is perfect for your workouts...",
-                "ar": "**هايدروماكس 750 مل** مثالية لتمارينك الرياضية..."
+                "en": "8,9 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 25.344 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.317.888 piece\r\nTotal quantity in 40HC container: 1.115.136 piece",
+                "ar": "8,9 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ٢٥.٣٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٣١٧.٨٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١.١١٥.١٣٦ قطعة"
             },
-            "use_short_desc_for_long": false,
+            "use_short_desc_for_long": false
+        },
+        "985-gram": {
+            "type": "product",
+            "name": {
+                "en": "9,85 Gram",
+                "ar": "9,85 غرام"
+            },
             "parent_type": "item",
-            "parent_slug": "sports-bottles"
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background_8766dea8.png",
+            "short_description": {
+                "en": [
+                    "Nick: 29/25 mm"
+                ],
+                "ar": [
+                    "فوهة : 29/25 مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "9,85 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 25.344 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.317.888 piece\r\nTotal quantity in 40HC container: 1.115.136 piece",
+                "ar": "9,85 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ٢٥.٣٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٣١٧.٨٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١.١١٥.١٣٦ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "105-gram": {
+            "type": "product",
+            "name": {
+                "en": "10,5 Gram",
+                "ar": "10,5 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background-6_cb1d98c2.png",
+            "short_description": {
+                "en": [
+                    "Nick: 29/25 mm"
+                ],
+                "ar": [
+                    "فوهة : 29/25 مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "10,5 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 24.048 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.250.496 piece\r\nTotal quantity in 40HC container: 1.058.112 piece",
+                "ar": "10,5 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ٢٤.٠٤٨ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٢٥٠.٤٩٦ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١.٠٥٨.١١٢ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "205-gram": {
+            "type": "product",
+            "name": {
+                "en": "20,5 Gram",
+                "ar": "20,5 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background-3_3482e4b3.png",
+            "short_description": {
+                "en": [
+                    "Nick: 29/25 mm"
+                ],
+                "ar": [
+                    "فوهة : 29/25 مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "20,5 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 12.544 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 662.288 piece\r\nTotal quantity in 40HC container: 551.936 piece",
+                "ar": "20,5 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ١٢.٥٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٦٦٢.٢٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ٥٥١.٩٣٦ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "22-gram": {
+            "type": "product",
+            "name": {
+                "en": "22 Gram",
+                "ar": "22 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background-6_4dce757b.png",
+            "short_description": {
+                "en": [
+                    "Nick: 29/25 mm"
+                ],
+                "ar": [
+                    "فوهة : 29/25 مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "22 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 10.944 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 569.088 piece\r\nTotal quantity in 40HC container: 481.536 piece",
+                "ar": "22 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ١٠.٩٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٥٦٩.٠٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ٤٨١.٥٣٦ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "52-gram": {
+            "type": "product",
+            "name": {
+                "en": "52 Gram",
+                "ar": "52 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background-7_00d9b66b.png",
+            "short_description": {
+                "en": [
+                    "Nick: 38/33 mm"
+                ],
+                "ar": [
+                    "فوهة : ٣٨/٣٣ مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "52 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 4.416 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 229.632 piece\r\nTotal quantity in 40HC container: 194.304 piece",
+                "ar": "52 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٤.٤١٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٢٢٩.٦٣٢  قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٩٤.٣٠٤ قطعة"
+            },
+            "use_short_desc_for_long": false
         }
     },
     "admin_users": {
