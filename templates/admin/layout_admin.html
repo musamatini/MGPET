@@ -23,8 +23,7 @@
                 {# The 'Items (Subcats/Prods)' link is removed as navigation is now purely hierarchical #}
                 {# Users will navigate into categories to see/manage items under them #}
                 
-                <!-- NEW DOWNLOAD LINK ADDED HERE -->
-                <li><a href="{{ url_for('admin.download_datastore') }}"><i class="fas fa-download"></i> Download Datastore</a></li>
+                <li><a href="{{ url_for('admin.download_backup') }}"><i class="fas fa-archive"></i> Download Full Backup (DB & Images)</a></li>
                 
                 <hr>
                 <li><a href="{{ url_for('home_page', lang_code=config.DEFAULT_LANGUAGE) }}" target="_blank"><i class="fas fa-globe"></i> View Site</a></li>

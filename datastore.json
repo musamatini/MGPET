@@ -26,7 +26,10 @@
                 "ar": []
             },
             "image": "images/uploads/categories/5924884286954129578_5ebc250d.jpg",
-            "children_item_slugs": []
+            "children_item_slugs": [
+                "water-caps",
+                "soft-drink-caps"
+            ]
         },
         "pet-resin": {
             "name": {
@@ -38,7 +41,11 @@
                 "ar": []
             },
             "image": "images/uploads/categories/2_b7f39c9f.jpg",
-            "children_item_slugs": []
+            "children_item_slugs": [
+                "pet-for-csd-bottles",
+                "pet-for-textile-1",
+                "pet-for-water-bottles"
+            ]
         },
         "pet-color-masterbatch": {
             "name": {
@@ -73,7 +80,11 @@
                 "105-gram",
                 "205-gram",
                 "22-gram",
-                "52-gram"
+                "52-gram",
+                "73-gram",
+                "538-gram",
+                "81-gram",
+                "90-gram"
             ]
         },
         "csd-preform": {
@@ -89,7 +100,14 @@
                 "en": [],
                 "ar": []
             },
-            "children_item_slugs": []
+            "children_item_slugs": [
+                "12-gram",
+                "20-gram",
+                "22-gram-1",
+                "24-gram",
+                "285",
+                "315-gram"
+            ]
         },
         "juice-and-oil-preform": {
             "type": "subcategory",
@@ -104,7 +122,10 @@
                 "en": [],
                 "ar": []
             },
-            "children_item_slugs": []
+            "children_item_slugs": [
+                "21-gram",
+                "475-gram"
+            ]
         },
         "89-gram": {
             "type": "product",
@@ -117,7 +138,7 @@
             "image": "images/uploads/items/images_8e42a4a9.png",
             "short_description": {
                 "en": [
-                    "Nick: 29/25 mm"
+                    "Neck: 29/25 mm"
                 ],
                 "ar": [
                     "فوهة : 29/25 مم"
@@ -140,7 +161,7 @@
             "image": "images/uploads/items/white-background_8766dea8.png",
             "short_description": {
                 "en": [
-                    "Nick: 29/25 mm"
+                    "Neck: 29/25 mm"
                 ],
                 "ar": [
                     "فوهة : 29/25 مم"
@@ -163,7 +184,7 @@
             "image": "images/uploads/items/white-background-6_cb1d98c2.png",
             "short_description": {
                 "en": [
-                    "Nick: 29/25 mm"
+                    "Neck: 29/25 mm"
                 ],
                 "ar": [
                     "فوهة : 29/25 مم"
@@ -186,7 +207,7 @@
             "image": "images/uploads/items/white-background-3_3482e4b3.png",
             "short_description": {
                 "en": [
-                    "Nick: 29/25 mm"
+                    "Neck: 29/25 mm"
                 ],
                 "ar": [
                     "فوهة : 29/25 مم"
@@ -209,7 +230,7 @@
             "image": "images/uploads/items/white-background-6_4dce757b.png",
             "short_description": {
                 "en": [
-                    "Nick: 29/25 mm"
+                    "Neck: 29/25 mm"
                 ],
                 "ar": [
                     "فوهة : 29/25 مم"
@@ -232,7 +253,7 @@
             "image": "images/uploads/items/white-background-7_00d9b66b.png",
             "short_description": {
                 "en": [
-                    "Nick: 38/33 mm"
+                    "Neck: 38/33 mm"
                 ],
                 "ar": [
                     "فوهة : ٣٨/٣٣ مم"
@@ -241,6 +262,392 @@
             "long_description_markdown": {
                 "en": "52 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 4.416 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 229.632 piece\r\nTotal quantity in 40HC container: 194.304 piece",
                 "ar": "52 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٤.٤١٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٢٢٩.٦٣٢  قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٩٤.٣٠٤ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "73-gram": {
+            "type": "product",
+            "name": {
+                "en": "73 Gram",
+                "ar": "73 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/images_f17e5e49.png",
+            "short_description": {
+                "en": [
+                    "Neck: 38/33 mm"
+                ],
+                "ar": [
+                    "فوهة : ٣٨/٣٣ مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "73 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 3.672 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 190.944 piece\r\nTotal quantity in 40HC container: 161.568 piece",
+                "ar": "73 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٣.٦٧٢ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٩٠.٩٤٤ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٦١.٥٦٨ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "538-gram": {
+            "type": "product",
+            "name": {
+                "en": "53,8 Gram",
+                "ar": "53,8 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background_84ccf695.png",
+            "short_description": {
+                "en": [
+                    "Neck: 38/33 mm"
+                ],
+                "ar": [
+                    "فوهة : ٣٨/٣٣ مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "53,8 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 4.032 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 209.664 piece\r\nTotal quantity in 40HC container: 177.408 piece",
+                "ar": "53,8 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٤.٠٣٢ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٧٧.٤٠٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٧٧.٤٠٨ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "81-gram": {
+            "type": "product",
+            "name": {
+                "en": "81 Gram",
+                "ar": "81 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background-4_a72251ea.png",
+            "short_description": {
+                "en": [
+                    "Neck: 48/41 mm"
+                ],
+                "ar": [
+                    "فوهة : ٤٨/٤١ مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "81 Gram\r\nNick: 48/41 MM\r\nPreform quantity in 1 pallet: 2.848 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 148.096 piece\r\nTotal quantity in 40HC container: 125.312 piece",
+                "ar": "81 غرام\r\nفوهة : ٤٨/٤١ مم\r\nكمية الأمبولات في الطابليه الواحده: ٢.٨٤٨ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٤٨.٠٩٦ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٢٥.٣١٢ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "90-gram": {
+            "type": "product",
+            "name": {
+                "en": "90 Gram",
+                "ar": "90 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "water-preform",
+            "image": "images/uploads/items/white-background-8_980eb0d3.png",
+            "short_description": {
+                "en": [
+                    "Neck: 48/41 mm"
+                ],
+                "ar": [
+                    "فوهة : ٤٨/٤١ مم"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "90 Gram\r\nNick: 48/41 MM\r\nPreform quantity in 1 pallet: 2.848 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 148.096 piece\r\nTotal quantity in 40HC container: 125.312 piece",
+                "ar": "90 غرام\r\nفوهة : ٤٨/٤١ مم\r\nكمية الأمبولات في الطابليه الواحده: ٢.٨٤٨ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٤٨.٠٩٦ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٢٥.٣١٢ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "water-caps": {
+            "type": "subcategory",
+            "name": {
+                "en": "Water caps",
+                "ar": "أغطية المياه"
+            },
+            "parent_type": "category",
+            "parent_slug": "plastik-caps",
+            "image": "images/uploads/items/5924884286954129772_d549571f.jpg",
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "children_item_slugs": []
+        },
+        "soft-drink-caps": {
+            "type": "subcategory",
+            "name": {
+                "en": "Soft drink caps",
+                "ar": "أغطية المشروبات الغازية"
+            },
+            "parent_type": "category",
+            "parent_slug": "plastik-caps",
+            "image": "images/uploads/items/5924884286954129779_2b1954e9.jpg",
+            "description": {
+                "en": [],
+                "ar": []
+            },
+            "children_item_slugs": []
+        },
+        "pet-for-csd-bottles": {
+            "type": "product",
+            "name": {
+                "en": "PET for CSD bottles",
+                "ar": "بولي إيثيلين تيرفثالات (PET) لزجاجات المشروبات الغازية"
+            },
+            "parent_type": "category",
+            "parent_slug": "pet-resin",
+            "image": "images/uploads/items/5927136086767814359_1_ec5acc02.jpg",
+            "short_description": {
+                "en": [
+                    "MG760"
+                ],
+                "ar": [
+                    "MG760"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "",
+                "ar": ""
+            },
+            "use_short_desc_for_long": true
+        },
+        "pet-for-textile-1": {
+            "type": "product",
+            "name": {
+                "en": "PET for textile",
+                "ar": "بولي إيثيلين تيرفثالات (PET) للنسيج"
+            },
+            "parent_type": "category",
+            "parent_slug": "pet-resin",
+            "image": "images/uploads/items/5927136086767814361_1_c54271a6.jpg",
+            "short_description": {
+                "en": [
+                    "MG985 Semi-Dull Polyester Chips",
+                    "MG995 Super Bright Polyester Chips"
+                ],
+                "ar": [
+                    "MG985 رقائق البوليستر شبه الباهتة",
+                    "MG995 رقائق البوليستر فائقة السطوع"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "",
+                "ar": ""
+            },
+            "use_short_desc_for_long": true
+        },
+        "pet-for-water-bottles": {
+            "type": "product",
+            "name": {
+                "en": "PET for water bottles",
+                "ar": "بولي إيثيلين تيرفثالات (PET) لزجاجات المياه"
+            },
+            "parent_type": "category",
+            "parent_slug": "pet-resin",
+            "image": "images/uploads/items/5927136086767814358_1_afc37253.jpg",
+            "short_description": {
+                "en": [
+                    "MG724"
+                ],
+                "ar": [
+                    "MG724"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "",
+                "ar": ""
+            },
+            "use_short_desc_for_long": true
+        },
+        "12-gram": {
+            "type": "product",
+            "name": {
+                "en": "12 Gram",
+                "ar": "12 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "csd-preform",
+            "image": "images/uploads/items/indir-3_c4c3a223.jpeg",
+            "short_description": {
+                "en": [
+                    "18/81 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "18/81 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "12 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 21.120 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.098.240 piece\r\nTotal quantity in 40HC container: 929.280 piece",
+                "ar": "12 غرام\r\n18/81 فوهة (28 مم)\r\nكمية الأمبولات في الطابليه الواحده: ٢١.١٢٠ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٠٩٨.٢٤٠ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ٩٢٩.٢٨٠ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "20-gram": {
+            "type": "product",
+            "name": {
+                "en": "20 Gram",
+                "ar": "20 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "csd-preform",
+            "image": "images/uploads/items/images_a165a6c4.jpeg",
+            "short_description": {
+                "en": [
+                    "18/81 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "18/81 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "20 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 16.640 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 865.280 piece\r\nTotal quantity in 40HC container: 732.160 piece",
+                "ar": "٢٠ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ١٦٦٤٠ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٨٦٥٫٢٨٠ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٧٣٢٫١٦٠ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "22-gram-1": {
+            "type": "product",
+            "name": {
+                "en": "22 Gram",
+                "ar": "22 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "csd-preform",
+            "image": "images/uploads/items/images-4_fc1bf689.jpeg",
+            "short_description": {
+                "en": [
+                    "18/81 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "18/81 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "22 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 15.744 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 818.688 piece\r\nTotal quantity in 40HC container: 693.696 piece",
+                "ar": "٢٢ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ١٥.٧٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٨١٨٫٦٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٦٩٣٫٦٩٦ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "24-gram": {
+            "type": "product",
+            "name": {
+                "en": "24 Gram",
+                "ar": "24 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "csd-preform",
+            "image": "images/uploads/items/images-3_28bf0e72.jpeg",
+            "short_description": {
+                "en": [
+                    "18/81 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "18/81 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "24 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 15.744 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 818.688 piece\r\nTotal quantity in 40HC container: 693.696 piece",
+                "ar": "٢٤ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ١٥.٧٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٨١٨٫٦٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٦٩٣٫٦٩٦ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "285": {
+            "type": "product",
+            "name": {
+                "en": "28,5",
+                "ar": "28,5 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "csd-preform",
+            "image": "images/uploads/items/images-2_5d6b2e68.jpeg",
+            "short_description": {
+                "en": [
+                    "18/81 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "18/81 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "28.5 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 9.696 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 504.192 piece\r\nTotal quantity in 40HC container: 426.624 piece",
+                "ar": "٢٨٫٥ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ٩٦٩٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٥٠٤٫١٩٢ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٤٢٦٫٦٢٤ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "315-gram": {
+            "type": "product",
+            "name": {
+                "en": "31,5 Gram",
+                "ar": "31,5 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "csd-preform",
+            "image": "images/uploads/items/images-7_1a1ef971.jpeg",
+            "short_description": {
+                "en": [
+                    "18/81 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "18/81 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "31.5 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 9.696 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 504.192 piece\r\nTotal quantity in 40HC container: 426.624 piece",
+                "ar": "٣١٫٥ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ٩.٦٩٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٥٠٤٫١٩٢ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٤٢٦٫٦٢٤ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "21-gram": {
+            "type": "product",
+            "name": {
+                "en": "21 Gram",
+                "ar": "21 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "juice-and-oil-preform",
+            "image": "images/uploads/items/images-6_84eef7a9.jpeg",
+            "short_description": {
+                "en": [
+                    "29/21 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "29/21 فوهة (28 مم)",
+                    "Snap on"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "21 Gram\r\n29/21 Neck (28mm)\r\nPreform quantity in 1 pallet: 13.184 pieces\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 685.568 pieces\r\nTotal quantity in 40HC container: 580.096 pieces",
+                "ar": "٢١ غرام\r\n٢٩/٢١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطبلية الواحدة: ١٣.١٨٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٦٨٥.٥٦٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٥٨٠.٠٩٦ قطعة"
+            },
+            "use_short_desc_for_long": false
+        },
+        "475-gram": {
+            "type": "product",
+            "name": {
+                "en": "47,5 Gram",
+                "ar": "47,2 غرام"
+            },
+            "parent_type": "item",
+            "parent_slug": "juice-and-oil-preform",
+            "image": "images/uploads/items/images-5_fd3bbc34.jpeg",
+            "short_description": {
+                "en": [
+                    "29/21 Neck (28mm)",
+                    "Snap on"
+                ],
+                "ar": [
+                    "29/21 فوهة (28 مم)"
+                ]
+            },
+            "long_description_markdown": {
+                "en": "47.2 Gram\r\n29/21 Neck (28mm)\r\nPreform quantity in 1 pallet: 7,680 pieces\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 399,360 pieces\r\nTotal quantity in 40HC container: 337,920 pieces",
+                "ar": "٤٧٫٢ غرام\r\n٢٩/٢١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطبلية الواحدة: ٧,٦٨٠ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٣٩٩,٣٦٠ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٣٣٧,٩٢٠ قطعة"
             },
             "use_short_desc_for_long": false
         }

@@ -3,9 +3,90 @@
 /* 1. General Direction */
 body {
   direction: rtl;
-  /* text-align: right; /* Base LTR usually handles text-align per element, 
-                          This global override might be too broad. 
-                          Only set if truly needed as a default. */
+  /* text-align: right; /* Optional: Can be a global default, but often better to set specifically. */
+}
+
+/* ... other existing general RTL rules ... */
+
+
+/* 8. Contact Page Specific RTL Fixes */
+
+/* This makes the grid columns flow Right-to-Left.
+   - .contact-form-container (first in HTML) will now be on the RIGHT.
+   - .contact-info-sidebar (second in HTML) will now be on the LEFT.
+   This is a common RTL layout pattern.
+*/
+.contact-page-wrapper {
+  direction: rtl;
+}
+
+/* Ensure content within these main columns is also RTL and text aligns to the right. */
+.contact-form-container,
+.contact-info-sidebar {
+  direction: rtl; /* Ensures content flow within these blocks is RTL */
+  text-align: right; /* Default text alignment for direct text children */
+}
+
+/* Titles within the contact page sections (e.g., "Send Us a Message", "Our Offices") */
+.contact-form-container .contact-section-subtitle,
+.contact-info-sidebar .contact-section-subtitle {
+  text-align: right;
+}
+
+/* Form labels (e.g., "Full Name", "Email Address") */
+.contact-form-container label {
+  text-align: right;
+}
+
+/*
+  Input and Textarea fields already have `dir="rtl"` from your HTML when lang='ar'.
+  The placeholder text alignment is handled by your existing rule:
+  input[type="text"]::placeholder, etc. { text-align: right; }
+  This is good.
+*/
+
+/* Sidebar - Location Cards */
+.location-card h4 { /* e.g., Country names */
+  text-align: right;
+}
+.location-card h4 .flag-icon { /* Your existing rule, correct for RTL */
+  margin-left: 0.75rem;
+  margin-right: 0;
+}
+
+/* Sidebar - Contact Details List (address, phone, email links) */
+.contact-details li {
+  /* text-align: right; is inherited from .contact-info-sidebar.
+     This should cover most cases for text within the li. */
+}
+.contact-details li i.fas { /* Your existing rule, correct for RTL */
+  margin-left: 12px;
+  margin-right: 0;
+}
+/* Specifically target the div holding address lines or the map link for text alignment */
+.contact-details li div {
+    text-align: right;
+}
+/* The map link text like "(View on Map)" is inside this div, so it will also align right. */
+
+
+/* Sidebar - General Contact Info & Social Links Headers */
+.general-contact-info h4, /* e.g., "Our Emails" */
+.social-links-contact-page h4 { /* e.g., "Follow Us" */
+  text-align: right;
+}
+
+/*
+  Social icons horizontal alignment:
+  Your HTML has an inline style: style="... text-align:left {% if current_lang == 'ar' %}right{% endif %};"
+  This is effective and correctly aligns the group of social icons to the right for Arabic.
+*/
+.social-links-contact-page .social-icon-contact { /* Your existing rule, correct for RTL */
+  margin-left: 15px;
+  margin-right: 0;
+}
+.social-links-contact-page .social-icon-contact:last-child {
+  margin-left: 0; /* Good practice: remove margin from the last icon in the row */
 }
 
 /* 2. Text Alignment: Override specific elements if LTR was text-align: left */
@@ -50,14 +131,28 @@ h1, h2, h3, h4, h5, h6,
 }
 
 
-/* 6. About Section */
 .about-section-title {
-  text-align: right; /* If LTR was text-align: left */
+  text-align: right; /* Ensures title inside .about-text is right-aligned */
 }
 .about-section-title::after {
   right: 0;
   left: auto;
-  /* transform: translateX(0); is fine as it's relative to the new right:0 */
+  transform: translateX(0); /* Correct, as it's relative to the new right:0 */
+}
+
+.about-content {
+  direction: ltr; /* This makes the flex items order themselves LTR */
+}
+
+/* Ensure the content INSIDE the flex items still respects RTL */
+.about-content > .about-text,
+.about-content > .about-image {
+  direction: rtl; /* Text and content inside these divs flow RTL */
+}
+
+/* Specifically re-align text in .about-text to the right for RTL */
+.about-content > .about-text {
+  text-align: right;
 }
 
 
@@ -167,4 +262,9 @@ input[type="email"]::placeholder,
 input[type="tel"]::placeholder,
 textarea::placeholder {
     text-align: right; /* Assuming placeholders should also align right */
+}
+
+
+.contact-page-wrapper {
+  direction: ltr; /* This makes the grid columns flow Left-to-Right */
 }

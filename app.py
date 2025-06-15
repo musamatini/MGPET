@@ -10,6 +10,8 @@ import os
 from werkzeug.utils import secure_filename
 import uuid
 import json
+import zipfile
+import io 
 
 app = Flask(__name__)
 app.secret_key = "mg_pet_multilingual_COMPLETE_secret_key_v1!@#$"
@@ -57,8 +59,8 @@ COMPANY_LOCATIONS = [
 ]
 COMPANY_GENERAL_CONTACT = {
     "emails": [
-        {"address": "info@mg-pet.com", "label": {"en": "General Inquiries", "ar": "استفسارات عامة"}},
-        {"address": "sales@mg-pet.com", "label": {"en": "Sales Department", "ar": "قسم المبيعات"}}
+        {"address": "info@mg-pet.com"},
+        {"address": "sales@mg-pet.com"}
     ],
     "social_media": [
         {"name": "Facebook", "url": "https://www.facebook.com/share/1Dvi9DwJ3A/", "icon_class": "fab fa-facebook-f"},
@@ -271,23 +273,56 @@ def login(): # ... (same)
 def logout(): # ... (same)
     session.pop('admin_logged_in', None); session.pop('admin_username', None)
     flash('You have been logged out.', 'info'); return redirect(url_for('admin.login'))
-@admin_bp.route('/download-datastore')
+@admin_bp.route('/download-backup') # Renamed route
 @login_required
-def download_datastore():
+def download_backup():
     try:
-        # DATA_FILE is defined globally as 'datastore.json'
-        # This will send the current datastore.json from your app's root directory
+        zip_buffer = io.BytesIO()
+        
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            # 1. Add datastore.json
+            if os.path.exists(DATA_FILE):
+                zipf.write(DATA_FILE, arcname='datastore.json')
+            else:
+                app.logger.warning(f"'{DATA_FILE}' not found during backup creation. It will not be included in the zip.")
+                # You could optionally add a placeholder text file in the zip
+                # zipf.writestr('datastore_missing.txt', f"The file '{DATA_FILE}' was not found on the server at the time of backup.")
+
+
+            # 2. Add UPLOAD_FOLDER contents
+            upload_folder_path = app.config['UPLOAD_FOLDER']
+            if os.path.exists(upload_folder_path) and os.path.isdir(upload_folder_path):
+                # This will put files from UPLOAD_FOLDER into an 'uploads/' directory in the zip
+                for root, _, files in os.walk(upload_folder_path):
+                    for file in files:
+                        file_path_on_disk = os.path.join(root, file)
+                        # Create an archive name relative to the UPLOAD_FOLDER, then prepend 'uploads/'
+                        relative_path_within_uploads_dir = os.path.relpath(file_path_on_disk, upload_folder_path)
+                        arcname_in_zip = os.path.join('uploads', relative_path_within_uploads_dir)
+                        zipf.write(file_path_on_disk, arcname=arcname_in_zip)
+            else:
+                app.logger.warning(f"Upload folder '{upload_folder_path}' not found or is not a directory. Images will not be included in the backup.")
+
+        zip_buffer.seek(0) # Rewind buffer to the beginning before sending
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_filename = f'mg_pet_backup_{timestamp}.zip'
+
         return send_file(
-            DATA_FILE,
+            zip_buffer,
             as_attachment=True,
-            download_name='datastore_backup.json' # You can change the downloaded filename if you like
+            download_name=backup_filename,
+            mimetype='application/zip'
         )
-    except FileNotFoundError:
-        flash(f"Error: {DATA_FILE} not found on server.", "danger")
-        return redirect(url_for('admin.manage_categories'))
+
+    except FileNotFoundError as e: # Should be rare if DATA_FILE check is done above
+        flash(f"Error creating backup: A required file was not found ({e}). Please check server logs.", "danger")
+        app.logger.error(f"FileNotFoundError during backup creation: {e}")
+        return redirect(url_for('admin.manage_categories')) # Or your preferred admin error page
     except Exception as e:
-        flash(f"Error downloading datastore: {str(e)}", "danger")
-        return redirect(url_for('admin.manage_categories')) # Or some other appropriate admin page
+        flash(f"An unexpected error occurred while creating the backup: {str(e)}", "danger")
+        app.logger.error(f"Exception during backup creation: {e}", exc_info=True) # Log full traceback
+        return redirect(url_for('admin.manage_categories'))
 # --- Category Management (Multilingual) ---
 @admin_bp.route('/categories')
 @login_required

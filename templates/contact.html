@@ -64,10 +64,10 @@
                 {% endfor %}
 
                 <div class="general-contact-info">
-                    <h4 style="margin-top: 2rem; margin-bottom: 0.8rem;">{{ get_translated_text({"en": "General Contact", "ar": "الاتصال العام"}) }}</h4>
+                    <h4 style="margin-top: 2rem; margin-bottom: 0.8rem; ">{{ get_translated_text({"en": "Our Emails", "ar": "بريدنا الاكتروني"}) }}</h4>
                      <ul class="contact-details">
                         {% for email_info in company_general_contact.emails %}
-                        <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a> ({{get_translated_text(email_info.label)}})</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:{{ email_info.address }}">{{ email_info.address }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

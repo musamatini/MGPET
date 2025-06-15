@@ -53,8 +53,24 @@
                     <label>Description ({{ lang_code.upper() }})</label>
                     <div id="description-fields-{{ lang_code }}" class="description-fields-wrapper">
                         {% set desc_list = (item.description[lang_code] if item and item.type == 'subcategory' and item.description and item.description[lang_code] else []) %}
-                        {% for desc_line in desc_list %}<div class="description-line"><input type="text" name="description_{{ lang_code }}[]" value="{{ desc_line }}" {% if lang_code == 'ar' %}dir="rtl"{% endif %}><button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button></div>{% endfor %}
-                        {% if not desc_list %}<div class="description-line"><input type="text" name="description_{{ lang_code }}[]" placeholder="Desc line 1 ({{ lang_code.upper() }})" {% if lang_code == 'ar' %}dir="rtl"{% endif %}><button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button></div>{% endif %}
+                        {% for desc_line in desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="description_{{ lang_code }}[]" value="{{ desc_line }}" {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                            {% if lang_code == 'ar' %}
+                                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-convert-numerals-ar-input" title="Convert numbers to Arabic numerals" style="margin-left: 5px; margin-right: 5px; padding: 5px 8px; font-size: 0.8em;"><i class="fas fa-exchange-alt"></i> ٠-٩</button>
+                            {% endif %}
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endfor %}
+                        {% if not desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="description_{{ lang_code }}[]" placeholder="Desc line 1 ({{ lang_code.upper() }})" {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                             {% if lang_code == 'ar' %}
+                                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-convert-numerals-ar-input" title="Convert numbers to Arabic numerals" style="margin-left: 5px; margin-right: 5px; padding: 5px 8px; font-size: 0.8em;"><i class="fas fa-exchange-alt"></i> ٠-٩</button>
+                            {% endif %}
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endif %}
                     </div>
                     <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" data-target="description-fields-{{ lang_code }}" data-placeholder="Desc line ({{ lang_code.upper() }})" data-inputname="description_{{ lang_code }}[]" data-rtl="{{ 'true' if lang_code == 'ar' else 'false' }}" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Line</button>
                 </div>
@@ -66,14 +82,35 @@
                     <label>Short Description ({{ lang_code.upper() }})</label>
                     <div id="short-description-fields-{{ lang_code }}" class="description-fields-wrapper">
                         {% set short_desc_list = (item.short_description[lang_code] if item and item.type == 'product' and item.short_description and item.short_description[lang_code] else []) %}
-                        {% for desc_line in short_desc_list %}<div class="description-line"><input type="text" name="short_description_{{ lang_code }}[]" value="{{ desc_line }}" {% if lang_code == 'ar' %}dir="rtl"{% endif %}><button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button></div>{% endfor %}
-                        {% if not short_desc_list %}<div class="description-line"><input type="text" name="short_description_{{ lang_code }}[]" placeholder="Short desc line 1 ({{ lang_code.upper() }})" {% if lang_code == 'ar' %}dir="rtl"{% endif %}><button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button></div>{% endif %}
+                        {% for desc_line in short_desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="short_description_{{ lang_code }}[]" value="{{ desc_line }}" {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                            {% if lang_code == 'ar' %}
+                                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-convert-numerals-ar-input" title="Convert numbers to Arabic numerals" style="margin-left: 5px; margin-right: 5px; padding: 5px 8px; font-size: 0.8em;"><i class="fas fa-exchange-alt"></i> ٠-٩</button>
+                            {% endif %}
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endfor %}
+                        {% if not short_desc_list %}
+                        <div class="description-line">
+                            <input type="text" name="short_description_{{ lang_code }}[]" placeholder="Short desc line 1 ({{ lang_code.upper() }})" {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                            {% if lang_code == 'ar' %}
+                                <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-convert-numerals-ar-input" title="Convert numbers to Arabic numerals" style="margin-left: 5px; margin-right: 5px; padding: 5px 8px; font-size: 0.8em;"><i class="fas fa-exchange-alt"></i> ٠-٩</button>
+                            {% endif %}
+                            <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
+                        </div>
+                        {% endif %}
                     </div>
                     <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-add-desc" data-target="short-description-fields-{{ lang_code }}" data-placeholder="Short desc line ({{ lang_code.upper() }})" data-inputname="short_description_{{ lang_code }}[]" data-rtl="{{ 'true' if lang_code == 'ar' else 'false' }}" style="margin-top: 10px;"><i class="fas fa-plus"></i> Add Line</button>
                 </div>
                 <div class="form-group">
                     <label for="long_description_markdown_{{ lang_code }}">Long Description ({{ lang_code.upper() }}) (Markdown)</label>
-                    <textarea id="long_description_markdown_{{ lang_code }}" name="long_description_markdown_{{ lang_code }}" rows="10" placeholder="Detailed product description ({{ lang_code.upper() }})" {% if item and item.type == 'product' and item.use_short_desc_for_long %}disabled{% endif %} {% if lang_code == 'ar' %}dir="rtl"{% endif %}>{{ item.long_description_markdown[lang_code] if item and item.type == 'product' and item.long_description_markdown and item.long_description_markdown[lang_code] else '' }}</textarea>
+                    <div style="position: relative;"> {# Wrapper for textarea and button #}
+                        <textarea id="long_description_markdown_{{ lang_code }}" name="long_description_markdown_{{ lang_code }}" rows="10" placeholder="Detailed product description ({{ lang_code.upper() }})" {% if item and item.type == 'product' and item.use_short_desc_for_long %}disabled{% endif %} {% if lang_code == 'ar' %}dir="rtl"{% endif %}>{{ item.long_description_markdown[lang_code] if item and item.type == 'product' and item.long_description_markdown and item.long_description_markdown[lang_code] else '' }}</textarea>
+                        {% if lang_code == 'ar' %}
+                            <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-convert-numerals-ar-textarea" data-target-id="long_description_markdown_{{ lang_code }}" title="Convert numbers to Arabic numerals" style="position: absolute; top: 5px; {{ 'left: 5px;' if lang_code == 'ar' else 'right: 5px;' }} z-index:10; padding: 5px 8px; font-size: 0.8em;"><i class="fas fa-exchange-alt"></i> ٠-٩</button>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -118,44 +155,120 @@
 document.addEventListener('DOMContentLoaded', function() {
     // --- Toggle Item Type Specific Fields ---
     const itemTypeSelectFallback = document.getElementById('item_type_select_fallback');
-    // Get type from hidden input if editing or pre-selected for add
     const hiddenItemTypeInput = document.querySelector('input[name="item_type"]');
     let effectiveItemType = hiddenItemTypeInput ? hiddenItemTypeInput.value : (itemTypeSelectFallback ? itemTypeSelectFallback.value : null);
 
-    const subcategoryFields = document.querySelector('.subcategory-fields');
-    const productFields = document.querySelector('.product-fields');
+    // Query for all language-specific field blocks
+    const langFieldBlocks = {};
+    document.querySelectorAll('[class*="item-type-fields-lang-"]').forEach(el => {
+        const type = el.classList.contains('subcategory-fields') ? 'subcategory' : (el.classList.contains('product-fields') ? 'product' : null);
+        if (type) {
+            if (!langFieldBlocks[type]) langFieldBlocks[type] = [];
+            langFieldBlocks[type].push(el);
+        }
+    });
+    // Query for common (non-language specific) field blocks
+    const commonProductFields = document.querySelector('.product-fields.item-type-fields-common');
+
 
     function showRelevantFields(selectedType) {
-        if (subcategoryFields) subcategoryFields.style.display = (selectedType === 'subcategory') ? 'block' : 'none';
-        if (productFields) productFields.style.display = (selectedType === 'product') ? 'block' : 'none';
+        // Hide all language-specific blocks first
+        Object.values(langFieldBlocks).forEach(blockList => blockList.forEach(block => block.style.display = 'none'));
+        // Hide common product fields
+        if (commonProductFields) commonProductFields.style.display = 'none';
+
+        // Show relevant language-specific blocks
+        if (langFieldBlocks[selectedType]) {
+            langFieldBlocks[selectedType].forEach(block => block.style.display = 'block');
+        }
+        // Show common product fields if type is product
+        if (selectedType === 'product' && commonProductFields) {
+            commonProductFields.style.display = 'block';
+        }
     }
 
-    if (itemTypeSelectFallback) { // Only for the fallback "Add Item" scenario
+    if (itemTypeSelectFallback) {
         itemTypeSelectFallback.addEventListener('change', function() {
             showRelevantFields(this.value);
         });
     }
-    // Initial call based on effective type (for edit or pre-selected add)
     if(effectiveItemType) {
         showRelevantFields(effectiveItemType);
     }
 
+    // --- English to Arabic Numerals Conversion ---
+    function convertEnglishToArabicNumerals(str) {
+        if (typeof str !== 'string') return str;
+        const englishNumerals = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        let newStr = "";
+        for (let i = 0; i < str.length; i++) {
+            const char = str[i];
+            const index = englishNumerals.indexOf(char);
+            if (index !== -1) {
+                newStr += arabicNumerals[index];
+            } else {
+                newStr += char;
+            }
+        }
+        return newStr;
+    }
 
-    // --- Reusable Add/Remove Description Lines (for subcat description and product short_description) ---
+    const adminForm = document.querySelector('form.admin-form');
+    if (adminForm) {
+        adminForm.addEventListener('click', function(event) {
+            // Handle buttons for line inputs (short_description, subcategory_description)
+            const inputConvertButton = event.target.closest('.btn-convert-numerals-ar-input');
+            if (inputConvertButton) {
+                const inputField = inputConvertButton.parentElement.querySelector('input[type="text"]');
+                if (inputField) {
+                    inputField.value = convertEnglishToArabicNumerals(inputField.value);
+                }
+                return; 
+            }
+
+            // Handle button for long_description textarea
+            const textareaConvertButton = event.target.closest('.btn-convert-numerals-ar-textarea');
+            if (textareaConvertButton) {
+                const targetId = textareaConvertButton.dataset.targetId;
+                const textarea = document.getElementById(targetId);
+                if (textarea) {
+                    textarea.value = convertEnglishToArabicNumerals(textarea.value);
+                }
+                return; 
+            }
+        });
+    }
+
+
+    // --- Reusable Add/Remove Description Lines ---
     document.querySelectorAll('.btn-add-desc').forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.dataset.target;
             const placeholderText = this.dataset.placeholder || 'Description line';
-            const inputName = this.dataset.inputname || 'description[]'; // Get input name from data attribute
+            const inputName = this.dataset.inputname;
+            const isRtl = this.dataset.rtl === 'true';
             const descContainer = document.getElementById(targetId);
+
             if (descContainer) {
                 const newLine = document.createElement('div');
                 newLine.classList.add('description-line');
-                const inputCount = descContainer.querySelectorAll('input[name="' + inputName + '"]').length;
-                newLine.innerHTML = `
-                    <input type="text" name="${inputName}" placeholder="${placeholderText} ${inputCount + 1}">
-                    <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc" data-target="${targetId}"><i class="fas fa-times"></i></button>
+                // Correctly count inputs only with the specific name for this group
+                const inputCount = descContainer.querySelectorAll(`input[name="${inputName}"]`).length;
+                
+                let inputHtml = `<input type="text" name="${inputName}" placeholder="${placeholderText} ${inputCount + 1}" ${isRtl ? 'dir="rtl"' : ''}>`;
+                
+                // Add convert button for specific Arabic input types
+                if (isRtl && (inputName === 'description_ar[]' || inputName === 'short_description_ar[]')) {
+                     inputHtml += `
+                        <button type="button" class="btn-admin btn-admin-secondary btn-admin-sm btn-convert-numerals-ar-input" title="Convert numbers to Arabic numerals" style="margin-left: 5px; margin-right: 5px; padding: 5px 8px; font-size: 0.8em;"><i class="fas fa-exchange-alt"></i> ٠-٩</button>
+                    `;
+                }
+                
+                inputHtml += `
+                    <button type="button" class="btn-admin btn-admin-danger btn-admin-sm btn-remove-desc"><i class="fas fa-times"></i></button>
                 `;
+                newLine.innerHTML = inputHtml;
                 descContainer.appendChild(newLine);
             }
         });
@@ -164,16 +277,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.description-fields-wrapper').forEach(container => {
         container.addEventListener('click', function(event) {
             if (event.target.closest('.btn-remove-desc')) {
-                const targetId = event.target.closest('.btn-remove-desc').dataset.target;
-                const descContainer = document.getElementById(targetId);
-                 if (descContainer) {
-                    const allLines = descContainer.querySelectorAll('.description-line');
-                    const lineToRemove = event.target.closest('.description-line');
+                // The target for removal is the line itself, not the container_id from data attribute.
+                const lineToRemove = event.target.closest('.description-line');
+                if (lineToRemove) {
+                    const allLines = container.querySelectorAll('.description-line');
                     const inputInLine = lineToRemove.querySelector('input');
 
-                    if (allLines.length > 1 ) { // Always allow removal if more than one line
+                    if (allLines.length > 1 ) {
                         lineToRemove.remove();
-                    } else if (allLines.length === 1 && inputInLine) { // If only one line, clear it instead of removing
+                    } else if (allLines.length === 1 && inputInLine) {
                         inputInLine.value = ''; 
                     }
                 }
@@ -181,27 +293,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- Toggle Long Description Markdown textarea for Products ---
+    // --- Toggle Long Description Markdown textarea & its convert button for Products ---
     const useShortDescCheckboxProd = document.getElementById('use_short_desc_for_long');
-    const longDescTextarea = document.getElementById('long_description_markdown');
-    // Note: The "Add Line" button for long description is removed as it's a single textarea now.
-
-    function toggleLongDescTextarea() {
-        if (useShortDescCheckboxProd && longDescTextarea) {
-            longDescTextarea.disabled = useShortDescCheckboxProd.checked;
-            if (useShortDescCheckboxProd.checked) {
-                longDescTextarea.style.backgroundColor = "var(--admin-bg-main)"; // Visual cue for disabled
-                longDescTextarea.style.opacity = "0.7";
-            } else {
-                longDescTextarea.style.backgroundColor = ""; // Revert to default
-                longDescTextarea.style.opacity = "1";
-            }
+    
+    function toggleArabicConvertButtonState(isDisabled) {
+        // Find the button associated with the Arabic long description
+        const convertButton = document.querySelector(`.btn-convert-numerals-ar-textarea[data-target-id="long_description_markdown_ar"]`);
+        if (convertButton) {
+            convertButton.disabled = isDisabled;
+            convertButton.style.opacity = isDisabled ? "0.5" : "1";
+            convertButton.style.cursor = isDisabled ? "not-allowed" : "pointer";
         }
     }
-    if (useShortDescCheckboxProd) {
-        useShortDescCheckboxProd.addEventListener('change', toggleLongDescTextarea);
-        toggleLongDescTextarea(); // Initial state
+
+    function toggleLongDescTextareas() {
+        const isChecked = useShortDescCheckboxProd ? useShortDescCheckboxProd.checked : false;
+        
+        document.querySelectorAll('textarea[id^="long_description_markdown_"]').forEach(ldTextarea => {
+            ldTextarea.disabled = isChecked;
+            if (isChecked) {
+                ldTextarea.style.backgroundColor = "var(--admin-bg-main)";
+                ldTextarea.style.opacity = "0.7";
+            } else {
+                ldTextarea.style.backgroundColor = "";
+                ldTextarea.style.opacity = "1";
+            }
+        });
+        // Specifically toggle the ARABIC convert button's state
+        toggleArabicConvertButtonState(isChecked);
     }
+
+    if (useShortDescCheckboxProd) {
+        useShortDescCheckboxProd.addEventListener('change', toggleLongDescTextareas);
+        toggleLongDescTextareas(); // Initial state
+    }
+
 
     // --- Description Image Uploader (for Markdown long description) ---
     const descImageUploadInput = document.getElementById('desc_image_upload');
@@ -241,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         `<div>Markdown: <input type='text' value='${imageMarkdown}' readonly class='form-control' style='width:100%;' onclick='this.select(); document.execCommand("copy"); alert("Markdown Copied to clipboard!");' title='Click to copy Markdown'></div>`+
                         `<img src='${data.imageUrl}' style='max-width:100px; max-height:70px; margin-top:5px; border:1px solid var(--admin-border-light);'>`;
                     descImageUrlDisplay.style.color = 'var(--admin-success)';
-                    descImageUploadInput.value = ''; // Clear the file input
+                    descImageUploadInput.value = ''; 
                 } else {
                     descImageUrlDisplay.innerHTML = '<span style="color: var(--admin-danger);">Error: ' + (data.error || 'Upload failed.') + '</span>';
                 }
@@ -253,13 +379,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Main Item Image Preview (if needed, assuming from admin_main.js) ---
-    // This code should already be in your admin_main.js, but if not, add it or ensure it's there.
-    const mainImageInput = document.getElementById('image'); // ID of the main image input
+    // --- Main Item Image Preview ---
+    const mainImageInput = document.getElementById('image'); 
     if (mainImageInput) {
         mainImageInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
-            const previewContainer = document.getElementById('image-preview-container'); // ID of its preview container
+            const previewContainer = document.getElementById('image-preview-container'); 
             
             if (previewContainer) {
                 previewContainer.innerHTML = ''; 
@@ -272,19 +397,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-     // Make parent select readonly if pre_selected_parent_full_slug exists and form is Add
+
+    // --- Make parent select readonly if pre_selected_parent_full_slug exists and form is Add ---
     const parentSelect = document.getElementById('parent_full_slug');
     if (parentSelect && "{{ pre_selected_parent_full_slug }}" && "{{ form_action }}" === "Add") {
         parentSelect.setAttribute('disabled', 'disabled');
-        // Add a hidden input to submit the value, as disabled fields are not submitted
         const hiddenParentInput = document.createElement('input');
         hiddenParentInput.type = 'hidden';
-        hiddenParentInput.name = 'parent_full_slug'; // Same name as the select
+        hiddenParentInput.name = 'parent_full_slug'; 
         hiddenParentInput.value = "{{ pre_selected_parent_full_slug }}";
         parentSelect.form.appendChild(hiddenParentInput);
     }
-
-
 });
 </script>
 {% endblock %}

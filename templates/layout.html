@@ -6,8 +6,8 @@
     <title>{% block title %}{{ company_name }}{% endblock %} - {{ get_translated_text({"en": "Official Site", "ar": "الموقع الرسمي"}) }}</title>
     
     <!-- Library CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='external_resources/aos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='external_resources/swiper-bundle.min.css') }}">
     
     <!-- Your Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> {# Ensure FontAwesome is loaded #}
 </head>
 <body>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+
     {% include 'partials/_navbar.html' %}
 
     <main id="main-content">
@@ -28,8 +32,8 @@
     {% include 'partials/_footer.html' %}
 
     <!-- Library JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.8/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ url_for('static', filename='external_resources/swiper-bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='external_resources/aos.js') }}"></script>
     
     <!-- Your Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

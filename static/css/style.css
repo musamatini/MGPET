@@ -1,6 +1,10 @@
-/* static/css/style.css - Full Refinements & Contact Page Fix */
+/* static/css/style.css - Refined & Organized */
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
 
+/* ----------------------------------------
+   1. Root Variables
+   ---------------------------------------- */
 :root {
     /* Dark Theme & Blue "Water" Palette */
     --bg-deep-dark: #0d1117;
@@ -22,74 +26,178 @@
     --border-dark: #30363d;
     --border-subtle-dark: #21262d;
     --shadow-color-dark-theme: rgba(0, 0, 0, 0.35);
+
+    /* RGB versions for RGBA usage */
     --accent-primary-rgb: 51, 145, 255;
     --bg-element-hover-dark-rgb: 36, 41, 48;
 
+    /* Fonts & Sizing */
     --font-primary: 'Roboto', sans-serif;
     --font-secondary: 'Montserrat', sans-serif;
     --navbar-height: 70px;
     --section-padding: 150px;
     --container-width: 1200px;
     --border-radius: 6px;
+
+    /* Shadows */
     --box-shadow-dark: 0 8px 24px var(--shadow-color-dark-theme);
     --box-shadow-light: 0 4px 12px rgba(0,0,0,0.15);
 
+    /* Animation & Transitions */
     --anim-duration-fast: 0.25s;
     --anim-duration-medium: 0.5s;
     --anim-easing-curve: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --anim-easing-dynamic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    /* CONSOLIDATED Animation variables here */
     --navbar-animation-delay: 0.3s;
-    --navbar-animation-duration: var(--anim-duration-medium); /* Uses 0.5s from above */
+    --navbar-animation-duration: var(--anim-duration-medium);
+
+    /* Other shared values */
+    --accent-red: #ff3366;
 }
 
-/* Base & Reset */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
 
-/* CONSOLIDATED Body style */
+/* Add this towards the top of your CSS, or in a dedicated preloader section */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-deep-dark); /* Match your site's initial background */
+    z-index: 99999; /* Ensure it's on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out 0.2s, visibility 0s linear 0.7s; /* Fade out, then hide. Delay fade to allow content to render a bit */
+}
+
+#preloader.loaded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Simple CSS Spinner */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--border-subtle-dark); /* Lighter border */
+    border-top-color: var(--accent-primary);    /* Accent color for the spinning part */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ----------------------------------------
+   2. Base & Reset Styles
+   ---------------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
 body {
-    font-family: var(--font-primary); color: var(--text-primary-light);
-    line-height: 1.7; background-color: var(--bg-deep-dark);
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-primary);
+    color: var(--text-primary-light);
+    line-height: 1.7;
+    background-color: var(--bg-deep-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    margin: 0; /* <<< KEY: ADDED TO REMOVE BROWSER DEFAULT MARGIN */
-    /* Default padding-top is handled by .initial-animation--done for pages with navbar */
-    /* No padding-top here by default */
+    margin: 0;
 }
 
-.container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
-/* ... (rest of your h1-h6, p, a, img, ul styles are fine) ... */
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-secondary); font-weight: 600;
-    line-height: 1.3; margin-bottom: 1.2rem; color: var(--text-headings-light);
+.container {
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
 }
+
+/* ----------------------------------------
+   3. Core Typography
+   ---------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-secondary);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 1.2rem;
+    color: var(--text-headings-light);
+}
+
 h1 { font-size: 3rem; font-weight: 700; }
 h2 { font-size: 2.5rem; }
 h3 { font-size: 1.8rem; }
 h4 { font-size: 1.2rem; font-weight: 500; }
-p { margin-bottom: 1.25rem; color: var(--text-secondary-light); font-weight: 400; }
-a { color: var(--accent-primary); text-decoration: none; transition: color var(--anim-duration-fast) ease; }
-a:hover { color: var(--accent-primary-hover); }
-img { max-width: 100%; height: auto; display: block; }
-ul { list-style: none; }
 
+p {
+    margin-bottom: 1.25rem;
+    color: var(--text-secondary-light);
+    font-weight: 400;
+}
 
-/* ... (rest of your .btn styles are fine) ... */
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color var(--anim-duration-fast) ease;
+}
+a:hover {
+    color: var(--accent-primary-hover);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ----------------------------------------
+   4. Buttons
+   ---------------------------------------- */
 .btn {
-    display: inline-flex; align-items: center; justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px 24px;
-    font-family: var(--font-secondary); font-weight: 500;
-    text-align: center; cursor: pointer;
+    font-family: var(--font-secondary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    text-decoration: none;
+    cursor: pointer;
     border: none;
     border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
     transition: all var(--anim-duration-fast) var(--anim-easing-curve);
-    font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.9px;
-    text-decoration: none; position: relative; overflow: hidden;
-    line-height: 1.5;
 }
-.btn i { margin-right: 8px; font-size: 1.05em; }
+.btn i {
+    margin-right: 8px;
+    font-size: 1.05em;
+}
 
 .btn-primary {
     background-color: var(--accent-primary);
@@ -119,22 +227,34 @@ ul { list-style: none; }
     transform: translateY(-2px);
 }
 
-.btn-primary-outline, .btn-outline {
+.btn-primary-outline,
+.btn-outline {
     background-color: transparent;
     color: var(--accent-primary);
     border: 2px solid var(--accent-primary);
     box-shadow: none;
 }
-.btn-primary-outline:hover, .btn-outline:hover {
+.btn-primary-outline:hover,
+.btn-outline:hover {
     background-color: var(--accent-primary);
     color: #fff;
     box-shadow: 0 2px 8px rgba(var(--accent-primary-rgb), 0.15);
 }
-.btn-sm { padding: 0.65rem 1.3rem; font-size: 0.8rem; letter-spacing: 0.7px; }
+
+.btn-sm {
+    padding: 0.65rem 1.3rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.7px;
+}
+.btn-lg {
+    padding: 1.1rem 2.8rem;
+    font-size: 1.1rem;
+}
 
 
-/* Navbar */
-/* CONSOLIDATED Navbar style */
+/* ----------------------------------------
+   5. Navbar
+   ---------------------------------------- */
 .navbar {
     background-color: rgba(13, 17, 23, 0.8);
     backdrop-filter: blur(14px);
@@ -144,467 +264,146 @@ ul { list-style: none; }
     width: 100%;
     position: fixed;
     top: 0;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
-
-    opacity: 1; /* Default final state */
-    transform: translateY(0); /* Default final state */
+    opacity: 1;
+    transform: translateY(0);
     transition: transform var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
                 opacity var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
                 background-color var(--anim-duration-fast) ease,
                 box-shadow var(--anim-duration-fast) ease;
 }
-
 .navbar.scrolled {
     background-color: rgba(13, 17, 23, 0.95);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
-/* ... (rest of your existing .navbar .container, .navbar-logo, etc. styles are fine) ... */
-.navbar .container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-.navbar-logo { display: flex; align-items: center; color: var(--text-headings-light); font-size: 1.7rem; font-weight: 700; }
-.navbar-logo img { height: 45px; margin-right: 15px; }
-.navbar-links-desktop ul { display: flex; list-style: none; margin: 0; padding: 0; align-items: center; }
-.navbar-links-desktop ul li a { padding: 1rem 1.4rem; color: var(--text-primary-light); font-weight: 500; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.8px; position: relative; display: block; transition: color var(--anim-duration-fast) ease; }
-.navbar-links-desktop ul li a::after { content: ''; position: absolute; bottom: 0.6rem; left: 50%; transform: translateX(-50%) scaleX(0); width: 70%; height: 2px; background-color: var(--accent-primary); transition: transform var(--anim-duration-medium) var(--anim-easing-dynamic); transform-origin: center; }
-.navbar-links-desktop ul li a:hover, .navbar-links-desktop ul li a.active { color: var(--accent-primary-hover); }
-.navbar-links-desktop ul li a:hover::after, .navbar-links-desktop ul li a.active::after { transform: translateX(-50%) scaleX(1); }
-.navbar-actions { display: flex; align-items: center; }
-.lang-button { background-color: transparent; border: 1px solid var(--border-dark); color: var(--text-secondary-light); cursor: pointer; padding: 8px 15px; border-radius: var(--border-radius); display: inline-flex; align-items: center; font-family: var(--font-secondary); font-size: 0.85rem; font-weight: 500; transition: all var(--anim-duration-fast) ease; margin-left: 1rem; }
-.lang-button i.fa-globe { margin-right: 8px; font-size: 1.1em; }
-.lang-button:hover { color: var(--accent-primary-hover); border-color: var(--accent-primary); background-color: rgba(var(--accent-primary-rgb), 0.1); box-shadow: 0 0 8px rgba(var(--accent-primary-rgb), 0.2); }
-.mobile-menu-toggle { display: none; background: none; border: none; font-size: 2.2rem; color: var(--text-headings-light); cursor: pointer; }
-.navbar-links-mobile { display: none; position: absolute; top: var(--navbar-height); left: 0; right: 0; background-color: var(--bg-element-dark); box-shadow: 0 8px 20px rgba(0,0,0,0.5); padding: 1rem 0; z-index: 999; border-top: 1px solid var(--border-dark); }
-.navbar-links-mobile ul li a { display: block; padding: 1.2rem 2rem; color: var(--text-primary-light); font-weight: 500; text-transform: uppercase; transition: background-color var(--anim-duration-fast) ease, color var(--anim-duration-fast) ease; }
-.navbar-links-mobile ul li a:hover, .navbar-links-mobile ul li a.active { background-color: var(--bg-element-hover-dark); color: var(--accent-primary); }
-.navbar-links-mobile.active { display: block; }
-
-
-/* Hero Section Base Styles - for when animation is NOT active or has finished */
-.hero-section {
-    position: relative;
-    overflow: hidden; /* Keep this to prevent scrollbars from image if it's slightly off */
+.navbar .container {
     display: flex;
-    background-color: var(--bg-dark);
-
-    /* Default state: assumes body padding handles offset or animation is done */
-    transform: translateY(0);
-    height: calc(100vh - var(--navbar-height));
-    /* NO GENERAL TRANSITION HERE - transitions are handled by animation-specific classes */
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
 }
-.hero-swiper { width: 100%; height: 100%; }
-.hero-swiper .swiper-slide {
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; background-size: cover; background-position: center;
-    color: var(--text-headings-light); position: relative; overflow: hidden;
-    box-sizing: border-box; height: 100%;
-}
-/* ... (rest of your .hero-swiper, .slide-caption styles are fine) ... */
-.hero-swiper .swiper-slide::before { /* Overlay */
-    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(rgba(10, 15, 20, 0.2) 0%, rgba(10, 15, 20, 0.7) 60%, rgba(10, 15, 20, 0.9) 100%); /* Refined gradient */
-    z-index: 5;
-}
-.hero-swiper .swiper-slide::after { /* Background Image Container (if you use this method) */
-    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background-image: inherit; background-size: cover; background-position: center; z-index: 1;
-}
-/* Slide Caption Animation */
-.slide-caption { position: relative; z-index: 10; max-width: 850px; padding: 30px; }
-.slide-caption .animate-this {
-    opacity: 0; transform: translateY(30px);
-}
-.slide-caption.is-visible .animate-this {
-    opacity: 1; transform: translateY(0);
-    transition-property: opacity, transform;
-    transition-duration: var(--anim-duration-medium);
-    transition-timing-function: var(--anim-easing-dynamic);
-}
-.slide-caption.is-visible .animate-this:nth-child(1) { transition-delay: 0.2s; }
-.slide-caption.is-visible .animate-this:nth-child(2) { transition-delay: 0.4s; }
-.slide-caption.is-visible .animate-this:nth-child(3) { transition-delay: 0.6s; }
-.slide-caption h2 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,0.6); }
-.slide-caption p { font-size: 1.2rem; margin-bottom: 2.8rem; color: var(--text-primary-light); font-weight: 300; }
-.hero-swiper .swiper-button-next, .hero-swiper .swiper-button-prev { color: #fff; opacity: 0.6; transition: opacity var(--anim-duration-fast), transform var(--anim-duration-fast) ease; background-color: rgba(0,0,0,0.15); border-radius: 50%; width: 55px; height: 55px; transform: scale(0.9); top: 50%; }
-.hero-swiper:hover .swiper-button-next, .hero-swiper:hover .swiper-button-prev { opacity: 0.8; transform: scale(1); }
-.hero-swiper .swiper-button-next:hover, .hero-swiper .swiper-button-prev:hover { opacity: 1; background-color: rgba(0,0,0,0.3); transform: scale(1.05); }
-.hero-swiper .swiper-button-next::after, .hero-swiper .swiper-button-prev::after { font-size: 1.6rem; }
-.hero-swiper .swiper-pagination-bullet { background: rgba(255,255,255,0.4); opacity: 1; width: 12px; height: 12px; margin: 0 6px !important; transition: all var(--anim-duration-fast) ease; }
-.hero-swiper .swiper-pagination-bullet-active { background: var(--accent-primary); transform: scale(1.3); }
-
-
-/* --- STYLES FOR INITIAL PUSH ANIMATION --- */
-/* These rules should come AFTER the base .navbar and .hero-section styles for specificity */
-
-/* 1. Body during active animation */
-body.initial-animation--active {
-    padding-top: 0 !important; /* Crucial: body has no padding during animation */
-    margin-top: 0 !important; /* Belt and suspenders for any lingering body margin */
-    overflow-y: hidden !important; /* Prevent scrollbar flicker during animation */
-    overflow-x: hidden !important;
-}
-
-/* 2. Navbar's pre-animation state (hidden above) */
-.navbar.animation-initial-state {
-    transform: translateY(-100%) !important; /* Use !important if strictly needed, but base should be fine */
-    opacity: 0 !important;
-    transition: none !important;          /* Apply immediately */
-}
-
-/* 3. Hero's pre-animation state (full viewport) */
-.hero-section.animation-initial-state {
-    transform: translateY(0) !important;  /* Start at the very top of the viewport */
-    height: 100vh !important;             /* Occupy full viewport height */
-    transition: none !important;          /* Apply immediately */
-}
-
-/* 4. Navbar's animation target is its base .navbar style (no specific rule here) */
-
-/* 5. Hero's animation target and transition definition */
-/* This rule applies ONLY when body.initial-animation--active is present AND .animation-initial-state is REMOVED from hero */
-body.initial-animation--active .hero-section {
-    /* Target state for the hero to animate TO: */
-    transform: translateY(var(--navbar-height));
-    height: calc(100vh - var(--navbar-height));
-
-    /* Define the transition that happens to reach this target state: */
-    transition: transform var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
-                height var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay);
-}
-
-/* 6. Body state AFTER animation is complete (or if skipped) */
-body.initial-animation--done {
-    padding-top: var(--navbar-height) !important; /* Restore body padding */
-    /* Restore overflow if it was changed from default, otherwise remove these */
-    /* overflow-y: auto;  */
-    /* overflow-x: auto; */
-}
-
-/* 7. Hero state AFTER animation is complete (or if skipped) */
-/* This ensures hero is correctly positioned with body padding, no new animation here */
-body.initial-animation--done .hero-section {
-    transform: translateY(0); /* Relative to its position with body padding */
-    height: calc(100vh - var(--navbar-height));
-    /* NO TRANSITION here, this should be an instant adjustment if needed */
-}
-
-/* General Section Styling */
-.content-section { padding: var(--section-padding); background-color: var(--bg-dark); position: relative; border-bottom: 1px solid var(--border-subtle-dark); }
-.content-section:nth-child(even) { background-color: var(--bg-element-dark); }
-.page-section { padding-top: calc(var(--section-padding) / 2); } /* Top padding for dedicated non-home pages */
-.section-title, .page-title {
-    text-align: center; margin-bottom: 3.5rem; font-size: 2.5rem;
-    position: relative; padding-bottom: 1.2rem; font-weight: 600;
-}
-.section-title::after, .page-title::after {
-    content: ''; position: absolute; bottom: 0; left: 50%;
-    transform: translateX(-50%); width: 80px; height: 3px;
-    background: var(--accent-primary); border-radius: 2px;
-    box-shadow: 0 0 10px rgba(var(--accent-primary-rgb), 0.4);
-}
-.page-intro { text-align: center; font-size: 1.1rem; color: var(--text-secondary-light); max-width: 700px; margin: 0 auto 3.5rem auto; line-height: 1.7; font-weight: 400; }
-
-/* About Section */
-/* About Section */
-.about-section-title { /* New class added to h2 in HTML */
-    text-align: left; /* Align title to the left */
-    margin-bottom: 1.5rem; /* Adjust margin as needed */
-    padding-bottom: 0.8rem; /* Adjust padding as needed */
-}
-
-.about-section-title::after {
-    left: 0; /* Align the underline to the left */
-    transform: translateX(0); /* Remove center transform */
-    width: 60px; /* Adjust width of underline if needed */
-}
-.about-content { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 3rem; }
-.about-text { flex: 1; min-width: 340px; }
-.about-image { flex: 1; min-width: 340px; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--box-shadow-dark); }
-.about-image img { transition: transform 0.8s var(--anim-easing-curve); opacity: 0.9; border-radius: var(--border-radius); }
-.about-image:hover img { transform: scale(1.05); opacity: 1; }
-
-/* CTA Section - Expand from Center Animation */
-.cta-expand-reveal {
-    padding: 60px 0; text-align: center;
-    position: relative; overflow: hidden;
-    background-color: var(--bg-dark);
-}
-.cta-expand-reveal .container { position: relative; z-index: 2; }
-.cta-expand-reveal::before {
-    content: ''; position: absolute;
-    top: 0; left: 50%; width: 0; height: 100%;
-    background: var(--accent-cta-bg); z-index: 1;
-    transition: width var(--anim-duration-medium) var(--anim-easing-curve) 0.1s, left var(--anim-duration-medium) var(--anim-easing-curve) 0.1s;
-}
-.cta-expand-reveal.is-visible::before { width: 100%; left: 0; }
-.cta-expand-reveal h3, .cta-expand-reveal p, .cta-expand-reveal .btn {
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-.cta-expand-reveal.is-visible h3 { opacity: 1; transform: translateY(0); transition-delay: 0.35s; color: #fff;}
-.cta-expand-reveal.is-visible p { opacity: 1; transform: translateY(0); transition-delay: 0.45s; color: rgba(255,255,255,0.9);}
-.cta-expand-reveal.is-visible .btn { opacity: 1; transform: translateY(0); transition-delay: 0.55s; border-color: #fff; color: #fff;}
-.cta-expand-reveal.is-visible .btn:hover { background-color: rgba(255,255,255,0.1); }
-
-/* Contact Page Styling */
-.contact-page-section { background-color: var(--bg-dark); }
-.contact-page-wrapper {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr; /* Form more space */
-    gap: 3rem; align-items: flex-start;
-}
-.contact-form-container, .contact-info-sidebar {
-    background-color: var(--bg-element-dark);
-    padding: 2.5rem; border-radius: var(--border-radius);
-    border: 1px solid var(--border-dark); box-shadow: var(--box-shadow-light);
-}
-.contact-section-subtitle {
-    font-size: 1.5rem; font-weight: 600; color: var(--text-headings-light);
-    margin-bottom: 1.8rem; padding-bottom: 0.8rem;
-    border-bottom: 1px solid var(--border-subtle-dark);
-}
-.contact-form-container .form-group { margin-bottom: 1.5rem; }
-.contact-form-container label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-secondary-light); font-size: 0.9rem;}
-.contact-form-container input[type="text"], .contact-form-container input[type="email"], .contact-form-container input[type="tel"], .contact-form-container textarea {
-    width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--border-dark);
-    border-radius: var(--border-radius); font-family: var(--font-primary);
-    font-size: 1rem; background-color: var(--bg-deep-dark);
-    color: var(--text-primary-light);
-    transition: border-color var(--anim-duration-fast) ease, box-shadow var(--anim-duration-fast) ease;
-}
-.contact-form-container input::placeholder, .contact-form-container textarea::placeholder { color: var(--text-secondary-light); opacity: 0.6; }
-.contact-form-container input:focus, .contact-form-container textarea:focus {
-    outline: none; border-color: var(--accent-primary);
-    box-shadow: 0 0 0 0.2rem rgba(var(--accent-primary-rgb),.25);
-    background-color: var(--bg-element-dark);
-}
-.contact-form-container textarea { resize: vertical; min-height: 150px; }
-.location-card { background-color: transparent; padding: 0; border: none; margin-bottom: 2rem; }
-.location-card h4 { font-size: 1.1rem; color: var(--accent-secondary); margin-bottom: 0.75rem; display: flex; align-items: center;}
-.location-card h4 .flag-icon { font-size: 1.3em; margin-right: 0.5em; line-height: 1; }
-.contact-details { list-style: none; padding: 0; margin: 0; }
-.contact-details li { display: flex; align-items: flex-start; margin-bottom: 0.7rem; font-size: 0.9rem; }
-.contact-details li i.fas { color: var(--accent-primary); margin-right: 10px; font-size: 1em; width: 18px; text-align: center; margin-top: 0.1em; }
-.contact-details li a { color: var(--text-secondary-light); }
-.contact-details li a:hover { color: var(--accent-primary-hover); }
-.general-contact-info h4, .social-links-contact-page h4 { font-size: 1.1rem; color: var(--text-headings-light); margin-top:1.5rem; margin-bottom: 0.75rem;}
-.social-links-contact-page .social-icon-contact { color: var(--text-secondary-light); font-size: 1.5rem; margin-right: 12px; transition: color var(--anim-duration-fast), transform var(--anim-duration-fast); }
-.social-links-contact-page .social-icon-contact:hover { color: var(--accent-primary); transform: scale(1.1); }
-
-/* static/css/style.css */
-
-/* Remove or comment out any previous continuous animation keyframes */
-
-.slide-caption h2 {
-    /* ... your existing h2 styles ... */
-    animation: verticalWave 2.5s ease-in-out infinite; /* Slower than 1.3s for a gentler feel */
-    position: relative; /* Needed if you were to use top/left, good practice with transforms too */
-}
-
-.slide-caption p {
-    /* ... your existing p styles ... */
-    animation: verticalWave 2.8s ease-in-out infinite; /* Slightly different duration/delay */
-    animation-delay: 0.3s;
-    position: relative;
-}
-
-@keyframes verticalWave {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-8px); /* Adjust this value for more/less wave height */
-    }
-    100% {
-        transform: translateY(0px);
-    }
-}
-
-/* Optional: Reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .slide-caption h2,
-  .slide-caption p {
-    animation-name: none;
-  }
-}
-/* static/css/style.css */
-
-/* Add this to your existing CSS, perhaps near the .slide-caption or .btn styles */
-
-.slide-caption .btn { /* Target buttons specifically within the slide caption */
-    animation: buttonPulse 2.5s ease-in-out infinite;
-    /* You might want a delay if it's appearing with the text */
-    /* animation-delay: 1s; */ /* Example delay */
-}
-
-@keyframes buttonPulse {
-    0%, 100% {
-        transform: scale(1);
-        /* box-shadow: 0 4px 12px rgba(var(--accent-primary-rgb), 0.2); /* Your normal button shadow */
-    }
-    50% {
-        transform: scale(1.05); /* Slightly larger */
-        /* box-shadow: 0 6px 18px rgba(var(--accent-primary-rgb), 0.3); /* Slightly enhanced shadow */
-    }
-}
-
-/* Optional: Reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .slide-caption .btn {
-    animation-name: none;
-  }
-}
-/* Item Grid (Products, Categories, Subcategories) */
-.item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 2rem; }
-.item-card {
-    background-color: var(--bg-element-dark);
-    border-radius: var(--border-radius); border: 1px solid var(--border-dark);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15); overflow: hidden;
-    transition: transform 0.3s var(--anim-easing-curve), box-shadow 0.3s var(--anim-easing-curve);
-    display: flex; flex-direction: column; text-decoration: none; color: var(--text-primary-light);
-}
-.item-card:hover { transform: translateY(-5px); box-shadow: 0 8px 22px rgba(0,0,0,0.22); }
-.item-card-image-wrapper { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background-color: var(--bg-deep-dark); border-bottom: 1px solid var(--border-dark); }
-.item-card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--anim-easing-curve); border-radius: 0; /* Image itself should not have radius if wrapper has overflow:hidden */ }
-.item-card:hover .item-card-image-wrapper img { transform: scale(1.06); }
-.item-card-content { padding: 1rem; flex-grow: 1; display: flex; flex-direction: column; text-align: center; }
-.item-card-content h3, .item-card-content h4 {
-    font-size: 1.5rem; margin-bottom: 0.4rem; color: var(--text-headings-light);
-    font-weight: 500; line-height: 1.35; font-weight: bold;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden; text-overflow: ellipsis;
-}
-.item-card-content p {
-    font-size: 0.85rem; color: var(--text-secondary-light); margin-top: 0.25rem;
-    margin-bottom: 0.8rem; line-height: 1.5;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden; text-overflow: ellipsis; flex-grow: 1;
-    min-height: calc(0.85rem * 1.5 * 2);
-}
-.item-card-content .btn { margin-top: auto; width: auto; align-self: center; padding: 0.6rem 1rem; font-size: 0.8rem; }
-
-
-/* Product Detail Page */
-.product-detail-page { background-color: var(--bg-dark); }
-.product-detail-wrapper { display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-start; }
-.product-detail-image { flex: 1 1 450px; max-width: 550px; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--box-shadow-dark); background-color: var(--bg-element-dark); }
-.product-detail-image img { border-radius: var(--border-radius); } /* Ensure image corners match */
-.product-detail-content { flex: 1 1 500px; padding-left: 1rem; }
-.product-title { font-size: 2.6rem; margin-bottom: 1.2rem; font-weight: 700; }
-.product-description p { font-size: 1.1rem; line-height: 1.85; color: var(--text-primary-light); margin-bottom: 1.2rem; font-weight: 400; }
-.product-actions { margin-top: 2.5rem; }
-.product-actions .btn-lg { padding: 1.1rem 2.8rem; font-size: 1.1rem; }
-
-.breadcrumb {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 2rem; /* Space below breadcrumb */
+.navbar-logo {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
     align-items: center;
-    font-size: 0.85rem; /* Slightly smaller breadcrumb text */
-    color: var(--text-secondary-light); /* Default color for separators */
-}
-
-.breadcrumb-item {
-    display: flex; /* Align icon/text if you add icons */
-    align-items: center;
-}
-
-.breadcrumb-item + .breadcrumb-item::before {
-    content: ">"; /* Or use an icon like '\f054' for FontAwesome right arrow */
-    /* font-family: "Font Awesome 6 Free"; */
-    /* font-weight: 900; */
-    padding: 0 0.75rem; /* Space around separator */
-    color: var(--text-secondary-light); /* Separator color */
-}
-
-.breadcrumb-item a {
-    color: var(--text-primary-light); /* Links are lighter, more prominent than plain text */
+    color: var(--text-headings-light);
+    font-size: 1.7rem;
+    font-weight: 700;
     text-decoration: none;
+}
+.navbar-logo img {
+    height: 45px;
+    margin-right: 15px;
+}
+.navbar-links-desktop ul {
+    display: flex;
+    align-items: center;
+}
+.navbar-links-desktop ul li a {
+    padding: 1rem 1.4rem;
+    color: var(--text-primary-light);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.8px;
+    position: relative;
+    display: block;
     transition: color var(--anim-duration-fast) ease;
 }
-.breadcrumb-item a:hover {
-    color: var(--accent-primary-hover); /* Hover color */
-    text-decoration: underline;
+.navbar-links-desktop ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0.6rem;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 70%;
+    height: 2px;
+    background-color: var(--accent-primary);
+    transition: transform var(--anim-duration-medium) var(--anim-easing-dynamic);
+    transform-origin: center;
 }
-
-.breadcrumb-item.active { /* For the current page text */
-    color: var(--accent-primary); /* Active item in primary accent color */
-    font-weight: 500; /* Slightly bolder for active item */
+.navbar-links-desktop ul li a:hover,
+.navbar-links-desktop ul li a.active {
+    color: var(--accent-primary-hover);
 }
-.back-to-categories { margin-top: 3rem; text-align: left; }
-
-/* Footer */
-.site-footer { background-color: var(--bg-deep-dark); color: var(--text-secondary-light); padding: 50px 0 25px 0; font-size: 0.9rem; border-top: 1px solid var(--border-dark); }
-.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--border-dark); }
-.footer-column h4 { color: var(--text-headings-light); margin-bottom: 1.3rem; font-size: 1.2rem; font-weight: 600; }
-.footer-about p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
-.footer-social-links { margin-top: 1rem; }
-.footer-social-links a { color: var(--text-secondary-light); margin-right: 15px; font-size: 1.4rem; transition: color var(--anim-duration-fast), transform var(--anim-duration-fast); }
-.footer-social-links a:hover { color: var(--accent-primary); transform: translateY(-2px); }
-.footer-location-block { margin-bottom: 1.5rem; }
-.footer-location-block h5 { font-size: 1.05rem; color: var(--text-primary-light); margin-bottom: 0.5rem; display: flex; align-items: center; }
-.footer-location-block .flag-icon { font-size: 1.4em; margin-right: 0.6rem; }
-.footer-location-block address, .footer-location-block p { font-style: normal; font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary-light); margin-bottom: 0.3rem; }
-.footer-location-block p i.fas { margin-right: 8px; font-size: 0.95em; color: var(--accent-secondary); }
-.footer-location-block p a { color: var(--text-secondary-light); }
-.footer-location-block p a:hover { color: var(--accent-primary-hover); }
-.footer-quick-links ul, .footer-emails ul { list-style: none; padding: 0; margin: 0; }
-.footer-quick-links li a, .footer-emails li a { font-size: 0.9rem; color: var(--text-secondary-light); }
-.footer-quick-links li a:hover, .footer-emails li a:hover { color: var(--accent-primary-hover); padding-left: 5px; }
-.footer-emails li { display: flex; align-items: center; margin-bottom: 0.6rem; }
-.footer-emails li i.fas { margin-right: 8px; color: var(--accent-secondary); }
-.footer-bottom { text-align: center; font-size: 0.85rem; color: var(--text-secondary-light); }
-.footer-bottom .fa-heart { color: var(--accent-red); animation: pulseHeart 1.5s infinite ease-in-out; }
-@keyframes pulseHeart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-.language-switcher {
+.navbar-links-desktop ul li a:hover::after,
+.navbar-links-desktop ul li a.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+.navbar-actions {
     display: flex;
     align-items: center;
-    margin-left: 1rem; /* Or your desired spacing */
-    padding: 5px 10px;
+}
+.lang-button {
+    background-color: transparent;
     border: 1px solid var(--border-dark);
+    color: var(--text-secondary-light);
+    cursor: pointer;
+    padding: 8px 15px;
     border-radius: var(--border-radius);
-    background-color: rgba(var(--bg-element-hover-dark-rgb), 0.3); /* Subtle background */
-}
-
-.language-switcher .globe-icon {
-    color: var(--text-secondary-light);
-    margin-right: 8px; /* Space between globe and first language */
-    font-size: 1em; /* Relative to parent */
-}
-
-.language-switcher .lang-option {
-    color: var(--text-secondary-light);
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-secondary);
+    font-size: 0.85rem;
     font-weight: 500;
-    font-size: 0.85rem;
-    text-decoration: none;
-    padding: 4px 6px;
-    border-radius: 4px; /* Smaller radius for options */
-    transition: color var(--anim-duration-fast) ease, background-color var(--anim-duration-fast) ease;
+    transition: all var(--anim-duration-fast) ease;
+    margin-left: 1rem;
 }
-
-.language-switcher .lang-option.active {
-    color: var(--accent-primary); /* Active language in accent color */
-    font-weight: 700; /* Bolder */
-    /* background-color: rgba(var(--accent-primary-rgb), 0.15); */ /* Optional subtle background for active */
+.lang-button i.fa-globe {
+    margin-right: 8px;
+    font-size: 1.1em;
 }
-
-.language-switcher .lang-option:not(.active):hover {
+.lang-button:hover {
     color: var(--accent-primary-hover);
+    border-color: var(--accent-primary);
     background-color: rgba(var(--accent-primary-rgb), 0.1);
+    box-shadow: 0 0 8px rgba(var(--accent-primary-rgb), 0.2);
+}
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2.2rem;
+    color: var(--text-headings-light);
+    cursor: pointer;
+}
+.navbar-links-mobile {
+    display: none;
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    background-color: var(--bg-element-dark);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    padding: 1rem 0;
+    z-index: 999;
+    border-top: 1px solid var(--border-dark);
+}
+.navbar-links-mobile.active {
+    display: block;
+}
+.navbar-links-mobile ul li a {
+    display: block;
+    padding: 1.2rem 2rem;
+    color: var(--text-primary-light);
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: background-color var(--anim-duration-fast) ease, color var(--anim-duration-fast) ease;
+}
+.navbar-links-mobile ul li a:hover,
+.navbar-links-mobile ul li a.active {
+    background-color: var(--bg-element-hover-dark);
+    color: var(--accent-primary);
 }
 
-.language-switcher .lang-separator {
-    color: var(--border-dark);
-    margin: 0 5px;
-    font-size: 0.85rem;
-}
-
-/* Mobile Language Switcher Styles */
+/* Mobile Language Switcher (within .navbar-links-mobile) */
 .navbar-links-mobile .mobile-language-switcher {
     padding: 0.8rem 1.8rem;
-    text-align: center; /* Center the mobile language options */
+    text-align: center;
     font-size: 0.9rem;
+    border-top: 1px solid var(--border-subtle-dark);
+    margin-top: 0.5rem;
 }
 .navbar-links-mobile .globe-icon-mobile {
     color: var(--text-secondary-light);
@@ -614,10 +413,11 @@ body.initial-animation--done .hero-section {
     color: var(--text-secondary-light);
     padding: 3px 5px;
     text-decoration: none;
+    font-weight: 500;
 }
 .navbar-links-mobile .lang-option-mobile.active {
     color: var(--accent-primary);
-    font-weight: bold;
+    font-weight: 700;
 }
 .navbar-links-mobile .lang-option-mobile:not(.active):hover {
     color: var(--accent-primary-hover);
@@ -626,49 +426,979 @@ body.initial-animation--done .hero-section {
     color: var(--text-secondary-light);
     margin: 0 3px;
 }
-input[dir="rtl"], textarea[dir="rtl"] {
-    text-align: right;
+
+
+/* ----------------------------------------
+   6. Hero Section
+   ---------------------------------------- */
+/* Base styles for when animation is NOT active or has finished */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    background-color: var(--bg-dark);
+    transform: translateY(0);
+    height: calc(100vh - var(--navbar-height));
+
 }
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-    .navbar-links-desktop { display: none; }
-    .mobile-menu-toggle { display: block; }
-    /* .hero-section { height: 90vh; } */ /* Let JS and base classes handle hero height */
-    .slide-caption h2 { font-size: 3rem; }
-    .section-title, .page-title { font-size: 2.4rem; }
-    .item-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
-    .contact-page-wrapper { grid-template-columns: 1fr; }
-    .lang-button .lang-text { /* display: none; */ }
-    .lang-button { padding: 8px 10px; }
+.hero-swiper {
+    width: 100%;
+    height: 100%;
 }
-@media (max-width: 768px) {
-    /* body { padding-top: calc(var(--navbar-height) - 10px); } */ /* Re-evaluate if navbar height changes for mobile */
-    /* .navbar { height: calc(var(--navbar-height) - 10px); } */
-    h1 { font-size: 2.4rem; }
-    .section-title, .page-title { font-size: 2rem; margin-bottom: 2.5rem; }
-    .about-content, .footer-grid, .product-detail-wrapper { flex-direction: column; grid-template-columns: 1fr; }
-    .about-image { margin-top: 1.5rem; }
-    .product-detail-content { padding-left: 0; margin-top: 1.5rem; }
-    /* .hero-section { height: 85vh; } */ /* Let JS and base classes handle hero height */
-    .slide-caption h2 { font-size: 2.2rem; }
-    .item-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
-    .footer-column { text-align: center; }
-    .footer-location-block h5, .footer-location-block p, .footer-emails li { justify-content: center; }
-    .footer-social-links { justify-content: center; display: flex; }
+.hero-swiper .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    color: var(--text-headings-light);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
 }
-@media (max-width: 576px) {
-    .navbar-logo span { display: none; }
-    .btn { padding: 0.7rem 1.5rem; font-size: 0.9rem; }
-    .slide-caption h2 { font-size: 1.9rem; }
-    .hero-swiper .swiper-button-next, .hero-swiper .swiper-button-prev { display: none; }
-    .page-title, .section-title { font-size: 1.8rem; }
-    .content-section { padding: 50px 0; }
-    .item-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-    .contact-form-container, .contact-info-sidebar { padding: 2rem 1rem; }
-    .lang-button .lang-text { display: none; }
-    .lang-button { padding: 8px; border: none; background-color: transparent; }
-    .lang-button i.fa-globe { margin-right: 0; }
+.hero-swiper .swiper-slide::before { /* Darkening overlay */
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(rgba(10, 15, 20, 0.2) 0%, rgba(10, 15, 20, 0.7) 60%, rgba(10, 15, 20, 0.9) 100%);
+    z-index: 5;
+}
+.slide-caption {
+    position: relative;
+    z-index: 10;
+    max-width: 850px;
+    padding: 30px;
+}
+.slide-caption .animate-this { /* For staggered item animation within a slide */
+    opacity: 0;
+    transform: translateY(30px);
+}
+.slide-caption.is-visible .animate-this {
+    opacity: 1;
+    transform: translateY(0);
+    transition-property: opacity, transform;
+    /* Make the individual item animation faster */
+    transition-duration: 0.3s; /* Example: was var(--anim-duration-medium) which is 0.5s */
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* A standard ease-out is good */
+}
+.slide-caption.is-visible .animate-this:nth-child(1) { transition-delay: 0s; }
+.slide-caption.is-visible .animate-this:nth-child(2) { transition-delay: 0.05s; }
+.slide-caption.is-visible .animate-this:nth-child(3) { transition-delay: 0.1s; }
+
+.slide-caption h2 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #fff;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    position: relative;
+    animation: verticalWave 2.5s ease-in-out infinite;
+}
+.slide-caption p {
+    font-size: 1.2rem;
+    margin-bottom: 2.8rem;
+    color: var(--text-primary-light);
+    font-weight: 300;
+    position: relative;
+    animation: verticalWave 2.8s ease-in-out infinite;
+    animation-delay: 0.3s;
+}
+.slide-caption .btn {
+    animation: buttonPulse 2.5s ease-in-out infinite;
 }
 
-/* Accessibility */
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+/* Swiper Controls */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+    color: #fff;
+    opacity: 0.6;
+    background-color: rgba(0,0,0,0.15);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    transform: scale(0.9);
+    top: 50%;
+    transition: opacity var(--anim-duration-fast), transform var(--anim-duration-fast) ease, background-color var(--anim-duration-fast) ease;
+}
+.hero-swiper:hover .swiper-button-next,
+.hero-swiper:hover .swiper-button-prev {
+    opacity: 0.8;
+    transform: scale(1);
+}
+.hero-swiper .swiper-button-next:hover,
+.hero-swiper .swiper-button-prev:hover {
+    opacity: 1;
+    background-color: rgba(0,0,0,0.3);
+    transform: scale(1.05);
+}
+.hero-swiper .swiper-button-next::after,
+.hero-swiper .swiper-button-prev::after {
+    font-size: 1.6rem;
+}
+.hero-swiper .swiper-pagination-bullet {
+    background: rgba(255,255,255,0.4);
+    opacity: 1;
+    width: 12px;
+    height: 12px;
+    margin: 0 6px !important;
+    transition: all var(--anim-duration-fast) ease;
+}
+.hero-swiper .swiper-pagination-bullet-active {
+    background: var(--accent-primary);
+    transform: scale(1.3);
+}
+
+/* ----------------------------------------
+   7. Initial Load Animation States
+   ---------------------------------------- */
+
+body.initial-animation--active {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+
+/* 2. Navbar's pre-animation state (hidden above viewport) */
+.navbar.animation-initial-state {
+    transform: translateY(-100%) !important;
+    opacity: 0 !important;
+    transition: none !important; 
+}
+
+/* 3. Hero's pre-animation state (at viewport top, full height) */
+.hero-section.animation-initial-state {
+    transform: translateY(0) !important;    
+    height: 100vh !important;               
+    opacity: 1;                                
+    transition: none !important;               
+}
+
+/* 5. Hero's animation target and transition (during initial-animation--active) */
+body.initial-animation--active .hero-section {
+    transform: translateY(var(--navbar-height)); 
+    height: calc(100vh - var(--navbar-height));    
+    transition: transform var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay),
+                height var(--navbar-animation-duration) var(--anim-easing-curve) var(--navbar-animation-delay);
+}
+
+/* 6. Body state AFTER animation is complete (or if skipped) */
+body.initial-animation--done {
+    padding-top: var(--navbar-height) !important; 
+}
+
+/* 7. Hero state AFTER animation is complete (or if skipped) */
+body.initial-animation--done .hero-section {
+    transition: none !important;
+}
+
+/* ----------------------------------------
+   8. General Page & Section Structure
+   ---------------------------------------- */
+.content-section {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+    background-color: var(--bg-dark);
+    position: relative;
+    border-bottom: 1px solid var(--border-subtle-dark);
+}
+.content-section:last-child {
+    border-bottom: none;
+}
+.content-section:nth-child(even) {
+    background-color: var(--bg-element-dark);
+}
+
+.page-section { /* For main content area on non-homepage views */
+    padding-top: calc(var(--navbar-height) + (var(--section-padding) / 2));
+    padding-bottom: calc(var(--section-padding) / 2);
+    min-height: calc(100vh - var(--navbar-height) - 158px);
+}
+
+.section-title,
+.page-title { /* Shared styling for main titles of sections/pages */
+    text-align: center;
+    margin-bottom: 3.5rem;
+    font-size: 2.5rem;
+    position: relative;
+    padding-bottom: 1.2rem;
+    font-weight: 600;
+}
+.section-title::after,
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--accent-primary);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(var(--accent-primary-rgb), 0.4);
+}
+
+.page-intro { /* Centered introductory text for pages */
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary-light);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3.5rem;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* ----------------------------------------
+   9. Specific Sections & Components
+   ---------------------------------------- */
+
+/* About Section */
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 3rem;
+}
+.about-text {
+    flex: 1;
+    min-width: 300px;
+}
+.about-image {
+    flex: 1;
+    min-width: 300px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow-dark);
+}
+.about-image img {
+    transition: transform 0.8s var(--anim-easing-curve), opacity 0.8s ease;
+    opacity: 0.9;
+    border-radius: var(--border-radius);
+}
+.about-image:hover img {
+    transform: scale(1.05);
+    opacity: 1;
+}
+.about-section-title { /* Specific styling for left-aligned title if needed */
+    text-align: left;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+}
+.about-section-title::after {
+    left: 0;
+    transform: translateX(0);
+    width: 60px;
+}
+
+/* CTA Section (Expand from Center Animation) */
+.cta-expand-reveal {
+    padding: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+}
+.cta-expand-reveal .container {
+    position: relative;
+    z-index: 2;
+}
+.cta-expand-reveal::before { /* Animated background element */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    background: var(--accent-cta-bg);
+    z-index: 1;
+    transition: width var(--anim-duration-medium) var(--anim-easing-curve) 0.1s,
+                left var(--anim-duration-medium) var(--anim-easing-curve) 0.1s;
+}
+.cta-expand-reveal.is-visible::before {
+    width: 100%;
+    left: 0;
+}
+.cta-expand-reveal h3,
+.cta-expand-reveal p,
+.cta-expand-reveal .btn { /* Content animation */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.cta-expand-reveal.is-visible h3 {
+    opacity: 1; transform: translateY(0); transition-delay: 0.35s; color: #fff;
+}
+.cta-expand-reveal.is-visible p {
+    opacity: 1; transform: translateY(0); transition-delay: 0.45s; color: rgba(255,255,255,0.9);
+}
+.cta-expand-reveal.is-visible .btn {
+    opacity: 1; transform: translateY(0); transition-delay: 0.55s;
+    border-color: #fff;
+    color: #fff;
+}
+.cta-expand-reveal.is-visible .btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Contact Page */
+.contact-page-section { /* Wrapper for the contact page content */
+    background-color: var(--bg-dark);
+}
+.contact-page-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+}
+.contact-form-container,
+.contact-info-sidebar {
+    background-color: var(--bg-element-dark);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-dark);
+    box-shadow: var(--box-shadow-light);
+}
+.contact-section-subtitle { /* Subtitles within contact sections */
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-headings-light);
+    margin-bottom: 1.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border-subtle-dark);
+}
+
+/* Contact Form Specifics */
+.contact-form-container .form-group {
+    margin-bottom: 1.5rem;
+}
+.contact-form-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-secondary-light);
+    font-size: 0.9rem;
+}
+.contact-form-container input[type="text"],
+.contact-form-container input[type="email"],
+.contact-form-container input[type="tel"],
+.contact-form-container textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    background-color: var(--bg-deep-dark);
+    color: var(--text-primary-light);
+    transition: border-color var(--anim-duration-fast) ease,
+                box-shadow var(--anim-duration-fast) ease,
+                background-color var(--anim-duration-fast) ease;
+}
+.contact-form-container input::placeholder,
+.contact-form-container textarea::placeholder {
+    color: var(--text-secondary-light);
+    opacity: 0.6;
+}
+.contact-form-container input:focus,
+.contact-form-container textarea:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--accent-primary-rgb), 0.25);
+    background-color: var(--bg-element-dark);
+}
+.contact-form-container textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Contact Info Sidebar Specifics */
+.location-card { /* For individual location blocks in sidebar */
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    margin-bottom: 2rem;
+}
+.location-card:last-child {
+    margin-bottom: 0;
+}
+.location-card h4 { /* Title for location, e.g., "Head Office" */
+    font-size: 1.1rem;
+    color: var(--accent-secondary);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+.location-card h4 .flag-icon { /* For country flags */
+    font-size: 1.3em;
+    margin-right: 0.5em;
+    line-height: 1;
+}
+.contact-details { /* List for address, phone, email */
+    margin: 0;
+}
+.contact-details li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.7rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary-light);
+}
+.contact-details li i.fas { /* Icons for contact items */
+    color: var(--accent-primary);
+    margin-right: 10px;
+    font-size: 1em;
+    width: 18px;
+    text-align: center;
+    margin-top: 0.1em;
+}
+.contact-details li a {
+    color: var(--text-secondary-light);
+}
+.contact-details li a:hover {
+    color: var(--accent-primary-hover);
+}
+.general-contact-info h4,
+.social-links-contact-page h4 {
+    font-size: 1.1rem;
+    color: var(--text-headings-light);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+.social-links-contact-page .social-icon-contact {
+    color: var(--text-secondary-light);
+    font-size: 1.5rem;
+    margin-right: 12px;
+    transition: color var(--anim-duration-fast), transform var(--anim-duration-fast);
+}
+.social-links-contact-page .social-icon-contact:hover {
+    color: var(--accent-primary);
+    transform: scale(1.1);
+}
+
+/* Item Grid (Products, Categories, etc.) */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 2rem;
+}
+.item-card {
+    background-color: var(--bg-element-dark);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-dark);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: transform 0.3s var(--anim-easing-curve), box-shadow 0.3s var(--anim-easing-curve);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--text-primary-light);
+}
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.22);
+}
+.item-card-image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--bg-deep-dark);
+    border-bottom: 1px solid var(--border-dark);
+}
+.item-card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s var(--anim-easing-curve);
+}
+.item-card:hover .item-card-image-wrapper img {
+    transform: scale(1.06);
+}
+.item-card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.item-card-content h3, /* Main title for card */
+.item-card-content h4 { /* Sub-title or category for card */
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+    color: var(--text-headings-light);
+    font-weight: 600;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(1.15rem * 1.35 * 2);
+}
+.item-card-content p { /* Description */
+    font-size: 0.85rem;
+    color: var(--text-secondary-light);
+    margin-top: 0.25rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    min-height: calc(0.85rem * 1.5 * 2);
+}
+.item-card-content .btn {
+    margin-top: auto;
+    width: auto;
+    align-self: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+}
+
+/* Product Detail Page */
+.product-detail-page { /* Wrapper for product detail content */
+    background-color: var(--bg-dark);
+}
+.product-detail-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    align-items: flex-start;
+}
+.product-detail-image {
+    flex: 1 1 450px;
+    max-width: 550px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow-dark);
+    background-color: var(--bg-element-dark);
+}
+.product-detail-image img {
+    border-radius: var(--border-radius);
+}
+.product-detail-content {
+    flex: 1 1 500px;
+    padding-left: 1rem;
+}
+.product-title { /* Main product name */
+    font-size: 2.6rem;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+}
+.product-description p {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: var(--text-primary-light);
+    margin-bottom: 1.2rem;
+    font-weight: 400;
+}
+.product-actions {
+    margin-top: 2.5rem;
+}
+.back-to-categories { /* Link to go back to product listing */
+    margin-top: 3rem;
+    text-align: left;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary-light);
+}
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    padding: 0 0.75rem;
+    color: var(--text-secondary-light);
+}
+.breadcrumb-item a {
+    color: var(--text-primary-light);
+}
+.breadcrumb-item a:hover {
+    color: var(--accent-primary-hover);
+    text-decoration: underline;
+}
+.breadcrumb-item.active { /* Current page in breadcrumb */
+    color: var(--accent-primary);
+    font-weight: 500;
+}
+
+
+/* ----------------------------------------
+   10. Footer
+   ---------------------------------------- */
+.site-footer {
+    background-color: var(--bg-deep-dark);
+    color: var(--text-secondary-light);
+    padding: 50px 0 25px 0;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-dark);
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-dark);
+}
+.footer-column h4 {
+    color: var(--text-headings-light);
+    margin-bottom: 1.3rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.footer-about p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+.footer-social-links {
+    margin-top: 1rem;
+}
+.footer-social-links a {
+    color: var(--text-secondary-light);
+    margin-right: 15px;
+    font-size: 1.4rem;
+    transition: color var(--anim-duration-fast), transform var(--anim-duration-fast);
+}
+.footer-social-links a:last-child {
+    margin-right: 0;
+}
+.footer-social-links a:hover {
+    color: var(--accent-primary);
+    transform: translateY(-2px);
+}
+.footer-location-block {
+    margin-bottom: 1.5rem;
+}
+.footer-location-block:last-child {
+    margin-bottom: 0;
+}
+.footer-location-block h5 { /* Location title, e.g., "Office Name" */
+    font-size: 1.05rem;
+    color: var(--text-primary-light);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.footer-location-block .flag-icon {
+    font-size: 1.4em;
+    margin-right: 0.6rem;
+}
+.footer-location-block address,
+.footer-location-block p {
+    font-style: normal;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary-light);
+    margin-bottom: 0.3rem;
+}
+.footer-location-block p i.fas { /* Icons for phone, email in location */
+    margin-right: 8px;
+    font-size: 0.95em;
+    color: var(--accent-secondary);
+    width: 16px;
+    text-align: center;
+}
+.footer-location-block p a {
+    color: var(--text-secondary-light);
+}
+.footer-location-block p a:hover {
+    color: var(--accent-primary-hover);
+}
+.footer-quick-links ul,
+.footer-emails ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-quick-links li,
+.footer-emails li {
+    margin-bottom: 0.6rem;
+}
+.footer-quick-links li:last-child,
+.footer-emails li:last-child {
+    margin-bottom: 0;
+}
+.footer-quick-links li a,
+.footer-emails li a {
+    font-size: 0.9rem;
+    color: var(--text-secondary-light);
+    transition: color var(--anim-duration-fast) ease, padding-left var(--anim-duration-fast) ease;
+}
+.footer-quick-links li a:hover,
+.footer-emails li a:hover {
+    color: var(--accent-primary-hover);
+    padding-left: 5px;
+}
+.footer-emails li {
+    display: flex;
+    align-items: center;
+}
+.footer-emails li i.fas {
+    margin-right: 8px;
+    color: var(--accent-secondary);
+}
+.footer-bottom {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary-light);
+}
+.footer-bottom .fa-heart {
+    color: var(--accent-red);
+    animation: pulseHeart 1.5s infinite ease-in-out;
+}
+
+
+/* ----------------------------------------
+   11. Language Switcher (General Component Style)
+   ---------------------------------------- */
+/* This is for a general language switcher component, potentially used in header/footer.
+   Navbar-specific lang button is styled within .navbar section. */
+.language-switcher {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--border-radius);
+    background-color: rgba(var(--bg-element-hover-dark-rgb), 0.3);
+}
+.language-switcher .globe-icon {
+    color: var(--text-secondary-light);
+    margin-right: 8px;
+    font-size: 1em;
+}
+.language-switcher .lang-option {
+    color: var(--text-secondary-light);
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: color var(--anim-duration-fast) ease, background-color var(--anim-duration-fast) ease;
+}
+.language-switcher .lang-option.active {
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+.language-switcher .lang-option:not(.active):hover {
+    color: var(--accent-primary-hover);
+    background-color: rgba(var(--accent-primary-rgb), 0.1);
+}
+.language-switcher .lang-separator {
+    color: var(--border-dark);
+    margin: 0 5px;
+    font-size: 0.85rem;
+}
+
+
+/* ----------------------------------------
+   12. Animations (Keyframes)
+   ---------------------------------------- */
+@keyframes verticalWave {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(8px); }
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes pulseHeart {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* ----------------------------------------
+   13. RTL (Right-to-Left) Support
+   ---------------------------------------- */
+input[dir="rtl"],
+textarea[dir="rtl"] {
+    text-align: right;
+}
+
+/* ----------------------------------------
+   14. Utility Classes
+   ---------------------------------------- */
+.sr-only { /* Screen-reader only text */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ----------------------------------------
+   15. Responsive Adjustments (Media Queries)
+   ---------------------------------------- */
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .slide-caption h2,
+  .slide-caption p,
+  .slide-caption .btn,
+  .footer-bottom .fa-heart {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Large tablets and small desktops */
+@media (max-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+    .navbar-links-desktop { display: none; }
+    .navbar-actions .lang-button {
+    }
+    .mobile-menu-toggle { display: block; }
+
+    /* Hero */
+    .slide-caption h2 { font-size: 3rem; }
+
+    /* Sections */
+    .section-title, .page-title { font-size: 2.2rem; }
+    .page-section { padding-top: calc(var(--navbar-height) + (var(--section-padding) / 2.5)); }
+
+
+    /* Item Grid */
+    .item-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+
+    /* Contact Page */
+    .contact-page-wrapper { grid-template-columns: 1fr; }
+    .contact-info-sidebar { margin-top: 2rem; }
+
+    /* Product Detail */
+    .product-detail-content { padding-left: 0; }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    /* Base */
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.6rem; }
+
+
+    /* Hero */
+    .slide-caption h2 { font-size: 2.2rem; }
+    .slide-caption p { font-size: 1.1rem; margin-bottom: 2rem; }
+
+    /* Sections */
+    .content-section { padding: calc(var(--section-padding) / 1.5) 0; }
+    .page-section {
+        padding-top: calc(var(--navbar-height) + (var(--section-padding) / 3));
+        padding-bottom: calc(var(--section-padding) / 3);
+    }
+    .section-title, .page-title { font-size: 2rem; margin-bottom: 2.5rem; }
+
+    /* Components that stack */
+    .about-content { flex-direction: column; }
+    .about-image { margin-top: 1.5rem; width: 100%; max-width: 400px; align-self: center;}
+    .product-detail-wrapper { flex-direction: column; }
+    .product-detail-content { margin-top: 1.5rem; }
+
+    /* Item Grid */
+    .item-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
+    .item-card-content h3, .item-card-content h4 { font-size: 1.1rem; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .footer-column { margin-bottom: 1.5rem; }
+    .footer-location-block h5,
+    .footer-location-block p,
+    .footer-emails li {
+        justify-content: center;
+    }
+    .footer-social-links { justify-content: center; display: flex; }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    .container { padding-left: 15px; padding-right: 15px; }
+
+    /* Navbar */
+    .navbar-logo span { display: none; }
+    .navbar-logo img { height: 40px; }
+    .navbar-actions .lang-button {
+        padding: 8px;
+        border: none;
+        background-color: transparent;
+        font-size: 1.2rem;
+    }
+    .lang-button .lang-text { display: none; }
+    .lang-button i.fa-globe { margin-right: 0; }
+    .navbar-actions .btn:not(.lang-button) {
+    }
+
+
+    /* Buttons */
+    .btn { padding: 0.8rem 1.8rem; font-size: 0.85rem; }
+    .btn-sm { padding: 0.6rem 1.2rem; font-size: 0.75rem; }
+
+    /* Hero */
+    .slide-caption h2 { font-size: 1.9rem; }
+    .slide-caption p { font-size: 1rem; margin-bottom: 1.5rem; }
+    .hero-swiper .swiper-button-next,
+    .hero-swiper .swiper-button-prev { display: none; }
+
+    /* Sections */
+    .content-section { padding: calc(var(--section-padding) / 2) 0; }
+    .page-section {
+        padding-top: calc(var(--navbar-height) + (var(--section-padding) / 4));
+        padding-bottom: calc(var(--section-padding) / 4);
+    }
+    .section-title, .page-title { font-size: 1.8rem; margin-bottom: 2rem; }
+    .page-intro { font-size: 1rem; }
+
+    /* Item Grid */
+    .item-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .item-card-content { padding: 0.8rem; }
+    .item-card-content h3, .item-card-content h4 { font-size: 1rem; min-height: calc(1rem * 1.35 * 2); }
+    .item-card-content p { font-size: 0.8rem; min-height: calc(0.8rem * 1.5 * 2); }
+
+    /* Product Detail */
+    .product-title { font-size: 2rem; }
+    .product-description p { font-size: 1rem; }
+
+    /* Contact Page */
+    .contact-form-container,
+    .contact-info-sidebar {
+        padding: 1.5rem;
+    }
+    .contact-form-container input[type="text"],
+    .contact-form-container input[type="email"],
+    .contact-form-container input[type="tel"],
+    .contact-form-container textarea {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
