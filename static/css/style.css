@@ -1251,6 +1251,54 @@ textarea[dir="rtl"] {
     border: 0;
 }
 
+
+/* Styles for Drag and Drop */
+.drag-handle {
+    cursor: move; /* or grab, grabbing */
+    padding: 0 10px; /* Adjust as needed */
+    color: var(--admin-text-secondary);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.drag-handle:hover {
+    opacity: 1;
+}
+.admin-table tr.clickable-row:hover .drag-handle { /* Make handle more visible on row hover if desired */
+    /* opacity: 1; */
+}
+
+/* SortableJS helper classes */
+.sortable-ghost { /* Class for the ghost element when dragging */
+    opacity: 0.4;
+    background-color: var(--admin-primary-hover) !important; /* Make it stand out */
+    border: 1px dashed var(--admin-primary);
+}
+.sortable-chosen { /* Class for the chosen element (the one being dragged) */
+    /* Optional: style the item being actively dragged, e.g., slightly elevated shadow */
+    /* box-shadow: var(--admin-shadow-strong); */
+}
+.sortable-drag { /* Class for the item that is actually being dragged by the user, if different from chosen */
+    opacity: 1 !important; /* Ensure it's fully visible */
+}
+
+.item-type-badge {
+    padding: 0.25em 0.6em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.375rem; /* Matches var(--admin-border-radius) more or less */
+}
+.item-type-subcategory {
+    background-color: var(--admin-info); /* Blue */
+}
+.item-type-product {
+    background-color: var(--admin-success); /* Green */
+}
+
 /* ----------------------------------------
    15. Responsive Adjustments (Media Queries)
    ---------------------------------------- */

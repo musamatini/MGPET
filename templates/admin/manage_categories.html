@@ -6,12 +6,14 @@
         <h2>Categories</h2>
         <a href="{{ url_for('admin.add_category') }}" class="btn-admin btn-admin-success"><i class="fas fa-plus"></i> Add New Category</a>
     </div>
+    <p class="text-muted" style="margin-bottom:15px;">Drag and drop rows using the <i class="fas fa-grip-vertical"></i> handle to reorder categories. The order will be saved automatically.</p>
 
     {% if categories %}
     <div class="admin-table-wrapper">
         <table class="admin-table">
             <thead>
                 <tr>
+                    <th style="width: 30px;"></th> {# For drag handle #}
                     <th>Image</th>
                     <th>Name / Slug (EN)</th>
                     <th>Description (EN)</th>
@@ -19,9 +21,10 @@
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="sortable-categories-list"> {# Added ID #}
                 {% for category in categories %} {# category here already has display_name from app.py #}
-                <tr class="clickable-row" data-href="{{ url_for('admin.view_category_children_admin', category_slug=category.slug) }}">
+                <tr class="clickable-row" data-href="{{ url_for('admin.view_category_children_admin', category_slug=category.slug) }}" data-slug="{{ category.slug }}"> {# Added data-slug #}
+                    <td><span class="drag-handle"><i class="fas fa-grip-vertical"></i></span></td> {# Drag handle #}
                     <td>
                         {% if category.image %}
                             <img src="{{ url_for('static', filename=category.image) }}" alt="{{ category.display_name }}" class="table-preview">
@@ -33,21 +36,21 @@
                         <strong>{{ category.display_name }}</strong>
                         <br>
                         <small class="text-muted">Slug: {{ category.slug }}</small>
+                         <br><small class="text-muted" style="font-size:0.8em;">Order: {{ category.order }}</small>
                     </td>
                     <td>
-                        {# Get the English description list, or an empty list if not found #}
                         {% set desc_list_en = get_translated_list(category.description, 'en') %}
                         
                         {% if desc_list_en %}
-                            {% for line in desc_list_en[:2] %} {# Slice the list of English lines #}
-                                {{ line | e }}<br> {# Added |e for escaping user content #}
+                            {% for line in desc_list_en[:2] %}
+                                {{ line | e }}<br>
                             {% endfor %}
                             {% if desc_list_en|length > 2 %}...{% endif %}
                         {% else %}
                             <span class="text-muted">N/A</span>
                         {% endif %}
                     </td>
-                    <td>{{ category.children_count }}</td> {# Use children_count passed from app.py #}
+                    <td>{{ category.children_count }}</td>
                     <td class="actions">
                         <a href="{{ url_for('admin.edit_category', category_slug=category.slug) }}" class="btn-admin btn-admin-sm btn-admin-secondary no-row-click"><i class="fas fa-edit"></i> Edit</a>
                         <form action="{{ url_for('admin.delete_category', category_slug=category.slug) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this category? This cannot be undone.');">
@@ -67,18 +70,77 @@
 
 {% block extra_js %}
 <script>
-// Clickable row JS from before
 document.addEventListener('DOMContentLoaded', function() {
+    // Clickable row JS
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', function(event) {
-            if (event.target.closest('.no-row-click')) {
-                return;
+            // Check if the click originated from the drag handle or any 'no-row-click' element
+            if (event.target.closest('.drag-handle') || event.target.closest('.no-row-click')) {
+                return; // Do not navigate if drag handle or a no-row-click element was clicked
             }
             if (this.dataset.href) {
                 window.location.href = this.dataset.href;
             }
         });
     });
+
+    // SortableJS for Categories
+    const sortableCategoriesList = document.getElementById('sortable-categories-list');
+    if (sortableCategoriesList) {
+        new Sortable(sortableCategoriesList, {
+            animation: 150,
+            handle: '.drag-handle', // Specify the drag handle
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            // filter: '.no-row-click', // This can also prevent dragging on elements with this class if needed. Not strictly necessary for the click issue but good for control.
+            preventOnFilter: true, // if filter is used
+            onEnd: function (evt) {
+                const orderedSlugs = [];
+                sortableCategoriesList.querySelectorAll('tr').forEach(row => {
+                    orderedSlugs.push(row.dataset.slug);
+                });
+
+                fetch("{{ url_for('admin.reorder_items_admin') }}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        item_type_to_reorder: 'categories',
+                        ordered_slugs: orderedSlugs
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Categories reordered successfully.");
+                        sortableCategoriesList.querySelectorAll('tr').forEach((row, index) => {
+                            const orderCell = row.querySelector('small.text-muted[style*="font-size:0.8em"]');
+                            if(orderCell) orderCell.textContent = "Order: " + index;
+                        });
+
+                        const flashContainer = document.querySelector('.flash-messages-container') || document.createElement('div');
+                        if (!document.querySelector('.flash-messages-container')) {
+                            flashContainer.classList.add('flash-messages-container');
+                            const mainHeader = document.querySelector('.admin-main-header');
+                            if(mainHeader) mainHeader.insertAdjacentElement('afterend', flashContainer);
+                            else document.body.insertBefore(flashContainer, document.body.firstChild);
+                        }
+                        const flashMessage = document.createElement('div');
+                        flashMessage.classList.add('flash-message', 'alert-success');
+                        flashMessage.textContent = data.message || "Order updated successfully!";
+                        flashContainer.prepend(flashMessage);
+                        setTimeout(() => flashMessage.remove(), 4000);
+
+                    } else {
+                        alert('Error reordering categories: ' + (data.message || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while reordering categories.');
+                });
+            }
+        });
+    }
 });
 </script>
 {% endblock %}

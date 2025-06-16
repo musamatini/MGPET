@@ -49,12 +49,14 @@
             {% endif %}
         </div>
     </div>
+    <p class="text-muted" style="margin-bottom:15px;">Drag and drop rows using the <i class="fas fa-grip-vertical"></i> handle to reorder items. The order will be saved automatically.</p>
 
     {% if items %}
     <div class="admin-table-wrapper">
         <table class="admin-table">
             <thead>
                 <tr>
+                    <th style="width: 30px;"></th> {# For drag handle #}
                     <th>Image</th>
                     <th>Type</th>
                     <th>Name / Slug (EN Display)</th>
@@ -63,15 +65,18 @@
                     <th class="actions">Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                {% for item in items %} {# 'item.display_name' is already English or slug from app.py #}
+            <tbody id="sortable-items-list" 
+                   data-parent-type="{{ parent_context.type }}" 
+                   data-parent-slug="{{ parent_context.slug }}"> {# Added ID and data attributes #}
+                {% for item in items %}
                 {% set row_href = '' %}
                 {% if item.type == 'subcategory' %}
                     {% set row_href = url_for('admin.view_item_children_admin', parent_item_slug=item.slug) %}
                 {% elif item.type == 'product' %}
                     {% set row_href = url_for('admin.edit_item', item_slug=item.slug) %}
                 {% endif %}
-                <tr class="clickable-row" {% if row_href %}data-href="{{ row_href }}"{% endif %}>
+                <tr class="clickable-row" {% if row_href %}data-href="{{ row_href }}"{% endif %} data-slug="{{ item.slug }}"> {# Added data-slug #}
+                    <td><span class="drag-handle"><i class="fas fa-grip-vertical"></i></span></td> {# Drag handle #}
                     <td>
                         {% if item.image %}
                             <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.display_name }}" class="table-preview">
@@ -81,6 +86,7 @@
                     <td>
                         <strong>{{ item.display_name }}</strong><br>
                         <small class="text-muted">Slug: {{ item.slug }}</small>
+                        <br><small class="text-muted" style="font-size:0.8em;">Order: {{ item.order }}</small>
                     </td>
                     <td>
                         {% set desc_dict = item.description if item.type == 'subcategory' else item.short_description %}
@@ -117,14 +123,79 @@
 
 {% block extra_js %}
 <script>
-// Clickable row JS
 document.addEventListener('DOMContentLoaded', function() {
+    // Clickable row JS
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', function(event) {
-            if (event.target.closest('.no-row-click')) { return; }
+            // Check if the click originated from the drag handle or any 'no-row-click' element
+            if (event.target.closest('.drag-handle') || event.target.closest('.no-row-click')) {
+                return; // Do not navigate if drag handle or a no-row-click element was clicked
+            }
             if (this.dataset.href) { window.location.href = this.dataset.href; }
         });
     });
+
+    // SortableJS for Items under Parent
+    const sortableItemsList = document.getElementById('sortable-items-list');
+    if (sortableItemsList) {
+        const parentType = sortableItemsList.dataset.parentType;
+        const parentSlug = sortableItemsList.dataset.parentSlug;
+
+        new Sortable(sortableItemsList, {
+            animation: 150,
+            handle: '.drag-handle', // Specify the drag handle
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            // filter: '.no-row-click', // Can be added for more control
+            preventOnFilter: true, // if filter is used
+            onEnd: function (evt) {
+                const orderedSlugs = [];
+                sortableItemsList.querySelectorAll('tr').forEach(row => {
+                    orderedSlugs.push(row.dataset.slug);
+                });
+
+                fetch("{{ url_for('admin.reorder_items_admin') }}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        item_type_to_reorder: 'children_items',
+                        parent_type: parentType,
+                        parent_slug: parentSlug,
+                        ordered_slugs: orderedSlugs
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("Items reordered successfully.");
+                        sortableItemsList.querySelectorAll('tr').forEach((row, index) => {
+                            const orderCell = row.querySelector('small.text-muted[style*="font-size:0.8em"]');
+                            if(orderCell) orderCell.textContent = "Order: " + index;
+                        });
+
+                        const flashContainer = document.querySelector('.flash-messages-container') || document.createElement('div');
+                         if (!document.querySelector('.flash-messages-container')) {
+                            flashContainer.classList.add('flash-messages-container');
+                            const mainHeader = document.querySelector('.admin-main-header');
+                            if(mainHeader) mainHeader.insertAdjacentElement('afterend', flashContainer);
+                            else document.body.insertBefore(flashContainer, document.body.firstChild);
+                        }
+                        const flashMessage = document.createElement('div');
+                        flashMessage.classList.add('flash-message', 'alert-success');
+                        flashMessage.textContent = data.message || "Order updated successfully!";
+                        flashContainer.prepend(flashMessage);
+                        setTimeout(() => flashMessage.remove(), 4000);
+                    } else {
+                        alert('Error reordering items: ' + (data.message || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while reordering items.');
+                });
+            }
+        });
+    }
 });
 </script>
 {% endblock %}

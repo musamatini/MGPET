@@ -20,10 +20,8 @@
         <nav class="admin-nav">
             <ul>
                 <li><a href="{{ url_for('admin.manage_categories') }}" class="{{ 'active' if 'category' in request.endpoint or 'view_category_children_admin' in request.endpoint or (request.endpoint == 'admin.manage_items_under_parent' and parent_context and parent_context.type == 'category') else '' }}"><i class="fas fa-sitemap"></i> Categories</a></li>
-                {# The 'Items (Subcats/Prods)' link is removed as navigation is now purely hierarchical #}
-                {# Users will navigate into categories to see/manage items under them #}
                 
-                <li><a href="{{ url_for('admin.download_backup') }}"><i class="fas fa-archive"></i> Download Full Backup (DB & Images)</a></li>
+                <li><a href="{{ url_for('admin.download_backup') }}"><i class="fas fa-archive"></i> Download Full Backup</a></li>
                 
                 <hr>
                 <li><a href="{{ url_for('home_page', lang_code=config.DEFAULT_LANGUAGE) }}" target="_blank"><i class="fas fa-globe"></i> View Site</a></li>
@@ -55,7 +53,8 @@
 
         {% block admin_content %}{% endblock %}
     </main>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <script src="{{ url_for('static', filename='js/admin_main.js') }}"></script>
     {% block extra_js %}{% endblock %}
 </body>

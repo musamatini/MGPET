@@ -14,7 +14,8 @@
                 "water-preform",
                 "csd-preform",
                 "juice-and-oil-preform"
-            ]
+            ],
+            "order": 0
         },
         "plastik-caps": {
             "name": {
@@ -29,7 +30,8 @@
             "children_item_slugs": [
                 "water-caps",
                 "soft-drink-caps"
-            ]
+            ],
+            "order": 1
         },
         "pet-resin": {
             "name": {
@@ -45,7 +47,8 @@
                 "pet-for-csd-bottles",
                 "pet-for-textile-1",
                 "pet-for-water-bottles"
-            ]
+            ],
+            "order": 2
         },
         "pet-color-masterbatch": {
             "name": {
@@ -57,7 +60,8 @@
                 "ar": []
             },
             "image": "images/uploads/categories/5924884286954129584_374b6e7e.jpg",
-            "children_item_slugs": []
+            "children_item_slugs": [],
+            "order": 3
         }
     },
     "items": {
@@ -85,7 +89,8 @@
                 "538-gram",
                 "81-gram",
                 "90-gram"
-            ]
+            ],
+            "order": 99999
         },
         "csd-preform": {
             "type": "subcategory",
@@ -107,7 +112,8 @@
                 "24-gram",
                 "285",
                 "315-gram"
-            ]
+            ],
+            "order": 99999
         },
         "juice-and-oil-preform": {
             "type": "subcategory",
@@ -125,7 +131,8 @@
             "children_item_slugs": [
                 "21-gram",
                 "475-gram"
-            ]
+            ],
+            "order": 99999
         },
         "89-gram": {
             "type": "product",
@@ -148,7 +155,8 @@
                 "en": "8,9 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 25.344 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.317.888 piece\r\nTotal quantity in 40HC container: 1.115.136 piece",
                 "ar": "8,9 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ٢٥.٣٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٣١٧.٨٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١.١١٥.١٣٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "985-gram": {
             "type": "product",
@@ -171,7 +179,8 @@
                 "en": "9,85 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 25.344 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.317.888 piece\r\nTotal quantity in 40HC container: 1.115.136 piece",
                 "ar": "9,85 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ٢٥.٣٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٣١٧.٨٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١.١١٥.١٣٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "105-gram": {
             "type": "product",
@@ -194,7 +203,8 @@
                 "en": "10,5 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 24.048 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.250.496 piece\r\nTotal quantity in 40HC container: 1.058.112 piece",
                 "ar": "10,5 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ٢٤.٠٤٨ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٢٥٠.٤٩٦ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١.٠٥٨.١١٢ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "205-gram": {
             "type": "product",
@@ -217,7 +227,8 @@
                 "en": "20,5 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 12.544 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 662.288 piece\r\nTotal quantity in 40HC container: 551.936 piece",
                 "ar": "20,5 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ١٢.٥٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٦٦٢.٢٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ٥٥١.٩٣٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "22-gram": {
             "type": "product",
@@ -240,7 +251,8 @@
                 "en": "22 Gram\r\nNick: 29/25 MM\r\nPreform quantity in 1 pallet: 10.944 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 569.088 piece\r\nTotal quantity in 40HC container: 481.536 piece",
                 "ar": "22 غرام\r\nفوهة : 29/25 مم\r\nكمية الأمبولات في الطابليه الواحده: ١٠.٩٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٥٦٩.٠٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ٤٨١.٥٣٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "52-gram": {
             "type": "product",
@@ -263,7 +275,8 @@
                 "en": "52 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 4.416 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 229.632 piece\r\nTotal quantity in 40HC container: 194.304 piece",
                 "ar": "52 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٤.٤١٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٢٢٩.٦٣٢  قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٩٤.٣٠٤ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "73-gram": {
             "type": "product",
@@ -286,7 +299,8 @@
                 "en": "73 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 3.672 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 190.944 piece\r\nTotal quantity in 40HC container: 161.568 piece",
                 "ar": "73 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٣.٦٧٢ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٩٠.٩٤٤ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٦١.٥٦٨ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "538-gram": {
             "type": "product",
@@ -309,7 +323,8 @@
                 "en": "53,8 Gram\r\nNick: 38/33 MM\r\nPreform quantity in 1 pallet: 4.032 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 209.664 piece\r\nTotal quantity in 40HC container: 177.408 piece",
                 "ar": "53,8 غرام\r\nفوهة : ٣٨/٣٣ مم\r\nكمية الأمبولات في الطابليه الواحده: ٤.٠٣٢ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٧٧.٤٠٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٧٧.٤٠٨ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "81-gram": {
             "type": "product",
@@ -332,7 +347,8 @@
                 "en": "81 Gram\r\nNick: 48/41 MM\r\nPreform quantity in 1 pallet: 2.848 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 148.096 piece\r\nTotal quantity in 40HC container: 125.312 piece",
                 "ar": "81 غرام\r\nفوهة : ٤٨/٤١ مم\r\nكمية الأمبولات في الطابليه الواحده: ٢.٨٤٨ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٤٨.٠٩٦ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٢٥.٣١٢ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "90-gram": {
             "type": "product",
@@ -355,7 +371,8 @@
                 "en": "90 Gram\r\nNick: 48/41 MM\r\nPreform quantity in 1 pallet: 2.848 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 148.096 piece\r\nTotal quantity in 40HC container: 125.312 piece",
                 "ar": "90 غرام\r\nفوهة : ٤٨/٤١ مم\r\nكمية الأمبولات في الطابليه الواحده: ٢.٨٤٨ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١٤٨.٠٩٦ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ١٢٥.٣١٢ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "water-caps": {
             "type": "subcategory",
@@ -370,7 +387,8 @@
                 "en": [],
                 "ar": []
             },
-            "children_item_slugs": []
+            "children_item_slugs": [],
+            "order": 99999
         },
         "soft-drink-caps": {
             "type": "subcategory",
@@ -385,7 +403,8 @@
                 "en": [],
                 "ar": []
             },
-            "children_item_slugs": []
+            "children_item_slugs": [],
+            "order": 99999
         },
         "pet-for-csd-bottles": {
             "type": "product",
@@ -408,7 +427,8 @@
                 "en": "",
                 "ar": ""
             },
-            "use_short_desc_for_long": true
+            "use_short_desc_for_long": true,
+            "order": 99999
         },
         "pet-for-textile-1": {
             "type": "product",
@@ -433,7 +453,8 @@
                 "en": "",
                 "ar": ""
             },
-            "use_short_desc_for_long": true
+            "use_short_desc_for_long": true,
+            "order": 99999
         },
         "pet-for-water-bottles": {
             "type": "product",
@@ -456,7 +477,8 @@
                 "en": "",
                 "ar": ""
             },
-            "use_short_desc_for_long": true
+            "use_short_desc_for_long": true,
+            "order": 99999
         },
         "12-gram": {
             "type": "product",
@@ -480,7 +502,8 @@
                 "en": "12 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 21.120 piece\r\nPallet quantity in 40HC container:44\r\nPallet quantity in truck:52\r\nTotal quantity in truck: 1.098.240 piece\r\nTotal quantity in 40HC container: 929.280 piece",
                 "ar": "12 غرام\r\n18/81 فوهة (28 مم)\r\nكمية الأمبولات في الطابليه الواحده: ٢١.١٢٠ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ١.٠٩٨.٢٤٠ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم : ٩٢٩.٢٨٠ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "20-gram": {
             "type": "product",
@@ -504,7 +527,8 @@
                 "en": "20 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 16.640 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 865.280 piece\r\nTotal quantity in 40HC container: 732.160 piece",
                 "ar": "٢٠ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ١٦٦٤٠ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٨٦٥٫٢٨٠ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٧٣٢٫١٦٠ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "22-gram-1": {
             "type": "product",
@@ -528,7 +552,8 @@
                 "en": "22 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 15.744 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 818.688 piece\r\nTotal quantity in 40HC container: 693.696 piece",
                 "ar": "٢٢ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ١٥.٧٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٨١٨٫٦٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٦٩٣٫٦٩٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "24-gram": {
             "type": "product",
@@ -552,7 +577,8 @@
                 "en": "24 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 15.744 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 818.688 piece\r\nTotal quantity in 40HC container: 693.696 piece",
                 "ar": "٢٤ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ١٥.٧٤٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٨١٨٫٦٨٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٦٩٣٫٦٩٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "285": {
             "type": "product",
@@ -576,7 +602,8 @@
                 "en": "28.5 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 9.696 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 504.192 piece\r\nTotal quantity in 40HC container: 426.624 piece",
                 "ar": "٢٨٫٥ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ٩٦٩٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٥٠٤٫١٩٢ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٤٢٦٫٦٢٤ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "315-gram": {
             "type": "product",
@@ -600,7 +627,8 @@
                 "en": "31.5 Gram\r\n18/81 Neck (28mm)\r\nPreform quantity in 1 pallet: 9.696 piece\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 504.192 piece\r\nTotal quantity in 40HC container: 426.624 piece",
                 "ar": "٣١٫٥ غرام\r\n١٨/٨١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطابليه الواحدة: ٩.٦٩٦ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٥٠٤٫١٩٢ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٤٢٦٫٦٢٤ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "21-gram": {
             "type": "product",
@@ -625,7 +653,8 @@
                 "en": "21 Gram\r\n29/21 Neck (28mm)\r\nPreform quantity in 1 pallet: 13.184 pieces\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 685.568 pieces\r\nTotal quantity in 40HC container: 580.096 pieces",
                 "ar": "٢١ غرام\r\n٢٩/٢١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطبلية الواحدة: ١٣.١٨٤ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٦٨٥.٥٦٨ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٥٨٠.٠٩٦ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         },
         "475-gram": {
             "type": "product",
@@ -649,7 +678,8 @@
                 "en": "47.2 Gram\r\n29/21 Neck (28mm)\r\nPreform quantity in 1 pallet: 7,680 pieces\r\nPallet quantity in 40HC container: 44\r\nPallet quantity in truck: 52\r\nTotal quantity in truck: 399,360 pieces\r\nTotal quantity in 40HC container: 337,920 pieces",
                 "ar": "٤٧٫٢ غرام\r\n٢٩/٢١ فوهة (٢٨ مم)\r\nكمية الأمبولات في الطبلية الواحدة: ٧,٦٨٠ قطعة\r\nكمية الطابليات في حاوية الأربعين قدم: ٤٤\r\nكمية الطابليات في الشاحنة: ٥٢\r\nإجمالي الكمية في الشاحنة: ٣٩٩,٣٦٠ قطعة\r\nإجمالي الكمية في حاوية الأربعين قدم: ٣٣٧,٩٢٠ قطعة"
             },
-            "use_short_desc_for_long": false
+            "use_short_desc_for_long": false,
+            "order": 99999
         }
     },
     "admin_users": {
