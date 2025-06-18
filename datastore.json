@@ -682,6 +682,16 @@
             "order": 99999
         }
     },
+    "manuals": {
+        "6acb9b1bc2154d329947388fbc11a19d": {
+            "name": {
+                "en": "Water preform 10,5Gr Manual",
+                "ar": "Water preform 10,5Gr Manual"
+            },
+            "pdf_path": "pdfs/6acb9b1bc2154d329947388fbc11a19d.pdf",
+            "thumbnail_path": "images/uploads/manual_thumbnails/6acb9b1bc2154d329947388fbc11a19d.png"
+        }
+    },
     "admin_users": {
         "admin": "password123"
     }

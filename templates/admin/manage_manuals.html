@@ -1,0 +1,53 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>Manuals</h2>
+        <a href="{{ url_for('admin.add_manual') }}" class="btn-admin btn-admin-success"><i class="fas fa-plus"></i> Add New Manual</a>
+    </div>
+
+    {% if manuals %}
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Name (EN)</th>
+                    <th>Name (AR)</th>
+                    <th>File</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for manual in manuals %}
+                <tr>
+                    <td>
+                        {% if manual.thumbnail_path %}
+                            <img src="{{ url_for('static', filename=manual.thumbnail_path) }}" alt="Manual Thumbnail" class="table-preview">
+                        {% else %}
+                            <span class="no-image">No Preview</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ get_translated_text(manual.name, 'en') or 'N/A' }}</td>
+                    <td dir="rtl">{{ get_translated_text(manual.name, 'ar') or 'N/A' }}</td>
+                    <td>
+                        <a href="{{ url_for('static', filename=manual.pdf_path) }}" target="_blank" class="btn-admin btn-admin-sm">
+                            <i class="fas fa-file-pdf"></i> View PDF
+                        </a>
+                    </td>
+                    <td class="actions">
+                        <form action="{{ url_for('admin.delete_manual', manual_id=manual.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this manual? This cannot be undone.');">
+                            <button type="submit" class="btn-admin btn-admin-sm btn-admin-danger"><i class="fas fa-trash"></i> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No manuals found. <a href="{{ url_for('admin.add_manual') }}">Add your first manual!</a></p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "admin/layout_admin.html" %}
+
+{% block admin_content %}
+<div class="content-card">
+    <div class="content-card-header">
+        <h2>{{ form_action }} Manual</h2>
+        <a href="{{ url_for('admin.manage_manuals') }}" class="btn-admin btn-admin-secondary"><i class="fas fa-arrow-left"></i> Back to Manuals</a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+        
+        {% for lang_code in languages %}
+            <fieldset class="language-fieldset">
+                <legend>Content in {{ lang_code.upper() }} {% if lang_code == 'ar' %}(العربية){% endif %}</legend>
+                <div class="form-group">
+                    <label for="name_{{ lang_code }}">Manual Name ({{ lang_code.upper() }}) (Optional)</label>
+                    <input type="text" id="name_{{ lang_code }}" name="name_{{ lang_code }}" 
+                           {% if lang_code == 'ar' %}dir="rtl"{% endif %}>
+                </div>
+            </fieldset>
+        {% endfor %}
+        
+        <hr><h4 class="sub-section-header">File Upload</h4>
+        <div class="form-group">
+            <label for="pdf_file">Manual PDF File *</label>
+            <input type="file" id="pdf_file" name="pdf_file" accept=".pdf" required class="form-control" style="padding: 5px;">
+            <small class="form-help">The first page of the PDF will be used to generate a thumbnail preview.</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-admin btn-admin-success"><i class="fas fa-save"></i> Save Manual</button>
+            <a href="{{ url_for('admin.manage_manuals') }}" class="btn-admin btn-admin-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
